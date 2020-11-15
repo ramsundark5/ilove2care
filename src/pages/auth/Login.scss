@@ -1,0 +1,25 @@
+#welcome-page {
+    .text-center {
+        text-align: center;
+    }
+    .title {
+        font-size: 32px;
+        font-weight: bold;
+    }
+    .title-img {
+        width: 50%;
+        max-width: 150px;
+        margin: auto;
+    }
+    .login-button {
+        margin-top: 50px;
+    }
+
+    .contentwrapper {
+        display: grid;
+        align-self: center;
+        justify-self: center;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+}

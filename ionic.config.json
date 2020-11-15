@@ -1,0 +1,8 @@
+{
+  "name": "appiskind",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react",
+  "id": "56ece862"
+}
