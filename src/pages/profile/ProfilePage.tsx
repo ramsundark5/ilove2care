@@ -2,10 +2,11 @@ import React from 'react'
 import { useHistory, useParams } from 'react-router'
 
 import {
-    IonButton,
     IonButtons,
     IonContent,
     IonHeader,
+    IonItem,
+    IonList,
     IonMenuButton,
     IonPage,
     IonTitle,
@@ -17,6 +18,7 @@ import { useStore } from '../../hooks/use-store'
 const Profile: React.FC = () => {
     const { name } = useParams<{ name: string }>()
     const { authStore } = useStore()
+    const currentUser: any = authStore.user
     const history = useHistory()
     const logout = () => {
         authStore.onLogout()
@@ -30,7 +32,7 @@ const Profile: React.FC = () => {
                     <IonButtons slot='start'>
                         <IonMenuButton />
                     </IonButtons>
-                    <IonTitle>{name}</IonTitle>
+                    <IonTitle>Account</IonTitle>
                 </IonToolbar>
             </IonHeader>
 
@@ -40,12 +42,19 @@ const Profile: React.FC = () => {
                         <IonTitle size='large'>{name}</IonTitle>
                     </IonToolbar>
                 </IonHeader>
-                <div className='p-2'>
-                    <strong>Profile details go here</strong>
-                </div>
-                <div>
-                    <IonButton onClick={logout}>Logout</IonButton>
-                </div>
+                <IonList inset>
+                    {currentUser && currentUser.providerData[0].providerId === 'password' && (
+                        <IonItem detail routerLink='/changePassword'>
+                            Change Password
+                        </IonItem>
+                    )}
+                    <IonItem detail routerLink='/support'>
+                        Support
+                    </IonItem>
+                    <IonItem button color='primary' lines='none' onClick={logout}>
+                        Logout
+                    </IonItem>
+                </IonList>
             </IonContent>
         </IonPage>
     )

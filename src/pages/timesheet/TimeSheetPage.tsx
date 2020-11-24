@@ -3,6 +3,7 @@ import { useParams } from 'react-router'
 
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react'
 
+import { Agenda } from './Agenda'
 // import { AddTimeEntry } from './AddTimeEntry'
 // import { TimeEntryList } from './TimeEntryList'
 
@@ -25,6 +26,7 @@ const TimeSheet: React.FC = () => {
                         <IonTitle size='large'>{name}</IonTitle>
                     </IonToolbar>
                 </IonHeader>
+                <Agenda />
                 <div className='p-2'>
                     {/*  <AddTimeEntry />
                     <TimeEntryList /> */}
