@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router'
 
 import { yupResolver } from '@hookform/resolvers/yup'
-import { IonButton, IonContent, IonPage, IonText } from '@ionic/react'
+import { IonButton, IonContent, IonText } from '@ionic/react'
 import firebase from 'firebase/app'
 import { object, ref, string } from 'yup'
 
@@ -60,7 +60,7 @@ const ChangePassword: React.FC = () => {
     }
 
     return (
-        <IonPage>
+        <>
             <IonContent>
                 <div className='ion-padding'>
                     <IonText color='muted'>
@@ -78,7 +78,7 @@ const ChangePassword: React.FC = () => {
                     </form>
                 </div>
             </IonContent>
-        </IonPage>
+        </>
     )
 }
 

@@ -8,7 +8,6 @@ import {
     IonItem,
     IonList,
     IonMenuButton,
-    IonPage,
     IonTitle,
     IonToolbar,
 } from '@ionic/react'
@@ -26,7 +25,7 @@ const Profile: React.FC = () => {
     }
 
     return (
-        <IonPage>
+        <>
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot='start'>
@@ -56,7 +55,7 @@ const Profile: React.FC = () => {
                     </IonItem>
                 </IonList>
             </IonContent>
-        </IonPage>
+        </>
     )
 }
 

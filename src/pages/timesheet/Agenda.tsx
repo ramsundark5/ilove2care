@@ -10,10 +10,10 @@ import FullCalendar, {
 
 import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
-import { IonPage } from '@ionic/react'
 import { observer } from 'mobx-react-lite'
 
 import { useStore } from '../../hooks/use-store'
+import './Agenda.scss'
 
 export const Agenda: React.FC = observer(() => {
     const { eventStore } = useStore()
@@ -44,29 +44,27 @@ export const Agenda: React.FC = observer(() => {
     )
 
     return (
-        <IonPage>
-            <FullCalendar
-                dayMaxEvents
-                editable
-                eventChange={handleEventChange}
-                eventClick={handleEventClick}
-                eventContent={renderEventContent}
-                events={eventStore.events.slice()}
-                /**
-                 * slice() is used to achieve MobX observability on eventStore.events
-                 * https://mobx.js.org/best/react.html#incorrect-use-an-observable-but-without-accessing-any-of-its-properties
-                 */
-                headerToolbar={{
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'listMonh, listWeek, listDay',
-                }}
-                initialView='listWeek'
-                plugins={[listPlugin, interactionPlugin]}
-                select={handleDateSelect}
-                selectable
-                selectMirror
-            />
-        </IonPage>
+        <div className='agenda-container'>
+            <div className='agenda-main'>
+                <FullCalendar
+                    contentHeight='auto'
+                    dayMaxEvents
+                    editable
+                    eventChange={handleEventChange}
+                    eventClick={handleEventClick}
+                    eventContent={renderEventContent}
+                    /**
+                     * slice() is used to achieve MobX observability on eventStore.events
+                     * https://mobx.js.org/best/react.html#incorrect-use-an-observable-but-without-accessing-any-of-its-properties
+                     */
+                    events={eventStore.events.slice()}
+                    initialView='listWeek'
+                    plugins={[listPlugin, interactionPlugin]}
+                    select={handleDateSelect}
+                    selectable
+                    selectMirror
+                />
+            </div>
+        </div>
     )
 })
