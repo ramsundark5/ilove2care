@@ -1,28 +1,30 @@
-import { action, makeObservable, observable } from 'mobx'
+import { makeAutoObservable } from 'mobx'
 
 export default class TimeEntryItem {
     id = Date.now()
 
-    text = ''
+    title = ''
+
+    projectId = null
 
     isDone = false
 
-    constructor(text: string) {
-        makeObservable(this, {
-            text: observable,
-            isDone: observable,
-            toggleIsDone: action,
-            updateText: action,
-        })
+    start = Date.now()
 
-        this.text = text
+    end = Date.now()
+
+    status = 'Pending'
+
+    constructor(title: string) {
+        makeAutoObservable(this)
+        this.title = title
     }
 
     toggleIsDone = () => {
         this.isDone = !this.isDone
     }
 
-    updateText = (text: string) => {
-        this.text = text
+    updateText = (title: string) => {
+        this.title = title
     }
 }

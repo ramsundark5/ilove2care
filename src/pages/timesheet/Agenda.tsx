@@ -10,6 +10,7 @@ import FullCalendar, {
 
 import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
+import { IonItem, IonLabel } from '@ionic/react'
 import { observer } from 'mobx-react-lite'
 
 import { useStore } from '../../hooks/use-store'
@@ -38,8 +39,13 @@ export const Agenda: React.FC = observer(() => {
 
     const renderEventContent = (eventContent: EventContentArg) => (
         <>
-            <b>{eventContent.timeText}</b>
-            <i>{eventContent.event.title}</i>
+            <IonItem>
+                <IonLabel>
+                    <h3>{eventContent.event.title}</h3>
+                    <p>8 hours</p>
+                    <p>{eventContent.event.extendedProps.status}</p>
+                </IonLabel>
+            </IonItem>
         </>
     )
 
@@ -49,14 +55,16 @@ export const Agenda: React.FC = observer(() => {
                 <FullCalendar
                     contentHeight='auto'
                     dayMaxEvents
+                    displayEventEnd
                     editable
                     eventChange={handleEventChange}
                     eventClick={handleEventClick}
-                    eventContent={renderEventContent}
                     /**
                      * slice() is used to achieve MobX observability on eventStore.events
                      * https://mobx.js.org/best/react.html#incorrect-use-an-observable-but-without-accessing-any-of-its-properties
                      */
+                    eventContent={renderEventContent}
+                    eventDisplay='block'
                     events={eventStore.events.slice()}
                     initialView='listWeek'
                     plugins={[listPlugin, interactionPlugin]}

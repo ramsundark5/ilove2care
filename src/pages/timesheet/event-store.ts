@@ -7,15 +7,34 @@ export default class EventStore {
     events: EventInput[] = [
         {
             id: this.createEventId(),
-            title: 'All-day event',
+            title: 'Project 1',
             start: new Date(),
-            allDay: true,
+            end: new Date(),
+            extendedProps: {
+                status: 'done',
+            },
         },
         {
             id: this.createEventId(),
-            title: 'Timed event',
+            title: 'Project 2',
             start: new Date(),
-            allDay: false,
+            end: new Date(),
+            borderColor: 'red',
+            extendedProps: {
+                status: 'pending',
+            },
+            eventDisplay: 'block',
+        },
+        {
+            id: this.createEventId(),
+            title: 'Project 3',
+            start: new Date(),
+            end: new Date(),
+            borderColor: 'brown',
+            extendedProps: {
+                status: 'rejected',
+            },
+            description: 'Lecture',
         },
     ]
 

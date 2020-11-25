@@ -1,11 +1,12 @@
 import React from 'react'
 
-import { IonButtons, IonContent, IonHeader, IonMenuButton, IonTitle, IonToolbar } from '@ionic/react'
+import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react'
 
-import { Agenda } from './Agenda'
+import { TimeEntryList } from './TimeEntryList'
+import './Timesheet.scss'
 
 const TimeSheet: React.FC = () => (
-    <>
+    <IonPage id='timesheet-page'>
         <IonHeader>
             <IonToolbar>
                 <IonButtons slot='start'>
@@ -15,9 +16,9 @@ const TimeSheet: React.FC = () => (
             </IonToolbar>
         </IonHeader>
         <IonContent>
-            <Agenda />
+            <TimeEntryList />
         </IonContent>
-    </>
+    </IonPage>
 )
 
 export default TimeSheet

@@ -47,6 +47,6 @@ export default class TimeEntryList {
     }
 
     get filteredTimeEntries(): TimeEntryItem[] {
-        return this.list.filter((timeEntry) => timeEntry.text.includes(this.query))
+        return this.list.filter((timeEntry) => timeEntry.title.includes(this.query))
     }
 }

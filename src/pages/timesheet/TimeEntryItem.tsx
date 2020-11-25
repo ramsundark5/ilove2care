@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useRef } from 'react'
 
-import { IonInput } from '@ionic/react'
+import { AlertButton, IonItem, IonItemSliding, IonLabel } from '@ionic/react'
 
 import { onEnterPress } from '../../hooks/use-enter'
 import { useStore } from '../../hooks/use-store'
@@ -11,40 +11,15 @@ interface Props {
 }
 
 export const TimeEntryItem = ({ timeEntry }: Props) => {
-    const { timeEntryList } = useStore()
-    const [newText, setText] = useState('')
-    const [isEditing, setEdit] = useState(false)
-
-    const saveText = () => {
-        timeEntry.updateText(newText)
-        setEdit(false)
-        setText('')
-    }
-
+    const ionItemSlidingRef = useRef<HTMLIonItemSlidingElement>(null)
     return (
-        <div>
-            {isEditing ? (
-                <div>
-                    <IonInput
-                        onIonChange={(e) => setText(e.detail.value ?? '')}
-                        onKeyDown={onEnterPress(saveText)}
-                        placeholder="Enter your time"
-                        type="text"
-                    />
-                    <button onClick={saveText}>save</button>
-                </div>
-            ) : (
-                <div>
-                    <span>{timeEntry.text}</span>
-                    <input
-                        defaultChecked={timeEntry.isDone}
-                        onChange={timeEntry.toggleIsDone}
-                        type="checkbox"
-                     />
-                    <button onClick={() => setEdit(true)}>edit</button>
-                    <button onClick={() => timeEntryList.removeTimeEntry(timeEntry)}>X</button>
-                </div>
-            )}
-        </div>
+        <IonItemSliding class={`status-${timeEntry.status}`} ref={ionItemSlidingRef}>
+            <IonItem>
+                <IonLabel>
+                    <h3>{timeEntry.title}</h3>
+                    <p>8 hours</p>
+                </IonLabel>
+            </IonItem>
+        </IonItemSliding>
     )
 }
