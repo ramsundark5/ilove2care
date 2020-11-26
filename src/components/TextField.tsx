@@ -3,7 +3,7 @@ import { Control, Controller, DeepMap, FieldError } from 'react-hook-form'
 
 import { IonInput, IonItem, IonLabel, IonText } from '@ionic/react'
 
-export interface InputProps {
+export interface TexFieldProps {
     name: string
     classname?: string
     control?: Control
@@ -13,7 +13,7 @@ export interface InputProps {
     errors?: DeepMap<Record<string, any>, FieldError>
 }
 
-const Input: FC<InputProps> = ({ name, control, type, label, errors }) => (
+const TextField: FC<TexFieldProps> = ({ name, control, type, label, errors }) => (
     <>
         <IonItem>
             {label && <IonLabel position='floating'>{label}</IonLabel>}
@@ -36,4 +36,4 @@ const Input: FC<InputProps> = ({ name, control, type, label, errors }) => (
     </>
 )
 
-export default Input
+export default TextField

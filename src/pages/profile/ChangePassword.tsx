@@ -3,11 +3,11 @@ import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router'
 
 import { yupResolver } from '@hookform/resolvers/yup'
-import { IonButton, IonContent, IonText } from '@ionic/react'
+import { IonButton, IonContent, IonPage, IonText } from '@ionic/react'
 import firebase from 'firebase/app'
 import { object, ref, string } from 'yup'
 
-import Input, { InputProps } from '../../components/Input'
+import TextField, { TexFieldProps } from '../../components/TextField'
 import { useToast } from '../../hooks/use-toast'
 
 const ChangePassword: React.FC = () => {
@@ -24,7 +24,7 @@ const ChangePassword: React.FC = () => {
         resolver: yupResolver(validationSchema),
     })
 
-    const formFields: InputProps[] = [
+    const formFields: TexFieldProps[] = [
         {
             name: 'New Password',
             type: 'password',
@@ -37,11 +37,11 @@ const ChangePassword: React.FC = () => {
         },
     ]
 
-    const onChangePassword = (data: any) => {
+    const onChangePassword = async (data: any) => {
         const user: any = firebase.auth().currentUser
         const newPassword = data['New Password']
         try {
-            user.updatePassword(newPassword)
+            await user.updatePassword(newPassword)
             const successToast = Toast.create({
                 color: 'success',
                 message: 'Password changed successfully',
@@ -51,7 +51,7 @@ const ChangePassword: React.FC = () => {
             history.replace('/tabs/profile')
         } catch (err) {
             const errorToast = Toast.create({
-                color: 'error',
+                color: 'danger',
                 message: `Error updating password ${err.message}`,
                 duration: 5000,
             })
@@ -60,7 +60,7 @@ const ChangePassword: React.FC = () => {
     }
 
     return (
-        <>
+        <IonPage id='change-password'>
             <IonContent>
                 <div className='ion-padding'>
                     <IonText color='muted'>
@@ -69,7 +69,8 @@ const ChangePassword: React.FC = () => {
 
                     <form onSubmit={handleSubmit(onChangePassword)}>
                         {formFields.map((field) => (
-                            <Input {...field} control={control} errors={errors} key={field.name} />
+                            // eslint-disable-next-line max-len
+                            <TextField {...field} control={control} errors={errors} key={field.name} />
                         ))}
 
                         <IonButton className='ion-margin-top' expand='block' type='submit'>
@@ -78,7 +79,7 @@ const ChangePassword: React.FC = () => {
                     </form>
                 </div>
             </IonContent>
-        </>
+        </IonPage>
     )
 }
 

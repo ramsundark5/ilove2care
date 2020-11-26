@@ -32,6 +32,10 @@ export default class TimeEntryList {
 
     removeTimeEntry = (timeEntry: TimeEntryItem): void => {
         this.list.splice(this.list.indexOf(timeEntry), 1)
+        /* this.list.splice(
+            this.list.findIndex((e) => e.id === id),
+            1
+        ) */
     }
 
     setQuery = (query: string): void => {

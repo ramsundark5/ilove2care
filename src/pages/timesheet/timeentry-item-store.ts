@@ -13,6 +13,8 @@ export default class TimeEntryItem {
 
     end = Date.now()
 
+    notes = ''
+
     status = 'Pending'
 
     constructor(title: string) {
