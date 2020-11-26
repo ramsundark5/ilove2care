@@ -1,18 +1,25 @@
 import React, { FC } from 'react'
 import { Control, Controller, DeepMap, FieldError } from 'react-hook-form'
 
-import { IonDatetime, IonItem, IonLabel, IonText, IonTextarea } from '@ionic/react'
+import { IonDatetime, IonItem, IonLabel, IonText } from '@ionic/react'
 
 export interface DateFieldProps {
     name: string
     classname?: string
     control?: Control
+    displayFormat?: string
     label?: string
     rules?: any
     errors?: DeepMap<Record<string, any>, FieldError>
 }
 
-const DateField: FC<DateFieldProps> = ({ name, control, label, errors }) => (
+const DateField: FC<DateFieldProps> = ({
+    name,
+    control,
+    displayFormat = 'MMM D, YYYY h:mm A',
+    label,
+    errors,
+}) => (
     <>
         <IonItem>
             {label && <IonLabel position='floating'>{label}</IonLabel>}
@@ -20,7 +27,9 @@ const DateField: FC<DateFieldProps> = ({ name, control, label, errors }) => (
                 control={control}
                 defaultValue=''
                 name={name}
-                render={({ onChange }) => <IonDatetime onIonChange={onChange} />}
+                render={({ onChange }) => (
+                    <IonDatetime displayFormat={displayFormat} onIonChange={onChange} />
+                )}
             />
         </IonItem>
         {errors && errors[name] && (
@@ -34,5 +43,4 @@ const DateField: FC<DateFieldProps> = ({ name, control, label, errors }) => (
         )}
     </>
 )
-
 export default DateField

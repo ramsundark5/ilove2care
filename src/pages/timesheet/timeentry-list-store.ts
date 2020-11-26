@@ -1,56 +1,59 @@
-import { action, computed, makeObservable, observable } from 'mobx'
+/* eslint-disable no-param-reassign */
+import dayjs from 'dayjs'
+import groupBy from 'lodash/groupBy'
+import { makeAutoObservable } from 'mobx'
 
-import TimeEntryItem from './timeentry-item-store'
+import TimeEntry from './timeentry-item-store'
 
 const initState = {
     defaultTimeEntryList: ['Setup react boilerplate', 'Better Call Soul', ' Choose the right framework'],
 }
 
 export default class TimeEntryList {
-    list: TimeEntryItem[] = []
+    list: TimeEntry[] = []
 
     query = ''
 
     constructor() {
-        makeObservable(this, {
-            list: observable.shallow,
-            query: observable,
-            addTimeEntry: action,
-            removeTimeEntry: action,
-            setQuery: action,
-            finishedTimeEntries: computed,
-            openTimeEntries: computed,
-            filteredTimeEntries: computed,
-        })
-
-        initState.defaultTimeEntryList.forEach(this.addTimeEntry)
+        makeAutoObservable(this)
+        initState.defaultTimeEntryList.forEach(this.initTimeEntry)
     }
 
-    addTimeEntry = (text: string): void => {
-        this.list.push(new TimeEntryItem(text))
+    initTimeEntry = (text: string): void => {
+        const timeEntry = new TimeEntry()
+        timeEntry.title = text
+        this.list.push(timeEntry)
     }
 
-    removeTimeEntry = (timeEntry: TimeEntryItem): void => {
-        this.list.splice(this.list.indexOf(timeEntry), 1)
-        /* this.list.splice(
-            this.list.findIndex((e) => e.id === id),
+    addTimeEntry = (timeEntry: TimeEntry): void => {
+        timeEntry.status = 'Pending'
+        timeEntry.id = Date.now()
+        this.list.push(timeEntry)
+    }
+
+    removeTimeEntry = (timeEntry: TimeEntry): void => {
+        this.list.splice(
+            this.list.findIndex((indexTimeEntry) => indexTimeEntry.id === timeEntry.id),
             1
-        ) */
+        )
+    }
+
+    get groupByMonth() {
+        const groupedTimeEntries: any = {}
+        this.list.forEach((timeEntry) => {
+            const monthName: string = dayjs(timeEntry.start).format('MMM YYYY')
+            const byMonthItem: TimeEntry[] = groupedTimeEntries[monthName] || []
+            byMonthItem.push(timeEntry)
+            groupedTimeEntries[monthName] = byMonthItem
+        })
+        return groupedTimeEntries
     }
 
     setQuery = (query: string): void => {
         this.query = query
     }
 
-    get finishedTimeEntries(): TimeEntryItem[] {
-        return this.list.filter((timeEntry) => timeEntry.isDone)
-    }
-
-    get openTimeEntries(): TimeEntryItem[] {
-        return this.list.filter((timeEntry) => !timeEntry.isDone)
-    }
-
-    get filteredTimeEntries(): TimeEntryItem[] {
+    get filteredTimeEntries(): TimeEntry[] {
         return this.list.filter((timeEntry) => timeEntry.title.includes(this.query))
     }
 }

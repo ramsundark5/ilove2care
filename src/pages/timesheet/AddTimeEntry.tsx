@@ -3,29 +3,28 @@ import { useForm } from 'react-hook-form'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import { IonButton, IonText } from '@ionic/react'
-import { object, ref, string } from 'yup'
+import { date, object, string } from 'yup'
 
 import DateField from '../../components/DateField'
 import TextArea from '../../components/TextArea'
 import TextField from '../../components/TextField'
 import { useStore } from '../../hooks/use-store'
 import { useToast } from '../../hooks/use-toast'
+import TimeEntry from './timeentry-item-store'
 
 export const AddTimeEntry = () => {
     const Toast = useToast()
-    const [newTimeEntry, setTimeEntry] = useState('')
     const { timeEntryList } = useStore()
 
-    const addTimeEntry = (data: any) => {
+    const addTimeEntry = (newTimeEntry: TimeEntry) => {
         timeEntryList.addTimeEntry(newTimeEntry)
-        setTimeEntry('')
     }
 
     const validationSchema = object().shape({
-        'New Password': string().required().min(8),
-        'Confirm Password': string()
-            .required()
-            .oneOf([ref('New Password')], 'Passwords must match'),
+        title: string().required(),
+        start: date().required(),
+        end: date().required(),
+        note: string().required(),
     })
     const { control, handleSubmit, errors } = useForm({
         resolver: yupResolver(validationSchema),
@@ -34,7 +33,7 @@ export const AddTimeEntry = () => {
     return (
         <div className='ion-padding'>
             <IonText color='muted'>
-                <h2>Change Password</h2>
+                <h2>Add Time Card</h2>
             </IonText>
 
             <form onSubmit={handleSubmit(addTimeEntry)}>

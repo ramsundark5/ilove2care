@@ -17,7 +17,6 @@ import { TimeEntryList } from './TimeEntryList'
 import './Timesheet.scss'
 
 const TimeSheet: React.FC = () => {
-    const onAddTime = () => {}
     const [showModal, setShowModal] = useState(false)
 
     return (

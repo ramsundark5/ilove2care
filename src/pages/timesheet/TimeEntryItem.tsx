@@ -1,23 +1,28 @@
 import React, { useRef } from 'react'
 
-import { AlertButton, IonItem, IonItemSliding, IonLabel } from '@ionic/react'
+import { IonItem, IonItemSliding, IonLabel } from '@ionic/react'
+import dayjs from 'dayjs'
 
-import { onEnterPress } from '../../hooks/use-enter'
-import { useStore } from '../../hooks/use-store'
-import TimeEntryItemClass from './timeentry-item-store'
+import TimeEntry from './timeentry-item-store'
 
 interface Props {
-    timeEntry: TimeEntryItemClass
+    timeEntry: TimeEntry
 }
 
 export const TimeEntryItem = ({ timeEntry }: Props) => {
     const ionItemSlidingRef = useRef<HTMLIonItemSlidingElement>(null)
+    const startDate = dayjs(timeEntry.start)
+    const endDate = dayjs(timeEntry.end)
     return (
         <IonItemSliding class={`status-${timeEntry.status}`} ref={ionItemSlidingRef}>
             <IonItem>
                 <IonLabel>
                     <h3>{timeEntry.title}</h3>
-                    <p>8 hours</p>
+                    <p>
+                        {startDate.format('MMM D, YYYY h:mm A')}&mdash;&nbsp;
+                        {endDate.format('MMM D, YYYY h:mm A')}
+                    </p>
+                    <p>{timeEntry.note}</p>
                 </IonLabel>
             </IonItem>
         </IonItemSliding>
