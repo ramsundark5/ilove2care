@@ -15,10 +15,5 @@
 @import '~@ionic/react/css/display.css';
 
 /* Theme variables */
-@import 'theme/_ionic.css';
-@import 'theme/_variable.scss';
-
-@import 'theme/reset.scss';
-@import 'theme/functional.scss';
+@import 'theme/variables.scss';
 @import 'theme/override.scss';
-@import 'theme/animations.scss';
