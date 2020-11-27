@@ -3,11 +3,12 @@ import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router'
 
 import { yupResolver } from '@hookform/resolvers/yup'
-import { IonButton, IonContent, IonPage, IonText } from '@ionic/react'
+import { IonButton, IonContent, IonPage } from '@ionic/react'
 import firebase from 'firebase/app'
 import { object, ref, string } from 'yup'
 
 import TextField, { TexFieldProps } from '../../components/TextField'
+import ToolBar from '../../components/ToolBar'
 import { useToast } from '../../hooks/use-toast'
 
 const ChangePassword: React.FC = () => {
@@ -61,23 +62,18 @@ const ChangePassword: React.FC = () => {
 
     return (
         <IonPage id='change-password'>
+            <ToolBar title='Change Password' />
             <IonContent>
-                <div className='ion-padding'>
-                    <IonText color='muted'>
-                        <h2>Change Password</h2>
-                    </IonText>
+                <form onSubmit={handleSubmit(onChangePassword)}>
+                    {formFields.map((field) => (
+                        // eslint-disable-next-line max-len
+                        <TextField {...field} control={control} errors={errors} key={field.name} />
+                    ))}
 
-                    <form onSubmit={handleSubmit(onChangePassword)}>
-                        {formFields.map((field) => (
-                            // eslint-disable-next-line max-len
-                            <TextField {...field} control={control} errors={errors} key={field.name} />
-                        ))}
-
-                        <IonButton className='ion-margin-top' expand='block' type='submit'>
-                            Change Password
-                        </IonButton>
-                    </form>
-                </div>
+                    <IonButton className='ion-margin-top' expand='block' type='submit'>
+                        Change Password
+                    </IonButton>
+                </form>
             </IonContent>
         </IonPage>
     )

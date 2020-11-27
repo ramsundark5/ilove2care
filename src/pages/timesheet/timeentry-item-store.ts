@@ -1,7 +1,21 @@
 import { makeAutoObservable } from 'mobx'
+import { v4 as uuidv4 } from 'uuid'
 
-export default class TimeEntry {
-    id = Date.now()
+export interface ITimeEntry {
+    id?: string | null
+    uuid?: string
+    title: string
+    projectId?: number | null
+    note?: string
+    start: Date
+    end: Date
+    status: string
+}
+
+export default class TimeEntry implements ITimeEntry {
+    id = null
+
+    uuid = uuidv4()
 
     title = ''
 

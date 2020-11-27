@@ -2,17 +2,17 @@ import React from 'react'
 import { useHistory, useParams } from 'react-router'
 
 import {
-    IonButtons,
+    IonButton,
     IonContent,
     IonHeader,
     IonItem,
     IonList,
-    IonMenuButton,
     IonPage,
     IonTitle,
     IonToolbar,
 } from '@ionic/react'
 
+import ToolBar from '../../components/ToolBar'
 import { useStore } from '../../hooks/use-store'
 
 const Profile: React.FC = () => {
@@ -27,14 +27,7 @@ const Profile: React.FC = () => {
 
     return (
         <IonPage id='profile-page'>
-            <IonHeader>
-                <IonToolbar>
-                    <IonButtons slot='start'>
-                        <IonMenuButton />
-                    </IonButtons>
-                    <IonTitle>Account</IonTitle>
-                </IonToolbar>
-            </IonHeader>
+            <ToolBar showBackButton={false} title='Profile' />
 
             <IonContent>
                 <IonHeader collapse='condense'>
@@ -44,17 +37,17 @@ const Profile: React.FC = () => {
                 </IonHeader>
                 <IonList inset>
                     {currentUser && currentUser.providerData[0].providerId === 'password' && (
-                        <IonItem detail routerLink='/changePassword'>
+                        <IonItem detail routerLink='/tabs/profile/changePassword'>
                             Change Password
                         </IonItem>
                     )}
                     <IonItem detail routerLink='/support'>
                         Support
                     </IonItem>
-                    <IonItem button color='primary' lines='none' onClick={logout}>
-                        Logout
-                    </IonItem>
                 </IonList>
+                <IonButton color='primary' expand='block' onClick={logout}>
+                    Logout
+                </IonButton>
             </IonContent>
         </IonPage>
     )

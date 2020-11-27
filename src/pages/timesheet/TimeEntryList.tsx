@@ -14,20 +14,20 @@ export const TimeEntryList: React.FC = observer(() => {
     const renderTimeEntryItem = (timeEntries: TimeEntry[]) => (
         <>
             {timeEntries.map((timeEntry) => (
-                <TimeEntryItem key={`${timeEntry.id}-${timeEntry.title}`} timeEntry={timeEntry} />
+                <TimeEntryItem key={timeEntry.uuid} timeEntry={timeEntry} />
             ))}
         </>
     )
     return (
-        <IonItemGroup>
+        <>
             {Object.entries(groupedTimeEntries).map(([monthName, timeEntries]) => (
-                <>
+                <IonItemGroup key={monthName}>
                     <IonItemDivider>
                         <IonLabel>{monthName}</IonLabel>
                     </IonItemDivider>
                     {renderTimeEntryItem(timeEntries)}
-                </>
+                </IonItemGroup>
             ))}
-        </IonItemGroup>
+        </>
     )
 })

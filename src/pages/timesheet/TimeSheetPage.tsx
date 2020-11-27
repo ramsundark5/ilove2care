@@ -1,43 +1,24 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useHistory } from 'react-router'
 
-import {
-    IonButton,
-    IonButtons,
-    IonContent,
-    IonHeader,
-    IonMenuButton,
-    IonModal,
-    IonPage,
-    IonTitle,
-    IonToolbar,
-} from '@ionic/react'
+import { IonButton, IonContent, IonPage } from '@ionic/react'
 
-import { AddTimeEntry } from './AddTimeEntry'
+import ToolBar from '../../components/ToolBar'
 import { TimeEntryList } from './TimeEntryList'
 import './Timesheet.scss'
 
 const TimeSheet: React.FC = () => {
-    const [showModal, setShowModal] = useState(false)
+    const history = useHistory()
+    const onAddTime = () => {
+        history.push('/tabs/timesheet/save')
+    }
 
     return (
         <IonPage id='timesheet-page'>
-            <IonHeader>
-                <IonToolbar>
-                    <IonButtons slot='start'>
-                        <IonMenuButton />
-                    </IonButtons>
-                    <IonTitle>Timesheet</IonTitle>
-                </IonToolbar>
-            </IonHeader>
+            <ToolBar showBackButton={false} title='TimeSheet' />
             <IonContent>
                 <TimeEntryList />
-
-                <IonModal isOpen={showModal}>
-                    <AddTimeEntry />
-                    <IonButton onClick={() => setShowModal(false)}>Close Modal</IonButton>
-                </IonModal>
-
-                <IonButton color='primary' onClick={() => setShowModal(true)}>
+                <IonButton color='primary' expand='block' onClick={() => onAddTime()}>
                     Add Time
                 </IonButton>
             </IonContent>

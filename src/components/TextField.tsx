@@ -10,16 +10,17 @@ export interface TexFieldProps {
     label?: string
     rules?: any
     type?: 'password' | 'text'
+    defaultValue?: string
     errors?: DeepMap<Record<string, any>, FieldError>
 }
 
-const TextField: FC<TexFieldProps> = ({ name, control, type, label, errors }) => (
+const TextField: FC<TexFieldProps> = ({ name, control, type, label, errors, defaultValue = '' }) => (
     <>
         <IonItem>
             {label && <IonLabel position='floating'>{label}</IonLabel>}
             <Controller
                 control={control}
-                defaultValue=''
+                defaultValue={defaultValue}
                 name={name}
                 render={({ onChange }) => <IonInput onIonChange={onChange} type={type} />}
             />

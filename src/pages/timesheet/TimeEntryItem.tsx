@@ -1,15 +1,15 @@
 import React, { useRef } from 'react'
 
-import { IonItem, IonItemSliding, IonLabel } from '@ionic/react'
+import { IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel } from '@ionic/react'
 import dayjs from 'dayjs'
 
-import TimeEntry from './timeentry-item-store'
+import { ITimeEntry } from './timeentry-item-store'
 
-interface Props {
-    timeEntry: TimeEntry
+interface TimeEntryItemProps {
+    timeEntry: ITimeEntry
 }
 
-export const TimeEntryItem = ({ timeEntry }: Props) => {
+export const TimeEntryItem = ({ timeEntry }: TimeEntryItemProps) => {
     const ionItemSlidingRef = useRef<HTMLIonItemSlidingElement>(null)
     const startDate = dayjs(timeEntry.start)
     const endDate = dayjs(timeEntry.end)
@@ -25,6 +25,10 @@ export const TimeEntryItem = ({ timeEntry }: Props) => {
                     <p>{timeEntry.note}</p>
                 </IonLabel>
             </IonItem>
+            <IonItemOptions side='end'>
+                <IonItemOption onClick={() => console.log('unread clicked')}>Edit</IonItemOption>
+                <IonItemOption onClick={() => console.log('unread clicked')}>Delete</IonItemOption>
+            </IonItemOptions>
         </IonItemSliding>
     )
 }

@@ -1,16 +1,16 @@
 /* eslint-disable no-param-reassign */
 import dayjs from 'dayjs'
-import groupBy from 'lodash/groupBy'
 import { makeAutoObservable } from 'mobx'
+import { v4 as uuidv4 } from 'uuid'
 
-import TimeEntry from './timeentry-item-store'
+import TimeEntry, { ITimeEntry } from './timeentry-item-store'
 
 const initState = {
     defaultTimeEntryList: ['Setup react boilerplate', 'Better Call Soul', ' Choose the right framework'],
 }
 
 export default class TimeEntryList {
-    list: TimeEntry[] = []
+    list: ITimeEntry[] = []
 
     query = ''
 
@@ -20,20 +20,25 @@ export default class TimeEntryList {
     }
 
     initTimeEntry = (text: string): void => {
-        const timeEntry = new TimeEntry()
+        const timeEntry: ITimeEntry = new TimeEntry()
         timeEntry.title = text
         this.list.push(timeEntry)
     }
 
-    addTimeEntry = (timeEntry: TimeEntry): void => {
+    addTimeEntry = (timeEntry: ITimeEntry): void => {
         timeEntry.status = 'Pending'
-        timeEntry.id = Date.now()
+        timeEntry.uuid = uuidv4()
         this.list.push(timeEntry)
+        this.list = this.list.sort((a, b) => a.start.getTime() - b.start.getTime())
     }
 
-    removeTimeEntry = (timeEntry: TimeEntry): void => {
+    updateTimeEntry = (timeEntry: ITimeEntry): void => {
+        this.list = this.list.sort((a, b) => a.start.getTime() - b.start.getTime())
+    }
+
+    removeTimeEntry = (timeEntry: ITimeEntry): void => {
         this.list.splice(
-            this.list.findIndex((indexTimeEntry) => indexTimeEntry.id === timeEntry.id),
+            this.list.findIndex((indexTimeEntry) => indexTimeEntry.uuid === timeEntry.uuid),
             1
         )
     }
@@ -42,7 +47,7 @@ export default class TimeEntryList {
         const groupedTimeEntries: any = {}
         this.list.forEach((timeEntry) => {
             const monthName: string = dayjs(timeEntry.start).format('MMM YYYY')
-            const byMonthItem: TimeEntry[] = groupedTimeEntries[monthName] || []
+            const byMonthItem: ITimeEntry[] = groupedTimeEntries[monthName] || []
             byMonthItem.push(timeEntry)
             groupedTimeEntries[monthName] = byMonthItem
         })
@@ -53,7 +58,7 @@ export default class TimeEntryList {
         this.query = query
     }
 
-    get filteredTimeEntries(): TimeEntry[] {
+    get filteredTimeEntries(): ITimeEntry[] {
         return this.list.filter((timeEntry) => timeEntry.title.includes(this.query))
     }
 }
