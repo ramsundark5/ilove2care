@@ -66,6 +66,7 @@
         "firebaseui": "^4.7.1",
         "ionicons": "^5.2.3",
         "lodash": "^4.17.20",
+        "loglevel": "^1.7.1",
         "mobx": "^6.0.4",
         "mobx-react-lite": "^3.1.6",
         "mobx-task": "^2.0.1",

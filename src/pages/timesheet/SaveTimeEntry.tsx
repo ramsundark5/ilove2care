@@ -11,6 +11,7 @@ import TextArea from '../../components/TextArea'
 import TextField from '../../components/TextField'
 import ToolBar from '../../components/ToolBar'
 import { useStore } from '../../hooks/use-store'
+import log from '../../logger'
 import { ITimeEntry } from './timeentry-item-store'
 
 interface SaveTimeEntryProps
@@ -31,7 +32,7 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
             }
             history.goBack()
         } catch (err) {
-            console.log(err)
+            log.error(err)
         }
     }
 

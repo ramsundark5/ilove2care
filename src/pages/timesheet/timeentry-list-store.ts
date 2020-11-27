@@ -3,6 +3,7 @@ import dayjs from 'dayjs'
 import { makeAutoObservable } from 'mobx'
 import { v4 as uuidv4 } from 'uuid'
 
+import { addObjectToCollection, removeObjectFromCollection } from '../../services/FirebaseService'
 import TimeEntry, { ITimeEntry } from './timeentry-item-store'
 
 const initState = {
@@ -13,6 +14,7 @@ const initState = {
     ],
 }
 
+const TIME_ENTRY_COLLECTION = 'timeentry'
 export default class TimeEntryList {
     list: ITimeEntry[] = []
 
@@ -34,6 +36,7 @@ export default class TimeEntryList {
         timeEntry.uuid = uuidv4()
         this.list.push(timeEntry)
         this.list = this.list.sort((a, b) => a.start.getTime() - b.start.getTime())
+        addObjectToCollection({ collection: TIME_ENTRY_COLLECTION, objectData: timeEntry })
     }
 
     updateTimeEntry = (updatedTimeEntry: ITimeEntry, uuid: string): void => {
@@ -51,6 +54,7 @@ export default class TimeEntryList {
             this.list.findIndex((indexTimeEntry) => indexTimeEntry.uuid === timeEntry.uuid),
             1
         )
+        removeObjectFromCollection({ collection: TIME_ENTRY_COLLECTION, objectId: timeEntry.uuid })
     }
 
     get groupByMonth() {
