@@ -27,7 +27,7 @@ const DateField: FC<DateFieldProps> = ({
             <Controller
                 control={control}
                 name={name}
-                render={({ onChange, onBlur, value }) => (
+                render={({ onChange, value }) => (
                     <IonDatetime
                         displayFormat={displayFormat}
                         onIonChange={onChange}

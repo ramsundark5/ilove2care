@@ -6,7 +6,11 @@ import { v4 as uuidv4 } from 'uuid'
 import TimeEntry, { ITimeEntry } from './timeentry-item-store'
 
 const initState = {
-    defaultTimeEntryList: ['Setup react boilerplate', 'Better Call Soul', ' Choose the right framework'],
+    defaultTimeEntryList: [
+        'Setup react boilerplate',
+        'Better Call Soul',
+        ' Choose the right framework',
+    ],
 }
 
 export default class TimeEntryList {
@@ -32,8 +36,14 @@ export default class TimeEntryList {
         this.list = this.list.sort((a, b) => a.start.getTime() - b.start.getTime())
     }
 
-    updateTimeEntry = (timeEntry: ITimeEntry): void => {
-        this.list = this.list.sort((a, b) => a.start.getTime() - b.start.getTime())
+    updateTimeEntry = (updatedTimeEntry: ITimeEntry, uuid: string): void => {
+        const timeEntryToUpdate = this.list.find((indexTimeEntry) => indexTimeEntry.uuid === uuid)
+        if (timeEntryToUpdate) {
+            timeEntryToUpdate.title = updatedTimeEntry.title
+            timeEntryToUpdate.start = updatedTimeEntry.start
+            timeEntryToUpdate.end = updatedTimeEntry.end
+            timeEntryToUpdate.note = updatedTimeEntry.note || ''
+        }
     }
 
     removeTimeEntry = (timeEntry: ITimeEntry): void => {

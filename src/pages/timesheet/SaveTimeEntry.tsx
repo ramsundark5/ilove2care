@@ -11,7 +11,7 @@ import TextArea from '../../components/TextArea'
 import TextField from '../../components/TextField'
 import ToolBar from '../../components/ToolBar'
 import { useStore } from '../../hooks/use-store'
-import TimeEntry from './timeentry-item-store'
+import { ITimeEntry } from './timeentry-item-store'
 
 interface SaveTimeEntryProps
     extends RouteComponentProps<{
@@ -22,10 +22,10 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
     const { timeEntryList } = useStore()
     const existingTimeEntry = timeEntryList.list.find((item) => item.uuid === match.params.id)
 
-    const saveTimeEntry = (timeEntry: TimeEntry) => {
+    const saveTimeEntry = (timeEntry: ITimeEntry) => {
         try {
-            if (timeEntry.uuid) {
-                timeEntryList.updateTimeEntry(timeEntry)
+            if (existingTimeEntry && existingTimeEntry.uuid) {
+                timeEntryList.updateTimeEntry(timeEntry, existingTimeEntry.uuid)
             } else {
                 timeEntryList.addTimeEntry(timeEntry)
             }

@@ -1,8 +1,18 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 
-import { IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel } from '@ionic/react'
+import {
+    IonIcon,
+    IonItem,
+    IonItemOption,
+    IonItemOptions,
+    IonItemSliding,
+    IonLabel,
+} from '@ionic/react'
 import dayjs from 'dayjs'
+import { pencilOutline, trashOutline } from 'ionicons/icons'
 
+import { useStore } from '../../hooks/use-store'
+import DeleteTimesheetAlert from './DeleteTimesheetAlert'
 import { ITimeEntry } from './timeentry-item-store'
 
 interface TimeEntryItemProps {
@@ -11,8 +21,11 @@ interface TimeEntryItemProps {
 
 export const TimeEntryItem = ({ timeEntry }: TimeEntryItemProps) => {
     const ionItemSlidingRef = useRef<HTMLIonItemSlidingElement>(null)
+    const [showAlert, setShowAlert] = useState(false)
+    const { timeEntryList } = useStore()
     const startDate = dayjs(timeEntry.start)
     const endDate = dayjs(timeEntry.end)
+
     return (
         <IonItemSliding class={`status-${timeEntry.status}`} ref={ionItemSlidingRef}>
             <IonItem>
@@ -26,13 +39,24 @@ export const TimeEntryItem = ({ timeEntry }: TimeEntryItemProps) => {
                 </IonLabel>
             </IonItem>
             <IonItemOptions side='end'>
-                <IonItemOption color='primary' routerLink={`/tabs/timesheet/save/${timeEntry.uuid}`}>
-                    Edit
+                <IonItemOption
+                    color='primary'
+                    routerLink={`/tabs/timesheet/save/${timeEntry.uuid}`}
+                >
+                    <IonIcon icon={pencilOutline} slot='icon-only' />
                 </IonItemOption>
-                <IonItemOption color='danger' onClick={() => console.log('unread clicked')}>
-                    Delete
+                <IonItemOption color='danger' onClick={() => setShowAlert(true)}>
+                    <IonIcon icon={trashOutline} slot='icon-only' />
                 </IonItemOption>
             </IonItemOptions>
+            <DeleteTimesheetAlert
+                cancelAction={() => setShowAlert(false)}
+                confirmationAction={() => {
+                    setShowAlert(false)
+                    timeEntryList.removeTimeEntry(timeEntry)
+                }}
+                showAlert={showAlert}
+            />
         </IonItemSliding>
     )
 }

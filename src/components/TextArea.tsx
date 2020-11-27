@@ -21,7 +21,7 @@ const TextArea: FC<TextAreaProps> = ({ name, control, label, errors }) => (
                 control={control}
                 defaultValue=''
                 name={name}
-                render={({ onChange, onBlur, value }) => (
+                render={({ onChange, value }) => (
                     <IonTextarea onIonChange={onChange} value={value} />
                 )}
             />
