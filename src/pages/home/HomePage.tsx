@@ -20,7 +20,8 @@ const HomePage = () => (
             */}
             <Route exact path='/tabs/profile/changePassword' render={() => <ChangePassword />} />
             <Route exact path='/tabs/profile' render={() => <ProfilePage />} />
-            <Route exact path='/tabs/timesheet/save' render={() => <SaveTimeEntry />} />
+            <Route exact path='/tabs/timesheet/save/:id' render={(props) => <SaveTimeEntry {...props} />} />
+            <Route exact path='/tabs/timesheet/save' render={(props) => <SaveTimeEntry {...props} />} />
             <Route exact path='/tabs/timesheet' render={() => <TimeSheetPage />} />
         </IonRouterOutlet>
 

@@ -45,7 +45,7 @@ const Profile: React.FC = () => {
                         Support
                     </IonItem>
                 </IonList>
-                <IonButton color='primary' expand='block' onClick={logout}>
+                <IonButton className='ion-padding' color='primary' expand='block' onClick={logout}>
                     Logout
                 </IonButton>
             </IonContent>

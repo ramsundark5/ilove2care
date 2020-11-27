@@ -26,8 +26,12 @@ export const TimeEntryItem = ({ timeEntry }: TimeEntryItemProps) => {
                 </IonLabel>
             </IonItem>
             <IonItemOptions side='end'>
-                <IonItemOption onClick={() => console.log('unread clicked')}>Edit</IonItemOption>
-                <IonItemOption onClick={() => console.log('unread clicked')}>Delete</IonItemOption>
+                <IonItemOption color='primary' routerLink={`/tabs/timesheet/save/${timeEntry.uuid}`}>
+                    Edit
+                </IonItemOption>
+                <IonItemOption color='danger' onClick={() => console.log('unread clicked')}>
+                    Delete
+                </IonItemOption>
             </IonItemOptions>
         </IonItemSliding>
     )

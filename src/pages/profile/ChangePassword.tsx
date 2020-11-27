@@ -66,11 +66,9 @@ const ChangePassword: React.FC = () => {
             <IonContent>
                 <form onSubmit={handleSubmit(onChangePassword)}>
                     {formFields.map((field) => (
-                        // eslint-disable-next-line max-len
                         <TextField {...field} control={control} errors={errors} key={field.name} />
                     ))}
-
-                    <IonButton className='ion-margin-top' expand='block' type='submit'>
+                    <IonButton className='ion-padding' expand='block' type='submit'>
                         Change Password
                     </IonButton>
                 </form>

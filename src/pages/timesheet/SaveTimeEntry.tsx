@@ -1,5 +1,6 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { RouteComponentProps } from 'react-router'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import { IonButton, IonContent, IonPage } from '@ionic/react'
@@ -12,22 +13,25 @@ import ToolBar from '../../components/ToolBar'
 import { useStore } from '../../hooks/use-store'
 import TimeEntry from './timeentry-item-store'
 
-interface SaveTimeEntryProps {
-    existingTimeEntry?: TimeEntry
-}
+interface SaveTimeEntryProps
+    extends RouteComponentProps<{
+        id: string
+    }> {}
 
-const defaultProps: SaveTimeEntryProps = {
-    existingTimeEntry: new TimeEntry(),
-}
-
-const SaveTimeEntry = ({ existingTimeEntry }: SaveTimeEntryProps) => {
+const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
     const { timeEntryList } = useStore()
+    const existingTimeEntry = timeEntryList.list.find((item) => item.uuid === match.params.id)
 
     const saveTimeEntry = (timeEntry: TimeEntry) => {
-        if (timeEntry.uuid) {
-            timeEntryList.updateTimeEntry(timeEntry)
-        } else {
-            timeEntryList.addTimeEntry(timeEntry)
+        try {
+            if (timeEntry.uuid) {
+                timeEntryList.updateTimeEntry(timeEntry)
+            } else {
+                timeEntryList.addTimeEntry(timeEntry)
+            }
+            history.goBack()
+        } catch (err) {
+            console.log(err)
         }
     }
 
@@ -35,10 +39,16 @@ const SaveTimeEntry = ({ existingTimeEntry }: SaveTimeEntryProps) => {
         title: string().required(),
         start: date().required(),
         end: date().required(),
-        note: string().required(),
+        note: string(),
     })
     const { control, handleSubmit, errors } = useForm({
         resolver: yupResolver(validationSchema),
+        defaultValues: {
+            title: existingTimeEntry?.title,
+            start: existingTimeEntry?.start?.toISOString() || null,
+            end: existingTimeEntry?.end?.toISOString() || null,
+            note: existingTimeEntry?.note,
+        },
     })
 
     return (
@@ -48,7 +58,7 @@ const SaveTimeEntry = ({ existingTimeEntry }: SaveTimeEntryProps) => {
                 <form onSubmit={handleSubmit(saveTimeEntry)}>
                     <TextField
                         control={control}
-                        defaultValue={existingTimeEntry?.title}
+                        currentValue={existingTimeEntry?.title}
                         errors={errors}
                         key='title'
                         label='Title'
@@ -58,7 +68,7 @@ const SaveTimeEntry = ({ existingTimeEntry }: SaveTimeEntryProps) => {
 
                     <DateField
                         control={control}
-                        defaultValue={existingTimeEntry?.start}
+                        currentValue={existingTimeEntry?.start}
                         errors={errors}
                         key='startTime'
                         label='Start Time'
@@ -67,7 +77,7 @@ const SaveTimeEntry = ({ existingTimeEntry }: SaveTimeEntryProps) => {
 
                     <DateField
                         control={control}
-                        defaultValue={existingTimeEntry?.end}
+                        currentValue={existingTimeEntry?.end}
                         errors={errors}
                         key='endTime'
                         label='End Time'
@@ -75,13 +85,13 @@ const SaveTimeEntry = ({ existingTimeEntry }: SaveTimeEntryProps) => {
                     />
                     <TextArea
                         control={control}
-                        defaultValue={existingTimeEntry?.note}
+                        currentValue={existingTimeEntry?.note}
                         errors={errors}
                         key='note'
                         label='Note'
                         name='note'
                     />
-                    <IonButton className='ion-margin-top' expand='block' type='submit'>
+                    <IonButton className='ion-padding' expand='block' type='submit'>
                         Save
                     </IonButton>
                 </form>
@@ -89,7 +99,5 @@ const SaveTimeEntry = ({ existingTimeEntry }: SaveTimeEntryProps) => {
         </IonPage>
     )
 }
-
-SaveTimeEntry.defaultProps = defaultProps
 
 export default SaveTimeEntry

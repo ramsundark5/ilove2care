@@ -10,7 +10,7 @@ export interface DateFieldProps {
     displayFormat?: string
     label?: string
     rules?: any
-    defaultValue?: Date
+    currentValue?: Date
     errors?: DeepMap<Record<string, any>, FieldError>
 }
 
@@ -20,17 +20,19 @@ const DateField: FC<DateFieldProps> = ({
     displayFormat = 'MMM D, YYYY h:mm A',
     label,
     errors,
-    defaultValue,
 }) => (
     <>
         <IonItem>
             {label && <IonLabel position='floating'>{label}</IonLabel>}
             <Controller
                 control={control}
-                defaultValue={defaultValue}
                 name={name}
-                render={({ onChange }) => (
-                    <IonDatetime displayFormat={displayFormat} onIonChange={onChange} />
+                render={({ onChange, onBlur, value }) => (
+                    <IonDatetime
+                        displayFormat={displayFormat}
+                        onIonChange={onChange}
+                        value={value}
+                    />
                 )}
             />
         </IonItem>
