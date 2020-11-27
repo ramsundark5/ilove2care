@@ -1,23 +1,35 @@
-import { action, observable } from 'mobx'
+import { makeAutoObservable } from 'mobx'
+import { v4 as uuidv4 } from 'uuid'
 
-export default class TimeEntryItem {
-    id = Date.now()
+export interface ITimeEntry {
+    id?: string | null
+    uuid?: string
+    title: string
+    projectId?: number | null
+    note?: string
+    start: Date
+    end: Date
+    status: string
+}
 
-    @observable text = ''
+export default class TimeEntry implements ITimeEntry {
+    id = null
 
-    @observable isDone = false
+    uuid = uuidv4()
 
-    constructor(text: string) {
-        this.text = text
-    }
+    title = ''
 
-    @action
-    toggleIsDone = () => {
-        this.isDone = !this.isDone
-    }
+    projectId = null
 
-    @action
-    updateText = (text: string) => {
-        this.text = text
+    start = new Date()
+
+    end = new Date()
+
+    note = ''
+
+    status = 'Pending'
+
+    constructor() {
+        makeAutoObservable(this)
     }
 }

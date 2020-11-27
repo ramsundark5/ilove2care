@@ -6,9 +6,9 @@ import TimeEntryList from '../pages/timesheet/timeentry-list-store'
 configure({ enforceActions: 'observed' }) // action 밖에서 state 수정 비허용
 
 class RootStore {
-    timeEntryList: TimeEntryList
-
     authStore: AuthStore
+
+    timeEntryList: TimeEntryList
 
     constructor() {
         this.timeEntryList = new TimeEntryList()

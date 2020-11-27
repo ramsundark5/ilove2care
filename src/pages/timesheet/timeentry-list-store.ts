@@ -1,47 +1,74 @@
-import { action, computed, observable } from 'mobx'
+/* eslint-disable no-param-reassign */
+import dayjs from 'dayjs'
+import { makeAutoObservable } from 'mobx'
+import { v4 as uuidv4 } from 'uuid'
 
-import TimeEntryItem from './timeentry-item-store'
+import TimeEntry, { ITimeEntry } from './timeentry-item-store'
 
 const initState = {
-    defaultTimeEntryList: ['Setup react boilerplate', 'Better Call Soul', ' Choose the right framework'],
+    defaultTimeEntryList: [
+        'Setup react boilerplate',
+        'Better Call Soul',
+        ' Choose the right framework',
+    ],
 }
 
 export default class TimeEntryList {
-    @observable.shallow list: TimeEntryItem[] = []
+    list: ITimeEntry[] = []
 
-    @observable query = ''
+    query = ''
 
     constructor() {
-        initState.defaultTimeEntryList.forEach(this.addTimeEntry)
+        makeAutoObservable(this)
+        initState.defaultTimeEntryList.forEach(this.initTimeEntry)
     }
 
-    @action
-    addTimeEntry = (text: string): void => {
-        this.list.push(new TimeEntryItem(text))
+    initTimeEntry = (text: string): void => {
+        const timeEntry: ITimeEntry = new TimeEntry()
+        timeEntry.title = text
+        this.list.push(timeEntry)
     }
 
-    @action
-    removeTimeEntry = (timeEntry: TimeEntryItem): void => {
-        this.list.splice(this.list.indexOf(timeEntry), 1)
+    addTimeEntry = (timeEntry: ITimeEntry): void => {
+        timeEntry.status = 'Pending'
+        timeEntry.uuid = uuidv4()
+        this.list.push(timeEntry)
+        this.list = this.list.sort((a, b) => a.start.getTime() - b.start.getTime())
     }
 
-    @action
+    updateTimeEntry = (updatedTimeEntry: ITimeEntry, uuid: string): void => {
+        const timeEntryToUpdate = this.list.find((indexTimeEntry) => indexTimeEntry.uuid === uuid)
+        if (timeEntryToUpdate) {
+            timeEntryToUpdate.title = updatedTimeEntry.title
+            timeEntryToUpdate.start = updatedTimeEntry.start
+            timeEntryToUpdate.end = updatedTimeEntry.end
+            timeEntryToUpdate.note = updatedTimeEntry.note || ''
+        }
+    }
+
+    removeTimeEntry = (timeEntry: ITimeEntry): void => {
+        this.list.splice(
+            this.list.findIndex((indexTimeEntry) => indexTimeEntry.uuid === timeEntry.uuid),
+            1
+        )
+    }
+
+    get groupByMonth() {
+        const groupedTimeEntries: any = {}
+        this.list.forEach((timeEntry) => {
+            const monthName: string = dayjs(timeEntry.start).format('MMM YYYY')
+            const byMonthItem: ITimeEntry[] = groupedTimeEntries[monthName] || []
+            byMonthItem.push(timeEntry)
+            groupedTimeEntries[monthName] = byMonthItem
+        })
+        return groupedTimeEntries
+    }
+
     setQuery = (query: string): void => {
         this.query = query
     }
 
-    @computed
-    get finishedTimeEntries(): TimeEntryItem[] {
-        return this.list.filter((timeEntry) => timeEntry.isDone)
-    }
-
-    @computed
-    get openTimeEntries(): TimeEntryItem[] {
-        return this.list.filter((timeEntry) => !timeEntry.isDone)
-    }
-
-    @computed
-    get filteredTimeEntries(): TimeEntryItem[] {
-        return this.list.filter((timeEntry) => timeEntry.text.includes(this.query))
+    get filteredTimeEntries(): ITimeEntry[] {
+        return this.list.filter((timeEntry) => timeEntry.title.includes(this.query))
     }
 }

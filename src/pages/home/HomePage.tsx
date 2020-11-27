@@ -4,7 +4,9 @@ import { Redirect, Route } from 'react-router-dom'
 import { IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/react'
 import { observer } from 'mobx-react-lite'
 
-import ProfilePage from '../profile/ProfilePage';
+import ChangePassword from '../profile/ChangePassword'
+import ProfilePage from '../profile/ProfilePage'
+import SaveTimeEntry from '../timesheet/SaveTimeEntry'
 import TimeSheetPage from '../timesheet/TimeSheetPage'
 
 const HomePage = () => (
@@ -16,7 +18,10 @@ const HomePage = () => (
             due to route changes. Use the component prop when your component depends on the
             RouterComponentProps passed in automatically.
             */}
+            <Route exact path='/tabs/profile/changePassword' render={() => <ChangePassword />} />
             <Route exact path='/tabs/profile' render={() => <ProfilePage />} />
+            <Route exact path='/tabs/timesheet/save/:id' render={(props) => <SaveTimeEntry {...props} />} />
+            <Route exact path='/tabs/timesheet/save' render={(props) => <SaveTimeEntry {...props} />} />
             <Route exact path='/tabs/timesheet' render={() => <TimeSheetPage />} />
         </IonRouterOutlet>
 

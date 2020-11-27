@@ -1,34 +1,33 @@
 import React from 'react'
 
-import { IonBadge } from '@ionic/react'
+import { IonItemDivider, IonItemGroup, IonLabel } from '@ionic/react'
 import { observer } from 'mobx-react-lite'
 
 import { useStore } from '../../hooks/use-store'
+import { ITimeEntry } from './timeentry-item-store'
 import { TimeEntryItem } from './TimeEntryItem'
 
 export const TimeEntryList: React.FC = observer(() => {
     const { timeEntryList } = useStore()
+    const groupedTimeEntries: Map<string, ITimeEntry> = timeEntryList.groupByMonth
 
+    const renderTimeEntryItem = (timeEntries: ITimeEntry[]) => (
+        <>
+            {timeEntries.map((timeEntry) => (
+                <TimeEntryItem key={timeEntry.uuid} timeEntry={timeEntry} />
+            ))}
+        </>
+    )
     return (
-        <div>
-            <div>
-                <IonBadge color="secondary">Open Time Entries</IonBadge>
-                {timeEntryList.openTimeEntries.map((timeEntry) => (
-                    <TimeEntryItem key={`${timeEntry.id}-${timeEntry.text}`} timeEntry={timeEntry} />
-                ))}
-            </div>
-            <div>
-                <IonBadge color="tertiary">Finished Time Entries</IonBadge>
-                {timeEntryList.finishedTimeEntries.map((timeEntry) => (
-                    <TimeEntryItem key={`${timeEntry.id}-${timeEntry.text}`} timeEntry={timeEntry} />
-                ))}
-            </div>
-            <div>
-                <IonBadge color="dark">Search Results</IonBadge>
-                {timeEntryList.filteredTimeEntries.map((timeEntry) => (
-                    <TimeEntryItem key={`${timeEntry.id}-${timeEntry.text}`} timeEntry={timeEntry} />
-                ))}
-            </div>
-        </div>
+        <>
+            {Object.entries(groupedTimeEntries).map(([monthName, timeEntries]) => (
+                <IonItemGroup key={monthName}>
+                    <IonItemDivider>
+                        <IonLabel>{monthName}</IonLabel>
+                    </IonItemDivider>
+                    {renderTimeEntryItem(timeEntries)}
+                </IonItemGroup>
+            ))}
+        </>
     )
 })

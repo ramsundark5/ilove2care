@@ -8,6 +8,7 @@ import { IonReactRouter } from '@ionic/react-router'
 import { observer } from 'mobx-react-lite'
 
 import { useStore } from './hooks/use-store'
+import { ToastProvider } from './hooks/use-toast'
 import Login from './pages/auth/Login'
 import HomePage from './pages/home/HomePage'
 import SideMenu from './pages/home/SideMenu'
@@ -42,7 +43,9 @@ const App: React.FC = observer(() => {
             <IonLoading isOpen={!authCheckComplete} message='Starting App...' />
         </IonApp>
     ) : (
-        <IonApp>{!loggedIn ? <PublicRoutes /> : <PrivateRoutes />}</IonApp>
+        <IonApp>
+            <ToastProvider>{!loggedIn ? <PublicRoutes /> : <PrivateRoutes />}</ToastProvider>
+        </IonApp>
     )
 })
 
