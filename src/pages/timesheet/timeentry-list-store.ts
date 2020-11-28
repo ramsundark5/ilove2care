@@ -3,58 +3,66 @@ import dayjs from 'dayjs'
 import { makeAutoObservable } from 'mobx'
 import { v4 as uuidv4 } from 'uuid'
 
-import { addObjectToCollection, removeObjectFromCollection } from '../../services/FirebaseService'
-import TimeEntry, { ITimeEntry } from './timeentry-item-store'
+import FirebaseService from '../../services/FirebaseService'
+import { ITimeEntry } from './timeentry-item-store'
 
-const initState = {
-    defaultTimeEntryList: [
-        'Setup react boilerplate',
-        'Better Call Soul',
-        ' Choose the right framework',
-    ],
-}
-
-const TIME_ENTRY_COLLECTION = 'timeentry'
+const TIME_ENTRY_COLLECTION = 'timesheet'
 export default class TimeEntryList {
     list: ITimeEntry[] = []
 
     query = ''
 
+    db: FirebaseService
+
     constructor() {
         makeAutoObservable(this)
-        initState.defaultTimeEntryList.forEach(this.initTimeEntry)
+        this.db = new FirebaseService()
     }
 
-    initTimeEntry = (text: string): void => {
-        const timeEntry: ITimeEntry = new TimeEntry()
-        timeEntry.title = text
-        this.list.push(timeEntry)
-    }
+    loadData = () => this.db.getAll({ collection: TIME_ENTRY_COLLECTION })
 
     addTimeEntry = (timeEntry: ITimeEntry): void => {
+        const currentUserId = this.db.getCurrentUserId()
+        if (!currentUserId) {
+            return
+        }
         timeEntry.status = 'Pending'
-        timeEntry.uuid = uuidv4()
+        timeEntry.id = uuidv4()
+        timeEntry.userId = currentUserId
+        timeEntry.created = new Date()
+        timeEntry.updated = new Date()
         this.list.push(timeEntry)
         this.list = this.list.sort((a, b) => a.start.getTime() - b.start.getTime())
-        addObjectToCollection({ collection: TIME_ENTRY_COLLECTION, objectData: timeEntry })
+        this.db.saveObjectToCollection({
+            collection: TIME_ENTRY_COLLECTION,
+            objectData: timeEntry,
+        })
     }
 
-    updateTimeEntry = (updatedTimeEntry: ITimeEntry, uuid: string): void => {
-        const timeEntryToUpdate = this.list.find((indexTimeEntry) => indexTimeEntry.uuid === uuid)
+    updateTimeEntry = (updatedTimeEntry: ITimeEntry, id: string): void => {
+        const timeEntryToUpdate = this.list.find((indexTimeEntry) => indexTimeEntry.id === id)
         if (timeEntryToUpdate) {
             timeEntryToUpdate.title = updatedTimeEntry.title
             timeEntryToUpdate.start = updatedTimeEntry.start
             timeEntryToUpdate.end = updatedTimeEntry.end
             timeEntryToUpdate.note = updatedTimeEntry.note || ''
+
+            this.db.saveObjectToCollection({
+                collection: TIME_ENTRY_COLLECTION,
+                objectData: timeEntryToUpdate,
+            })
         }
     }
 
     removeTimeEntry = (timeEntry: ITimeEntry): void => {
         this.list.splice(
-            this.list.findIndex((indexTimeEntry) => indexTimeEntry.uuid === timeEntry.uuid),
+            this.list.findIndex((indexTimeEntry) => indexTimeEntry.id === timeEntry.id),
             1
         )
-        removeObjectFromCollection({ collection: TIME_ENTRY_COLLECTION, objectId: timeEntry.uuid })
+        this.db.removeObjectFromCollection({
+            collection: TIME_ENTRY_COLLECTION,
+            objectId: timeEntry.id,
+        })
     }
 
     get groupByMonth() {

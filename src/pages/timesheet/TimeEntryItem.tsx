@@ -39,10 +39,7 @@ export const TimeEntryItem = ({ timeEntry }: TimeEntryItemProps) => {
                 </IonLabel>
             </IonItem>
             <IonItemOptions side='end'>
-                <IonItemOption
-                    color='primary'
-                    routerLink={`/tabs/timesheet/save/${timeEntry.uuid}`}
-                >
+                <IonItemOption color='primary' routerLink={`/tabs/timesheet/save/${timeEntry.id}`}>
                     <IonIcon icon={pencilOutline} slot='icon-only' />
                 </IonItemOption>
                 <IonItemOption color='danger' onClick={() => setShowAlert(true)}>

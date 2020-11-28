@@ -21,12 +21,12 @@ interface SaveTimeEntryProps
 
 const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
     const { timeEntryList } = useStore()
-    const existingTimeEntry = timeEntryList.list.find((item) => item.uuid === match.params.id)
+    const existingTimeEntry = timeEntryList.list.find((item) => item.id === match.params.id)
 
     const saveTimeEntry = (timeEntry: ITimeEntry) => {
         try {
-            if (existingTimeEntry && existingTimeEntry.uuid) {
-                timeEntryList.updateTimeEntry(timeEntry, existingTimeEntry.uuid)
+            if (existingTimeEntry && existingTimeEntry.id) {
+                timeEntryList.updateTimeEntry(timeEntry, existingTimeEntry.id)
             } else {
                 timeEntryList.addTimeEntry(timeEntry)
             }

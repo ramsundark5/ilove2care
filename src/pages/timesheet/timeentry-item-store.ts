@@ -1,33 +1,40 @@
+import firebase from 'firebase/app'
 import { makeAutoObservable } from 'mobx'
 import { v4 as uuidv4 } from 'uuid'
 
 export interface ITimeEntry {
-    id?: string | null
-    uuid?: string
+    id: string
+    userId: string
     title: string
-    projectId?: number | null
+    projectId?: string
     note?: string
     start: Date
     end: Date
     status: string
+    created: Date
+    updated: Date
 }
 
 export default class TimeEntry implements ITimeEntry {
-    id = null
+    id: string = uuidv4()
 
-    uuid = uuidv4()
+    userId!: string
 
     title = ''
 
-    projectId = null
+    projectId: string | undefined
 
-    start = new Date()
+    start!: Date
 
-    end = new Date()
+    end!: Date
 
     note = ''
 
     status = 'Pending'
+
+    created = new Date()
+
+    updated = new Date()
 
     constructor() {
         makeAutoObservable(this)

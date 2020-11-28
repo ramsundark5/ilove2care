@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { IonItemDivider, IonItemGroup, IonLabel } from '@ionic/react'
 import { observer } from 'mobx-react-lite'
@@ -11,10 +11,16 @@ export const TimeEntryList: React.FC = observer(() => {
     const { timeEntryList } = useStore()
     const groupedTimeEntries: Map<string, ITimeEntry> = timeEntryList.groupByMonth
 
+    useEffect(() => {
+        timeEntryList.loadData().then((results) => {
+            timeEntryList.list = (results as unknown) as ITimeEntry[]
+        })
+    }, [timeEntryList])
+
     const renderTimeEntryItem = (timeEntries: ITimeEntry[]) => (
         <>
             {timeEntries.map((timeEntry) => (
-                <TimeEntryItem key={timeEntry.uuid} timeEntry={timeEntry} />
+                <TimeEntryItem key={timeEntry.id} timeEntry={timeEntry} />
             ))}
         </>
     )
