@@ -46,7 +46,7 @@ export default class TimeEntryList {
             timeEntryToUpdate.start = updatedTimeEntry.start
             timeEntryToUpdate.end = updatedTimeEntry.end
             timeEntryToUpdate.note = updatedTimeEntry.note || ''
-
+            timeEntryToUpdate.updated = new Date()
             this.db.saveObjectToCollection({
                 collection: TIME_ENTRY_COLLECTION,
                 objectData: timeEntryToUpdate,

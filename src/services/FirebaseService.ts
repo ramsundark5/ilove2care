@@ -2,10 +2,10 @@
 /* eslint-disable implicit-arrow-linebreak */
 import firebase from 'firebase/app'
 
-import log from '../logger'
-
 import 'firebase/firestore'
 import 'firebase/auth'
+import { convertTimestamps } from '../helpers/FirebaseHelper'
+import log from '../logger'
 
 export default class FirebaseService {
     db: firebase.firestore.Firestore
@@ -39,7 +39,7 @@ export default class FirebaseService {
                 // doc.data() is never undefined for query doc snapshots
                 results.push({
                     id: doc.id,
-                    ...doc.data(),
+                    ...convertTimestamps(doc.data()),
                 })
             })
             return results
