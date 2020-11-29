@@ -9,7 +9,7 @@ import RootStore from './stores'
 import './firebaseui-styling.global.css'
 
 const rootStore = new RootStore()
-
+rootStore.init()
 ReactDOM.render(
     <StoreProvider value={rootStore}>
         <App />

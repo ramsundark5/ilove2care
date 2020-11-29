@@ -5,17 +5,17 @@ import { observer } from 'mobx-react-lite'
 
 import { useStore } from '../../hooks/use-store'
 import log from '../../logger'
-import { ITimeEntry } from './store/timeentry-item-store'
+import { ITimeEntry } from './models/ITimeEntry'
 import { TimeEntryItem } from './TimeEntryItem'
 
 export const TimeEntryList: React.FC = observer(() => {
-    const { timeEntryList } = useStore()
+    const { timesheetStore } = useStore()
     const [didLoad, setDidLoad] = useState<boolean>(false)
-    const groupedTimeEntries: Map<string, ITimeEntry> = timeEntryList.groupByMonth
+    const groupedTimeEntries: Map<string, ITimeEntry> = timesheetStore.groupByMonth
 
     useEffect(() => {
         if (!didLoad) {
-            timeEntryList.loadData().then(() => {
+            timesheetStore.loadData().then(() => {
                 setDidLoad(true)
                 log.info('loaded timesheet data from server')
             })

@@ -4,28 +4,28 @@ import { makeAutoObservable, runInAction } from 'mobx'
 import { v4 as uuidv4 } from 'uuid'
 
 import FirebaseService from '../../../services/FirebaseService'
-import { ITimeEntry } from './timeentry-item-store'
-import TimesheetService from './TimesheetService'
+import { ITimeEntry } from '../models/ITimeEntry'
+import TimesheetDao from './TimesheetDao'
 
-export default class TimeEntryList {
+export default class TimesheetStore {
     list: ITimeEntry[] = []
 
     query = ''
 
-    timesheetService: TimesheetService
+    timesheetDao: TimesheetDao
 
     firebaseService: FirebaseService
 
     constructor() {
         makeAutoObservable(this)
-        this.timesheetService = new TimesheetService()
+        this.timesheetDao = new TimesheetDao()
         this.firebaseService = new FirebaseService()
     }
 
     loadData = async () => {
-        const results = await this.timesheetService.getAll()
+        const results = await this.timesheetDao.getAll()
         runInAction(() => {
-            this.list = (results as unknown) as ITimeEntry[]
+            this.list = results
         })
     }
 
@@ -39,7 +39,7 @@ export default class TimeEntryList {
         timeEntry.userId = currentUserId
         timeEntry.created = new Date()
         timeEntry.updated = new Date()
-        await this.timesheetService.save(timeEntry)
+        await this.timesheetDao.save(timeEntry)
         this.list.push(timeEntry)
     }
 
@@ -51,7 +51,7 @@ export default class TimeEntryList {
             timeEntryToUpdate.end = updatedTimeEntry.end
             timeEntryToUpdate.note = updatedTimeEntry.note || ''
             timeEntryToUpdate.updated = new Date()
-            this.timesheetService.save(timeEntryToUpdate)
+            this.timesheetDao.save(timeEntryToUpdate)
         }
     }
 
@@ -60,7 +60,7 @@ export default class TimeEntryList {
             this.list.findIndex((indexTimeEntry) => indexTimeEntry.id === timeEntry.id),
             1
         )
-        this.timesheetService.remove(timeEntry.id)
+        this.timesheetDao.remove(timeEntry.id)
     }
 
     get groupByMonth() {

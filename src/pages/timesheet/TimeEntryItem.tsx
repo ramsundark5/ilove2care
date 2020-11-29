@@ -13,7 +13,7 @@ import { pencilOutline, trashOutline } from 'ionicons/icons'
 
 import { useStore } from '../../hooks/use-store'
 import DeleteTimesheetAlert from './DeleteTimesheetAlert'
-import { ITimeEntry } from './store/timeentry-item-store'
+import { ITimeEntry } from './models/ITimeEntry'
 
 interface TimeEntryItemProps {
     timeEntry: ITimeEntry
@@ -22,7 +22,7 @@ interface TimeEntryItemProps {
 export const TimeEntryItem = ({ timeEntry }: TimeEntryItemProps) => {
     const ionItemSlidingRef = useRef<HTMLIonItemSlidingElement>(null)
     const [showAlert, setShowAlert] = useState(false)
-    const { timeEntryList } = useStore()
+    const { timesheetStore } = useStore()
     const startDate = dayjs(timeEntry.start)
     const endDate = dayjs(timeEntry.end)
 
@@ -50,7 +50,7 @@ export const TimeEntryItem = ({ timeEntry }: TimeEntryItemProps) => {
                 cancelAction={() => setShowAlert(false)}
                 confirmationAction={() => {
                     setShowAlert(false)
-                    timeEntryList.removeTimeEntry(timeEntry)
+                    timesheetStore.removeTimeEntry(timeEntry)
                 }}
                 showAlert={showAlert}
             />

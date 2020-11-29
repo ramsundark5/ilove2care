@@ -10,6 +10,7 @@ import { observer } from 'mobx-react-lite'
 import { useStore } from './hooks/use-store'
 import { ToastProvider } from './hooks/use-toast'
 import Login from './pages/auth/Login'
+import RedirectToLogin from './pages/auth/RedirectToLogin'
 import HomePage from './pages/home/HomePage'
 import SideMenu from './pages/home/SideMenu'
 
@@ -28,6 +29,7 @@ const PrivateRoutes: React.FC = () => (
             <SideMenu />
             <IonRouterOutlet id='private'>
                 <Route path='/tabs' render={() => <HomePage />} />
+                <Route path='/logout' render={() => <RedirectToLogin />} />
                 <Redirect exact from='/' to='/tabs' />
             </IonRouterOutlet>
         </IonSplitPane>

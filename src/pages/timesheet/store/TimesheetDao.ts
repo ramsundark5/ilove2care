@@ -7,9 +7,9 @@ import 'firebase/auth'
 import { convertTimestamps } from '../../../helpers/FirebaseHelper'
 import log from '../../../logger'
 import FirebaseService from '../../../services/FirebaseService'
-import { ITimeEntry } from './timeentry-item-store'
+import { ITimeEntry } from '../models/ITimeEntry'
 
-export default class TimesheetService {
+export default class TimesheetDao {
     db: firebase.firestore.Firestore
 
     auth: firebase.auth.Auth
@@ -39,7 +39,7 @@ export default class TimesheetService {
      * @param {*} param0
      */
     getAll = async () => {
-        const results: any = []
+        const results: ITimeEntry[] = []
         const currentUserId = this.firebaseService.getCurrentUserId()
         try {
             const querySnapshot = await this.getCollectionRef()
@@ -54,25 +54,10 @@ export default class TimesheetService {
             })
             return results
         } catch (error) {
-            log.error(`Error getting timesheet documents ${error}`)
+            log.error(`Error getting timesheet list ${error}`)
             return []
         }
     }
-
-    /* getById = async (docId: string) => {
-        try {
-            const collectionRef = this.db.collection(collection)
-            const doc: any = await collectionRef.get()
-            if (doc.exists) {
-                return { id: _documentRef.id, ...doc.data() }
-            }
-            log.info('No such document!')
-            return null
-        } catch (error: any) {
-            log.error('Error getting document :', error)
-            return error
-        }
-    } */
 
     save = async (timeEntry: ITimeEntry) => {
         try {

@@ -1,5 +1,5 @@
 import firebase from 'firebase/app'
-import { action, makeObservable, observable, runInAction } from 'mobx'
+import { makeAutoObservable, runInAction } from 'mobx'
 
 export default class AuthStore {
     loggedIn = false
@@ -11,15 +11,7 @@ export default class AuthStore {
     initializationError = null
 
     constructor() {
-        makeObservable(this, {
-            loggedIn: observable,
-            user: observable,
-            authCheckComplete: observable,
-            initializationError: observable,
-            onLogin: action,
-            onLogout: action,
-            reset: action,
-        })
+        makeAutoObservable(this)
 
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {

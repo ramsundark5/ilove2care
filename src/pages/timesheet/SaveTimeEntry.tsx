@@ -1,4 +1,5 @@
-import React from 'react'
+/* eslint-disable no-restricted-syntax */
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { RouteComponentProps } from 'react-router'
 
@@ -7,12 +8,14 @@ import { IonButton, IonContent, IonPage } from '@ionic/react'
 import { date, object, string } from 'yup'
 
 import DateField from '../../components/DateField'
+import SelectField, { SelectFieldOptionProps } from '../../components/SelectField'
 import TextArea from '../../components/TextArea'
 import TextField from '../../components/TextField'
 import ToolBar from '../../components/ToolBar'
 import { useStore } from '../../hooks/use-store'
 import log from '../../logger'
-import { ITimeEntry } from './store/timeentry-item-store'
+import { IProject } from './models/IProject'
+import { ITimeEntry } from './models/ITimeEntry'
 
 interface SaveTimeEntryProps
     extends RouteComponentProps<{
@@ -20,15 +23,34 @@ interface SaveTimeEntryProps
     }> {}
 
 const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
-    const { timeEntryList } = useStore()
-    const existingTimeEntry = timeEntryList.list.find((item) => item.id === match.params.id)
+    const { projectStore, timesheetStore } = useStore()
+    const existingTimeEntry = timesheetStore.list.find((item) => item.id === match.params.id)
+    const [didLoad, setDidLoad] = useState<boolean>(false)
+    const [projects, setProjects] = useState<SelectFieldOptionProps[]>([])
+
+    useEffect(() => {
+        if (!didLoad) {
+            const results: IProject[] = [...projectStore.list]
+            const projectOptions: SelectFieldOptionProps[] = []
+            for (const project of results) {
+                const projectOption = {} as SelectFieldOptionProps
+                projectOption.label = project.name
+                projectOption.value = project.id
+                projectOptions.push(projectOption)
+            }
+            setProjects(projectOptions)
+            setDidLoad(true)
+            log.info('loaded project list in SaveTimeEntry')
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [didLoad])
 
     const saveTimeEntry = (timeEntry: ITimeEntry) => {
         try {
             if (existingTimeEntry && existingTimeEntry.id) {
-                timeEntryList.updateTimeEntry(timeEntry, existingTimeEntry.id)
+                timesheetStore.updateTimeEntry(timeEntry, existingTimeEntry.id)
             } else {
-                timeEntryList.addTimeEntry(timeEntry)
+                timesheetStore.addTimeEntry(timeEntry)
             }
             history.goBack()
         } catch (err) {
@@ -41,6 +63,7 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
         start: date().required(),
         end: date().required(),
         note: string(),
+        projectId: string().required(),
     })
     const { control, handleSubmit, errors } = useForm({
         resolver: yupResolver(validationSchema),
@@ -49,6 +72,7 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
             start: existingTimeEntry?.start?.toISOString() || null,
             end: existingTimeEntry?.end?.toISOString() || null,
             note: existingTimeEntry?.note,
+            projectId: existingTimeEntry?.projectId,
         },
     })
 
@@ -65,6 +89,16 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
                         label='Title'
                         name='title'
                         type='text'
+                    />
+
+                    <SelectField
+                        control={control}
+                        currentValue={existingTimeEntry?.projectId}
+                        errors={errors}
+                        key='projectId'
+                        label='Project'
+                        name='projectId'
+                        options={projects}
                     />
 
                     <DateField
