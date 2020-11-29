@@ -1,7 +1,7 @@
 import { configure } from 'mobx'
 
 import AuthStore from '../pages/auth/auth-store'
-import ProjectStore from '../pages/timesheet/store/project-store'
+import ProjectStore from '../pages/project/store/project-store'
 import TimesheetStore from '../pages/timesheet/store/timesheet-store'
 
 configure({ enforceActions: 'observed' }) // action 밖에서 state 수정 비허용

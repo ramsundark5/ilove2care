@@ -46,4 +46,24 @@ export default class ProjectDao {
             return []
         }
     }
+
+    save = async (project: IProject) => {
+        try {
+            await this.getCollectionRef()
+                .doc(project.id)
+                .set({ ...project }, { merge: true })
+        } catch (error) {
+            log.error(`ERROR saving project ${error}`)
+        }
+    }
+
+    remove = async (projectId: string) => {
+        try {
+            await this.getCollectionRef().doc(projectId).delete()
+            return true
+        } catch (error) {
+            log.error(`ERROR deleting project ${error}`)
+            return error
+        }
+    }
 }

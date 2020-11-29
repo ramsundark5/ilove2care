@@ -14,7 +14,7 @@ import TextField from '../../components/TextField'
 import ToolBar from '../../components/ToolBar'
 import { useStore } from '../../hooks/use-store'
 import log from '../../logger'
-import { IProject } from './models/IProject'
+import { IProject } from '../project/models/IProject'
 import { ITimeEntry } from './models/ITimeEntry'
 
 interface SaveTimeEntryProps
