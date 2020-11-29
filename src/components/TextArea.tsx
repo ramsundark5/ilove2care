@@ -9,7 +9,6 @@ export interface TextAreaProps {
     control?: Control
     label?: string
     rules?: any
-    currentValue?: string
     errors?: DeepMap<Record<string, any>, FieldError>
 }
 

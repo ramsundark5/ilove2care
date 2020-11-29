@@ -10,7 +10,6 @@ export interface SelectFieldProps {
     label?: string
     rules?: any
     options?: any
-    currentValue?: string
     errors?: DeepMap<Record<string, any>, FieldError>
 }
 

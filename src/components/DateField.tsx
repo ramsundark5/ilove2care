@@ -10,7 +10,6 @@ export interface DateFieldProps {
     displayFormat?: string
     label?: string
     rules?: any
-    currentValue?: Date
     errors?: DeepMap<Record<string, any>, FieldError>
 }
 

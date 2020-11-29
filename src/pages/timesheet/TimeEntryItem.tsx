@@ -22,15 +22,21 @@ interface TimeEntryItemProps {
 export const TimeEntryItem = ({ timeEntry }: TimeEntryItemProps) => {
     const ionItemSlidingRef = useRef<HTMLIonItemSlidingElement>(null)
     const [showAlert, setShowAlert] = useState(false)
-    const { timesheetStore } = useStore()
+    const { timesheetStore, projectStore } = useStore()
     const startDate = dayjs(timeEntry.start)
     const endDate = dayjs(timeEntry.end)
 
+    const project = timeEntry.projectId
+        ? projectStore.findById(timeEntry.projectId)
+        : { name: null }
+    const projectName = project && project.name ? project.name : null
     return (
         <IonItemSliding class={`status-${timeEntry.status}`} ref={ionItemSlidingRef}>
             <IonItem>
                 <IonLabel>
-                    <h3>{timeEntry.title}</h3>
+                    <h3>
+                        {timeEntry.title} - {projectName}
+                    </h3>
                     <p>
                         {startDate.format('MMM D, YYYY h:mm A')}&mdash;&nbsp;
                         {endDate.format('MMM D, YYYY h:mm A')}

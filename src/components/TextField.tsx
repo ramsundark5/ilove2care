@@ -10,7 +10,6 @@ export interface TexFieldProps {
     label?: string
     rules?: any
     type?: 'password' | 'text'
-    currentValue?: string
     errors?: DeepMap<Record<string, any>, FieldError>
 }
 

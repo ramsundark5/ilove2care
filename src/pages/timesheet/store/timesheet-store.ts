@@ -50,6 +50,7 @@ export default class TimesheetStore {
             timeEntryToUpdate.start = updatedTimeEntry.start
             timeEntryToUpdate.end = updatedTimeEntry.end
             timeEntryToUpdate.note = updatedTimeEntry.note || ''
+            timeEntryToUpdate.projectId = updatedTimeEntry.projectId
             timeEntryToUpdate.updated = new Date()
             this.timesheetDao.save(timeEntryToUpdate)
         }

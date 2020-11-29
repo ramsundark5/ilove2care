@@ -26,4 +26,9 @@ export default class ProjectStore {
         })
         return true
     }
+
+    findById = (id: string) => {
+        const matchedProject = this.list.find((indexTimeEntry) => indexTimeEntry.id === id)
+        return matchedProject
+    }
 }

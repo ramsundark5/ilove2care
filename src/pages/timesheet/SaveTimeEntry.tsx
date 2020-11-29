@@ -83,7 +83,6 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
                 <form onSubmit={handleSubmit(saveTimeEntry)}>
                     <TextField
                         control={control}
-                        currentValue={existingTimeEntry?.title}
                         errors={errors}
                         key='title'
                         label='Title'
@@ -93,7 +92,6 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
 
                     <SelectField
                         control={control}
-                        currentValue={existingTimeEntry?.projectId}
                         errors={errors}
                         key='projectId'
                         label='Project'
@@ -103,7 +101,6 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
 
                     <DateField
                         control={control}
-                        currentValue={existingTimeEntry?.start}
                         errors={errors}
                         key='startTime'
                         label='Start Time'
@@ -112,7 +109,6 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
 
                     <DateField
                         control={control}
-                        currentValue={existingTimeEntry?.end}
                         errors={errors}
                         key='endTime'
                         label='End Time'
@@ -120,7 +116,6 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
                     />
                     <TextArea
                         control={control}
-                        currentValue={existingTimeEntry?.note}
                         errors={errors}
                         key='note'
                         label='Note'
