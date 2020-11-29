@@ -1,7 +1,7 @@
 import { configure } from 'mobx'
 
 import AuthStore from '../pages/auth/auth-store'
-import TimeEntryList from '../pages/timesheet/timeentry-list-store'
+import TimeEntryList from '../pages/timesheet/store/timeentry-list-store'
 
 configure({ enforceActions: 'observed' }) // action 밖에서 state 수정 비허용
 

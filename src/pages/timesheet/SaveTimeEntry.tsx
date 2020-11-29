@@ -12,7 +12,7 @@ import TextField from '../../components/TextField'
 import ToolBar from '../../components/ToolBar'
 import { useStore } from '../../hooks/use-store'
 import log from '../../logger'
-import { ITimeEntry } from './timeentry-item-store'
+import { ITimeEntry } from './store/timeentry-item-store'
 
 interface SaveTimeEntryProps
     extends RouteComponentProps<{

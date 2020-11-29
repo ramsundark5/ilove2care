@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite'
 
 import { useStore } from '../../hooks/use-store'
 import log from '../../logger'
-import { ITimeEntry } from './timeentry-item-store'
+import { ITimeEntry } from './store/timeentry-item-store'
 import { TimeEntryItem } from './TimeEntryItem'
 
 export const TimeEntryList: React.FC = observer(() => {
@@ -15,8 +15,7 @@ export const TimeEntryList: React.FC = observer(() => {
 
     useEffect(() => {
         if (!didLoad) {
-            timeEntryList.loadData().then((results) => {
-                timeEntryList.list = (results as unknown) as ITimeEntry[]
+            timeEntryList.loadData().then(() => {
                 setDidLoad(true)
                 log.info('loaded timesheet data from server')
             })

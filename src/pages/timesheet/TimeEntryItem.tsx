@@ -13,7 +13,7 @@ import { pencilOutline, trashOutline } from 'ionicons/icons'
 
 import { useStore } from '../../hooks/use-store'
 import DeleteTimesheetAlert from './DeleteTimesheetAlert'
-import { ITimeEntry } from './timeentry-item-store'
+import { ITimeEntry } from './store/timeentry-item-store'
 
 interface TimeEntryItemProps {
     timeEntry: ITimeEntry

@@ -1,28 +1,36 @@
 /* eslint-disable no-param-reassign */
 import dayjs from 'dayjs'
-import { makeAutoObservable } from 'mobx'
+import { makeAutoObservable, runInAction } from 'mobx'
 import { v4 as uuidv4 } from 'uuid'
 
-import FirebaseService from '../../services/FirebaseService'
+import FirebaseService from '../../../services/FirebaseService'
 import { ITimeEntry } from './timeentry-item-store'
+import TimesheetService from './TimesheetService'
 
-const TIME_ENTRY_COLLECTION = 'timesheet'
 export default class TimeEntryList {
     list: ITimeEntry[] = []
 
     query = ''
 
-    db: FirebaseService
+    timesheetService: TimesheetService
+
+    firebaseService: FirebaseService
 
     constructor() {
         makeAutoObservable(this)
-        this.db = new FirebaseService()
+        this.timesheetService = new TimesheetService()
+        this.firebaseService = new FirebaseService()
     }
 
-    loadData = () => this.db.getAll({ collection: TIME_ENTRY_COLLECTION })
+    loadData = async () => {
+        const results = await this.timesheetService.getAll()
+        runInAction(() => {
+            this.list = (results as unknown) as ITimeEntry[]
+        })
+    }
 
-    addTimeEntry = (timeEntry: ITimeEntry): void => {
-        const currentUserId = this.db.getCurrentUserId()
+    addTimeEntry = async (timeEntry: ITimeEntry) => {
+        const currentUserId = this.firebaseService.getCurrentUserId()
         if (!currentUserId) {
             return
         }
@@ -31,12 +39,8 @@ export default class TimeEntryList {
         timeEntry.userId = currentUserId
         timeEntry.created = new Date()
         timeEntry.updated = new Date()
+        await this.timesheetService.save(timeEntry)
         this.list.push(timeEntry)
-        this.list = this.list.sort((a, b) => a.start.getTime() - b.start.getTime())
-        this.db.saveObjectToCollection({
-            collection: TIME_ENTRY_COLLECTION,
-            objectData: timeEntry,
-        })
     }
 
     updateTimeEntry = (updatedTimeEntry: ITimeEntry, id: string): void => {
@@ -47,10 +51,7 @@ export default class TimeEntryList {
             timeEntryToUpdate.end = updatedTimeEntry.end
             timeEntryToUpdate.note = updatedTimeEntry.note || ''
             timeEntryToUpdate.updated = new Date()
-            this.db.saveObjectToCollection({
-                collection: TIME_ENTRY_COLLECTION,
-                objectData: timeEntryToUpdate,
-            })
+            this.timesheetService.save(timeEntryToUpdate)
         }
     }
 
@@ -59,15 +60,14 @@ export default class TimeEntryList {
             this.list.findIndex((indexTimeEntry) => indexTimeEntry.id === timeEntry.id),
             1
         )
-        this.db.removeObjectFromCollection({
-            collection: TIME_ENTRY_COLLECTION,
-            objectId: timeEntry.id,
-        })
+        this.timesheetService.remove(timeEntry.id)
     }
 
     get groupByMonth() {
+        // first sort the list
+        const sortedList = [...this.list].sort((a, b) => a.start.getTime() - b.start.getTime())
         const groupedTimeEntries: any = {}
-        this.list.forEach((timeEntry) => {
+        sortedList.forEach((timeEntry) => {
             const monthName: string = dayjs(timeEntry.start).format('MMM YYYY')
             const byMonthItem: ITimeEntry[] = groupedTimeEntries[monthName] || []
             byMonthItem.push(timeEntry)
