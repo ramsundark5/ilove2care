@@ -13,6 +13,9 @@ service cloud.firestore {
     match /users/{userId}/timesheets/{timesheetId} {
       allow create, read, update, delete: if request.auth.uid == userId;
     }
+    match /projects/{projectId} {
+      allow read: if request.auth != null;
+    }
     // Make sure the uid of the requesting user matches name of the user
     // document.
     match /timesheet/{timesheetId} {

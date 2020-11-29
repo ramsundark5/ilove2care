@@ -30,3 +30,7 @@ yarn-error.log*
 ios/
 android/
 .gradle/
+hosting
+
+# firebase
+.firebase

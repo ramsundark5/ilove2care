@@ -16,15 +16,15 @@
     }
 
     ion-item-sliding.status-Pending ion-label {
-        border-left: 2px solid var(--ion-color-warning);
+        border-left: 2px solid #ffc409;
         padding-left: 10px;
     }
     ion-item-sliding.status-Approved ion-label {
-        border-left: 2px solid var(--ion-color-success);
+        border-left: 2px solid #2dd36f;
         padding-left: 10px;
     }
     ion-item-sliding.status-Rejected ion-label {
-        border-left: 2px solid var(--ion-color-danger);
+        border-left: 2px solid #eb445a;
         padding-left: 10px;
     }
 }

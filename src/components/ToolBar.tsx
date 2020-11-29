@@ -16,7 +16,7 @@ const ToolBar: FC<ToolBarProps> = ({ showBackButton = true, backHref, title = ''
                     <IonBackButton defaultHref={backHref} />
                 </IonButtons>
             )}
-            <IonTitle class='ion-text-center'>{title}</IonTitle>
+            <IonTitle color='primary'>{title}</IonTitle>
         </IonToolbar>
     </IonHeader>
 )
