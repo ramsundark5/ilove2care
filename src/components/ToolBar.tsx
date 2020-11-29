@@ -10,13 +10,13 @@ export interface ToolBarProps {
 
 const ToolBar: FC<ToolBarProps> = ({ showBackButton = true, backHref, title = '' }) => (
     <IonHeader>
-        <IonToolbar>
+        <IonToolbar color='primary'>
             {showBackButton && (
                 <IonButtons slot='start'>
                     <IonBackButton defaultHref={backHref} />
                 </IonButtons>
             )}
-            <IonTitle color='primary'>{title}</IonTitle>
+            <IonTitle>{title}</IonTitle>
         </IonToolbar>
     </IonHeader>
 )
