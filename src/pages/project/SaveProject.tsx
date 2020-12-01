@@ -8,6 +8,7 @@ import { IonButton, IonContent, IonPage } from '@ionic/react'
 import { date, object, string } from 'yup'
 
 import DateField from '../../components/DateField'
+import InputTagField from '../../components/InputTagField'
 import SelectField, { SelectFieldOptionProps } from '../../components/SelectField'
 import TextArea from '../../components/TextArea'
 import TextField from '../../components/TextField'
@@ -24,7 +25,7 @@ interface SaveProjectProps
 const SaveTimeEntry: React.FC<SaveProjectProps> = ({ history, match }) => {
     const { projectStore } = useStore()
     const existingProject = projectStore.list.find((item) => item.id === match.params.id)
-    const statusOptions = [
+    const statusOptions: SelectFieldOptionProps[] = [
         {
             label: 'Pending',
             value: 'pending',
@@ -42,6 +43,7 @@ const SaveTimeEntry: React.FC<SaveProjectProps> = ({ history, match }) => {
             value: 'hold',
         },
     ]
+
     const save = (project: IProject) => {
         try {
             if (existingProject && existingProject.id) {
@@ -61,6 +63,7 @@ const SaveTimeEntry: React.FC<SaveProjectProps> = ({ history, match }) => {
         end: date(),
         description: string(),
         status: string(),
+        user: string().email(),
     })
     const { control, handleSubmit, errors } = useForm({
         resolver: yupResolver(validationSchema),
@@ -70,6 +73,7 @@ const SaveTimeEntry: React.FC<SaveProjectProps> = ({ history, match }) => {
             start: existingProject?.start?.toISOString() || null,
             end: existingProject?.end?.toISOString() || null,
             status: existingProject?.status,
+            users: existingProject?.users || ['1@gmail.com', '2@gmail.com'],
         },
     })
 
@@ -96,11 +100,20 @@ const SaveTimeEntry: React.FC<SaveProjectProps> = ({ history, match }) => {
                         options={statusOptions}
                     />
 
-                    <DateField
+                    <InputTagField
                         control={control}
                         errors={errors}
+                        key='users'
+                        label='Add User'
+                        name='users'
+                    />
+
+                    <DateField
+                        control={control}
+                        displayFormat='MMM D, YYYY'
+                        errors={errors}
                         key='startTime'
-                        label='Start Time'
+                        label='Start Date'
                         name='start'
                     />
 
@@ -108,7 +121,7 @@ const SaveTimeEntry: React.FC<SaveProjectProps> = ({ history, match }) => {
                         control={control}
                         errors={errors}
                         key='endTime'
-                        label='End Time'
+                        label='End Date'
                         name='end'
                     />
                     <TextArea

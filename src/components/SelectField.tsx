@@ -27,7 +27,7 @@ const SelectField: FC<SelectFieldProps> = ({ name, control, options, label, erro
                 defaultValue=''
                 name={name}
                 render={({ onChange, value }) => (
-                    <IonSelect onIonChange={onChange} placeholder='Select One' value={value}>
+                    <IonSelect onIonChange={onChange} value={value}>
                         {options.map((option: any) => (
                             <IonSelectOption key={option.value} value={option.value}>
                                 {option.label}

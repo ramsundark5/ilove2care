@@ -9,7 +9,7 @@ export interface TexFieldProps {
     control?: Control
     label?: string
     rules?: any
-    type?: 'password' | 'text'
+    type?: 'password' | 'text' | 'email'
     errors?: DeepMap<Record<string, any>, FieldError>
 }
 
