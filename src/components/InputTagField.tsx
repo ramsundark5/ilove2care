@@ -25,6 +25,13 @@ const InputTagField: FC<InputTagFieldProps> = ({ name, control, label, errors })
         }
     }
 
+    const onDeleteTag = (tag: any, tagList: any) => {
+        const updatedTagList = [...tagList]
+        const deleteIndex = updatedTagList.indexOf(tag)
+        updatedTagList.splice(deleteIndex, 1)
+        control?.setValue(name, updatedTagList)
+    }
+
     return (
         <IonItem>
             <div>
@@ -39,13 +46,17 @@ const InputTagField: FC<InputTagFieldProps> = ({ name, control, label, errors })
                                 onIonChange={(e) => setTag(e.detail.value ?? '')}
                                 onKeyDown={(e) => onAddTag(e, value)}
                                 type='text'
+                                value={newTag}
                             />
                             {value &&
                                 value.map &&
                                 value.map((tag: any) => (
-                                    <IonChip>
+                                    <IonChip key={tag}>
                                         <IonLabel>{tag}</IonLabel>
-                                        <IonIcon icon={closeCircleOutline} />
+                                        <IonIcon
+                                            icon={closeCircleOutline}
+                                            onClick={() => onDeleteTag(tag, value)}
+                                        />
                                     </IonChip>
                                 ))}
                         </>

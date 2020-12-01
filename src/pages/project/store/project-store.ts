@@ -56,16 +56,17 @@ export default class ProjectStore {
             projectToUpdate.name = updatedProject.name
             projectToUpdate.description = updatedProject.description
             projectToUpdate.status = updatedProject.status
+            projectToUpdate.users = updatedProject.users
             projectToUpdate.updated = new Date()
             this.projectDao.save(projectToUpdate)
         }
     }
 
-    remove = (project: IProject): void => {
+    archive = (project: IProject): void => {
         this.list.splice(
             this.list.findIndex((indexEntry) => indexEntry.id === project.id),
             1
         )
-        this.projectDao.remove(project.id)
+        this.projectDao.archive(project.id)
     }
 }

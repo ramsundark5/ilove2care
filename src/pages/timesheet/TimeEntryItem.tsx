@@ -32,7 +32,7 @@ export const TimeEntryItem = ({ timeEntry }: TimeEntryItemProps) => {
     const projectName = project && project.name ? project.name : null
     return (
         <IonItemSliding class={`status-${timeEntry.status}`} ref={ionItemSlidingRef}>
-            <IonItem>
+            <IonItem routerLink={`/tabs/timesheet/save/${timeEntry.id}`}>
                 <IonLabel>
                     <h3>
                         {timeEntry.title} - {projectName}

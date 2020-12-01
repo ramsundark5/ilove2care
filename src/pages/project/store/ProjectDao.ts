@@ -27,10 +27,9 @@ export default class ProjectDao {
 
     getAll = async () => {
         const results: IProject[] = []
-        // const currentUserId = this.firebaseService.getCurrentUserId()
         try {
             const querySnapshot = await this.getCollectionRef()
-                // .where('userId', '==', currentUserId)
+                .where('status', '!=', 'archived')
                 .get()
             querySnapshot.forEach((doc) => {
                 // doc.data() is never undefined for query doc snapshots
@@ -57,9 +56,11 @@ export default class ProjectDao {
         }
     }
 
-    remove = async (projectId: string) => {
+    archive = async (projectId: string) => {
         try {
-            await this.getCollectionRef().doc(projectId).delete()
+            await this.getCollectionRef().doc(projectId).update({
+                status: 'archived',
+            })
             return true
         } catch (error) {
             log.error(`ERROR deleting project ${error}`)

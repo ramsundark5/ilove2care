@@ -2,20 +2,20 @@ import React from 'react'
 
 import { IonAlert } from '@ionic/react'
 
-interface DeleteTimesheetAlertProps {
+interface ArchiveProjectAlertProps {
     confirmationAction: any
     cancelAction: any
     showAlert: boolean
 }
 
-const DeleteTimesheetAlert: React.FC<DeleteTimesheetAlertProps> = ({
+const ArchiveProjectAlert: React.FC<ArchiveProjectAlertProps> = ({
     confirmationAction,
     cancelAction,
     showAlert,
 }) => {
     const alertButtons = [
         {
-            text: 'Delete',
+            text: 'Archive',
             handler: confirmationAction,
         },
         {
@@ -27,11 +27,11 @@ const DeleteTimesheetAlert: React.FC<DeleteTimesheetAlertProps> = ({
     return (
         <IonAlert
             buttons={alertButtons}
-            header='Delete Time entry'
+            header='Archive Project'
             isOpen={showAlert}
-            message='Are you sure you want to delete this entry?'
+            message='Are you sure you want to archive this project?'
         />
     )
 }
 
-export default DeleteTimesheetAlert
+export default ArchiveProjectAlert

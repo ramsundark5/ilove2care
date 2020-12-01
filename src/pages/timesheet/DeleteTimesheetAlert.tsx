@@ -2,13 +2,13 @@ import React from 'react'
 
 import { IonAlert } from '@ionic/react'
 
-interface DeleteProjectAlertProps {
+interface DeleteTimesheetAlertProps {
     confirmationAction: any
     cancelAction: any
     showAlert: boolean
 }
 
-const DeleteProjectAlert: React.FC<DeleteProjectAlertProps> = ({
+const DeleteTimesheetAlert: React.FC<DeleteTimesheetAlertProps> = ({
     confirmationAction,
     cancelAction,
     showAlert,
@@ -34,4 +34,4 @@ const DeleteProjectAlert: React.FC<DeleteProjectAlertProps> = ({
     )
 }
 
-export default DeleteProjectAlert
+export default DeleteTimesheetAlert

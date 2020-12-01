@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 
 import {
+    IonChip,
     IonIcon,
     IonItem,
     IonItemOption,
@@ -8,11 +9,10 @@ import {
     IonItemSliding,
     IonLabel,
 } from '@ionic/react'
-import dayjs from 'dayjs'
-import { pencilOutline, trashOutline } from 'ionicons/icons'
+import { archiveOutline, pencilOutline } from 'ionicons/icons'
 
 import { useStore } from '../../hooks/use-store'
-import DeleteProjectAlert from './DeleteProjectAlert'
+import ArchiveProjectAlert from './ArchiveProjectAlert'
 import { IProject } from './models/IProject'
 
 interface ProjectItemProps {
@@ -26,25 +26,31 @@ export const ProjectItem = ({ project }: ProjectItemProps) => {
 
     return (
         <IonItemSliding class={`status-${project.status}`} ref={ionItemSlidingRef}>
-            <IonItem>
+            <IonItem routerLink={`/tabs/project/save/${project.id}`}>
                 <IonLabel>
                     <h3>{project.name}</h3>
                     <p>{project.description}</p>
+                    <p>
+                        Team:{' '}
+                        {project.users.map((user) => (
+                            <IonChip>{user}</IonChip>
+                        ))}
+                    </p>
                 </IonLabel>
             </IonItem>
             <IonItemOptions side='end'>
-                <IonItemOption color='primary' routerLink={`/tabs/project/save/${project.id}`}>
+                <IonItemOption color='primary'>
                     <IonIcon icon={pencilOutline} slot='icon-only' />
                 </IonItemOption>
                 <IonItemOption color='danger' onClick={() => setShowAlert(true)}>
-                    <IonIcon icon={trashOutline} slot='icon-only' />
+                    <IonIcon icon={archiveOutline} slot='icon-only' />
                 </IonItemOption>
             </IonItemOptions>
-            <DeleteProjectAlert
+            <ArchiveProjectAlert
                 cancelAction={() => setShowAlert(false)}
                 confirmationAction={() => {
                     setShowAlert(false)
-                    projectStore.remove(project)
+                    projectStore.archive(project)
                 }}
                 showAlert={showAlert}
             />

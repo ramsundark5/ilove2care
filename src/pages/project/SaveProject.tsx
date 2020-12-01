@@ -73,7 +73,7 @@ const SaveTimeEntry: React.FC<SaveProjectProps> = ({ history, match }) => {
             start: existingProject?.start?.toISOString() || null,
             end: existingProject?.end?.toISOString() || null,
             status: existingProject?.status,
-            users: existingProject?.users || ['1@gmail.com', '2@gmail.com'],
+            users: existingProject?.users || [],
         },
     })
 
@@ -104,7 +104,7 @@ const SaveTimeEntry: React.FC<SaveProjectProps> = ({ history, match }) => {
                         control={control}
                         errors={errors}
                         key='users'
-                        label='Add User'
+                        label='Members'
                         name='users'
                     />
 
