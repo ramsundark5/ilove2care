@@ -3,7 +3,7 @@ import React from 'react'
 import { IonButton, IonContent, IonPage } from '@ionic/react'
 
 import ToolBar from '../../components/ToolBar'
-import { TimeEntryList } from './TimeEntryList'
+import TimeEntryList from './TimeEntryList'
 import './Timesheet.scss'
 
 const TimeSheet: React.FC = () => (

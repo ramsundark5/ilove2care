@@ -12,7 +12,6 @@ import {
     IonListHeader,
     IonMenu,
     IonMenuToggle,
-    IonNote,
 } from '@ionic/react'
 import {
     calendarOutline,
@@ -20,6 +19,7 @@ import {
     informationCircleOutline,
     logOutOutline,
     personOutline,
+    readerOutline,
 } from 'ionicons/icons'
 
 import { useStore } from '../../hooks/use-store'
@@ -52,6 +52,12 @@ const appPages = {
             path: '/tabs/timesheet',
             iosIcon: calendarOutline,
             mdIcon: calendarOutline,
+        },
+        {
+            title: 'Project',
+            path: '/tabs/project',
+            iosIcon: readerOutline,
+            mdIcon: readerOutline,
         },
         {
             title: 'Profile',
@@ -95,11 +101,7 @@ const Menu: React.FC = () => {
         <IonMenu contentId='menu' type='overlay'>
             <IonContent forceOverscroll={false}>
                 <IonList lines='none'>
-                    <IonListHeader>Inbox</IonListHeader>
-                    <IonNote>hi user</IonNote>
-                </IonList>
-                <IonList lines='none'>
-                    <IonListHeader>Conference</IonListHeader>
+                    <IonListHeader>General</IonListHeader>
                     {renderlistItems(appPages.publicPages)}
                 </IonList>
                 <IonList lines='none'>

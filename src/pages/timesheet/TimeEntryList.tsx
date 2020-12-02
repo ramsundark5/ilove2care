@@ -8,7 +8,7 @@ import log from '../../logger'
 import { ITimeEntry } from './models/ITimeEntry'
 import { TimeEntryItem } from './TimeEntryItem'
 
-export const TimeEntryList: React.FC = observer(() => {
+const TimeEntryList: React.FC = () => {
     const { timesheetStore } = useStore()
     const [didLoad, setDidLoad] = useState<boolean>(false)
     const groupedTimeEntries: Map<string, ITimeEntry> = timesheetStore.groupByMonth
@@ -42,4 +42,6 @@ export const TimeEntryList: React.FC = observer(() => {
             ))}
         </>
     )
-})
+}
+
+export default observer(TimeEntryList)

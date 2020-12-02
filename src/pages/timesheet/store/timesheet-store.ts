@@ -43,7 +43,7 @@ export default class TimesheetStore {
         this.list.push(timeEntry)
     }
 
-    updateTimeEntry = (updatedTimeEntry: ITimeEntry, id: string): void => {
+    updateTimeEntry = async (updatedTimeEntry: ITimeEntry, id: string) => {
         const timeEntryToUpdate = this.list.find((indexTimeEntry) => indexTimeEntry.id === id)
         if (timeEntryToUpdate) {
             timeEntryToUpdate.title = updatedTimeEntry.title
@@ -52,7 +52,7 @@ export default class TimesheetStore {
             timeEntryToUpdate.note = updatedTimeEntry.note || ''
             timeEntryToUpdate.projectId = updatedTimeEntry.projectId
             timeEntryToUpdate.updated = new Date()
-            this.timesheetDao.save(timeEntryToUpdate)
+            await this.timesheetDao.save(timeEntryToUpdate)
         }
     }
 

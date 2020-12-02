@@ -50,7 +50,7 @@ export default class ProjectStore {
         this.list.push(project)
     }
 
-    update = (updatedProject: IProject, id: string): void => {
+    updateProject = (updatedProject: IProject, id: string) => {
         const projectToUpdate = this.list.find((indexEntry) => indexEntry.id === id)
         if (projectToUpdate) {
             projectToUpdate.name = updatedProject.name

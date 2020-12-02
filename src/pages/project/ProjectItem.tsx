@@ -33,7 +33,7 @@ export const ProjectItem = ({ project }: ProjectItemProps) => {
                     <p>
                         Team:{' '}
                         {project.users.map((user) => (
-                            <IonChip>{user}</IonChip>
+                            <IonChip key={user}>{user}</IonChip>
                         ))}
                     </p>
                 </IonLabel>

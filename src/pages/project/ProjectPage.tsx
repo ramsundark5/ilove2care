@@ -3,12 +3,12 @@ import React from 'react'
 import { IonButton, IonContent, IonPage } from '@ionic/react'
 
 import ToolBar from '../../components/ToolBar'
-import { ProjectList } from './ProjectList'
+import ProjectList from './ProjectList'
 import './Project.scss'
 
 const ProjectPage: React.FC = () => (
-    <IonPage id='timesheet-page'>
-        <ToolBar showBackButton={false} title='TimeSheet' />
+    <IonPage id='project-page'>
+        <ToolBar showBackButton={false} title='Project' />
         <IonContent>
             <ProjectList />
             <IonButton

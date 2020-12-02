@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite'
 import { useStore } from '../../hooks/use-store'
 import { ProjectItem } from './ProjectItem'
 
-export const ProjectList: React.FC = observer(() => {
+const ProjectList: React.FC = () => {
     const { projectStore } = useStore()
     return (
         <>
@@ -14,4 +14,5 @@ export const ProjectList: React.FC = observer(() => {
             ))}
         </>
     )
-})
+}
+export default observer(ProjectList)

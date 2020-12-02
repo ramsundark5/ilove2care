@@ -22,7 +22,7 @@ interface SaveProjectProps
         id: string
     }> {}
 
-const SaveTimeEntry: React.FC<SaveProjectProps> = ({ history, match }) => {
+const SaveProject: React.FC<SaveProjectProps> = ({ history, match }) => {
     const { projectStore } = useStore()
     const existingProject = projectStore.list.find((item) => item.id === match.params.id)
     const statusOptions: SelectFieldOptionProps[] = [
@@ -47,7 +47,7 @@ const SaveTimeEntry: React.FC<SaveProjectProps> = ({ history, match }) => {
     const save = (project: IProject) => {
         try {
             if (existingProject && existingProject.id) {
-                projectStore.update(project, existingProject.id)
+                projectStore.updateProject(project, existingProject.id)
             } else {
                 projectStore.add(project)
             }
@@ -59,8 +59,8 @@ const SaveTimeEntry: React.FC<SaveProjectProps> = ({ history, match }) => {
 
     const validationSchema = object().shape({
         name: string().required(),
-        start: date(),
-        end: date(),
+        start: date().nullable().default(undefined),
+        end: date().nullable().default(undefined),
         description: string(),
         status: string(),
         user: string().email(),
@@ -140,4 +140,4 @@ const SaveTimeEntry: React.FC<SaveProjectProps> = ({ history, match }) => {
     )
 }
 
-export default SaveTimeEntry
+export default SaveProject
