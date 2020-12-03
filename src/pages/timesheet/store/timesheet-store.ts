@@ -16,6 +16,8 @@ export default class TimesheetStore {
 
     firebaseService: FirebaseService
 
+    initialized = false
+
     constructor() {
         makeAutoObservable(this)
         this.timesheetDao = new TimesheetDao()
@@ -26,6 +28,7 @@ export default class TimesheetStore {
         const results = await this.timesheetDao.getAll()
         runInAction(() => {
             this.list = results
+            this.initialized = true
         })
     }
 
@@ -39,11 +42,9 @@ export default class TimesheetStore {
         timeEntry.userId = currentUserId
         timeEntry.created = new Date()
         timeEntry.updated = new Date()
-        if (!timeEntry.id) {
-            timeEntry.id = uuidv4()
-            this.timesheetDao.save(timeEntry)
-        }
+        timeEntry.id = uuidv4()
         this.list.push(timeEntry)
+        this.timesheetDao.save(timeEntry)
     }
 
     updateTimeEntry = (updatedTimeEntry: ITimeEntry, id: string) => {

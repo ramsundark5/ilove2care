@@ -52,6 +52,7 @@ export default class TimesheetDao {
                     ...convertTimestamps(doc.data()),
                 })
             })
+            log.info('loaded timesheet list into store')
             return results
         } catch (error) {
             log.error(`Error getting timesheet list ${error}`)

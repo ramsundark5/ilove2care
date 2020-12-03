@@ -1,3 +1,4 @@
+import firebase from 'firebase/app'
 import { configure } from 'mobx'
 
 import AuthStore from '../pages/auth/auth-store'
@@ -20,7 +21,12 @@ class RootStore {
     }
 
     init() {
-        this.projectStore.loadData()
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.projectStore.loadData()
+                this.timesheetStore.loadData()
+            }
+        })
     }
 }
 

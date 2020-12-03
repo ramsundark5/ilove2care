@@ -1,27 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
-import { IonItemDivider, IonItemGroup, IonLabel } from '@ionic/react'
+import { IonItemDivider, IonItemGroup, IonLabel, IonLoading } from '@ionic/react'
 import { observer } from 'mobx-react-lite'
 
 import { useStore } from '../../hooks/use-store'
-import log from '../../logger'
 import { ITimeEntry } from './models/ITimeEntry'
 import { TimeEntryItem } from './TimeEntryItem'
 
 const TimeEntryList: React.FC = () => {
     const { timesheetStore } = useStore()
-    const [didLoad, setDidLoad] = useState<boolean>(false)
     const groupedTimeEntries: Map<string, ITimeEntry> = timesheetStore.groupByMonth
-
-    useEffect(() => {
-        if (!didLoad) {
-            timesheetStore.loadData().then(() => {
-                setDidLoad(true)
-                log.info('loaded timesheet data from server')
-            })
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [didLoad])
 
     const renderTimeEntryItem = (timeEntries: ITimeEntry[]) => (
         <>
@@ -40,6 +28,7 @@ const TimeEntryList: React.FC = () => {
                     {renderTimeEntryItem(timeEntries)}
                 </IonItemGroup>
             ))}
+            <IonLoading isOpen={!timesheetStore.initialized} />
         </>
     )
 }

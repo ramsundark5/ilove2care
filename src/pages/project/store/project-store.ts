@@ -15,6 +15,8 @@ export default class ProjectStore {
 
     firebaseService: FirebaseService
 
+    initialized = false
+
     constructor() {
         makeAutoObservable(this)
         this.projectDao = new ProjectDao()
@@ -28,6 +30,7 @@ export default class ProjectStore {
         }
         runInAction(() => {
             this.list = results
+            this.initialized = true
         })
         return true
     }
@@ -44,11 +47,9 @@ export default class ProjectStore {
         }
         project.created = new Date()
         project.updated = new Date()
-        if (!project.id) {
-            project.id = uuidv4()
-            this.projectDao.save(project)
-        }
+        project.id = uuidv4()
         this.list.push(project)
+        this.projectDao.save(project)
     }
 
     updateProject = (updatedProject: IProject, id: string) => {

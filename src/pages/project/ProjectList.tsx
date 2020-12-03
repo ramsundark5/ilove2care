@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { IonLoading } from '@ionic/react'
 import { observer } from 'mobx-react-lite'
 
 import { useStore } from '../../hooks/use-store'
@@ -12,6 +13,7 @@ const ProjectList: React.FC = () => {
             {projectStore.list.map((project) => (
                 <ProjectItem key={project.id} project={project} />
             ))}
+            <IonLoading isOpen={!projectStore.initialized} />
         </>
     )
 }
