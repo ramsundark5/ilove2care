@@ -25,16 +25,16 @@ export const ProjectItem = ({ project }: ProjectItemProps) => {
     const { projectStore } = useStore()
 
     return (
-        <IonItemSliding class={`status-${project.status}`} ref={ionItemSlidingRef}>
+        <IonItemSliding ref={ionItemSlidingRef}>
             <IonItem routerLink={`/tabs/project/save/${project.id}`}>
                 <IonLabel>
                     <h3>{project.name}</h3>
                     <p>{project.description}</p>
                     <p>
                         Team:{' '}
-                        {project.users.map((user) => (
-                            <IonChip key={user}>{user}</IonChip>
-                        ))}
+                        {project.users &&
+                            project.users.map &&
+                            project.users.map((user) => <IonChip key={user}>{user}</IonChip>)}
                     </p>
                 </IonLabel>
             </IonItem>

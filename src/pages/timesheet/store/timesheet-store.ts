@@ -29,7 +29,7 @@ export default class TimesheetStore {
         })
     }
 
-    addTimeEntry = async (timeEntry: ITimeEntry) => {
+    addTimeEntry = (timeEntry: ITimeEntry) => {
         const currentUserId = this.firebaseService.getCurrentUserId()
         if (!currentUserId) {
             return
@@ -39,11 +39,14 @@ export default class TimesheetStore {
         timeEntry.userId = currentUserId
         timeEntry.created = new Date()
         timeEntry.updated = new Date()
-        await this.timesheetDao.save(timeEntry)
+        if (!timeEntry.id) {
+            timeEntry.id = uuidv4()
+            this.timesheetDao.save(timeEntry)
+        }
         this.list.push(timeEntry)
     }
 
-    updateTimeEntry = async (updatedTimeEntry: ITimeEntry, id: string) => {
+    updateTimeEntry = (updatedTimeEntry: ITimeEntry, id: string) => {
         const timeEntryToUpdate = this.list.find((indexTimeEntry) => indexTimeEntry.id === id)
         if (timeEntryToUpdate) {
             timeEntryToUpdate.title = updatedTimeEntry.title
@@ -52,7 +55,7 @@ export default class TimesheetStore {
             timeEntryToUpdate.note = updatedTimeEntry.note || ''
             timeEntryToUpdate.projectId = updatedTimeEntry.projectId
             timeEntryToUpdate.updated = new Date()
-            await this.timesheetDao.save(timeEntryToUpdate)
+            this.timesheetDao.save(timeEntryToUpdate)
         }
     }
 

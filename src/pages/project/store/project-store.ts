@@ -37,28 +37,33 @@ export default class ProjectStore {
         return matchedProject
     }
 
-    add = async (project: IProject) => {
+    add = (project: IProject) => {
         const currentUserId = this.firebaseService.getCurrentUserId()
         if (!currentUserId) {
             return
         }
-        project.status = 'Active'
-        project.id = uuidv4()
         project.created = new Date()
         project.updated = new Date()
-        await this.projectDao.save(project)
+        if (!project.id) {
+            project.id = uuidv4()
+            this.projectDao.save(project)
+        }
         this.list.push(project)
     }
 
     updateProject = (updatedProject: IProject, id: string) => {
         const projectToUpdate = this.list.find((indexEntry) => indexEntry.id === id)
         if (projectToUpdate) {
-            projectToUpdate.name = updatedProject.name
-            projectToUpdate.description = updatedProject.description
-            projectToUpdate.status = updatedProject.status
-            projectToUpdate.users = updatedProject.users
-            projectToUpdate.updated = new Date()
-            this.projectDao.save(projectToUpdate)
+            const projectToUpdateClone = { ...projectToUpdate }
+            projectToUpdateClone.name = updatedProject.name
+            projectToUpdateClone.description = updatedProject.description
+            projectToUpdateClone.status = updatedProject.status
+            projectToUpdateClone.users = [...updatedProject.users]
+            projectToUpdateClone.updated = new Date()
+
+            const updateEntryIndex = this.list.findIndex((project) => project.id === id)
+            this.list[updateEntryIndex] = projectToUpdateClone
+            this.projectDao.save(projectToUpdateClone)
         }
     }
 
