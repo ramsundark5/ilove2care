@@ -70,9 +70,15 @@ export default class TimesheetStore {
 
     get groupByMonth() {
         // first sort the list
-        const sortedList = [...this.list].sort((a, b) => a.start.getTime() - b.start.getTime())
+        const paginationSize = 50
+        const sortedList = [...this.list].sort((a, b) => {
+            if (!a.start && b.start) return 1
+            if (a.start && !b.start) return -1
+            return a.start.getTime() - b.start.getTime()
+        })
+        const paginatedList = sortedList.slice(0, paginationSize)
         const groupedTimeEntries: any = {}
-        sortedList.forEach((timeEntry) => {
+        paginatedList.forEach((timeEntry) => {
             const monthName: string = dayjs(timeEntry.start).format('MMM YYYY')
             const byMonthItem: ITimeEntry[] = groupedTimeEntries[monthName] || []
             byMonthItem.push(timeEntry)

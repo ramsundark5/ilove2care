@@ -41,7 +41,7 @@ const Login: React.FC = () => {
         <IonPage id='welcome-page'>
             <IonHeader>
                 <IonToolbar color='primary'>
-                    <IonTitle className='text-center'>Welcome</IonTitle>
+                    <IonTitle className='text-center'>I love to care</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent className='ion-padding'>
@@ -52,17 +52,15 @@ const Login: React.FC = () => {
                 </IonRow>
                 <IonRow>
                     <IonCol className='text-center'>
-                        <IonText className='title'>Title</IonText>
+                        <IonText className='title'>Welcome to I love to care</IonText>
                     </IonCol>
                 </IonRow>
                 <IonRow>
                     <IonCol className='text-center'>
-                        <IonText className='text-center'>subtitle goes here</IonText>
-                    </IonCol>
-                </IonRow>
-                <IonRow>
-                    <IonCol className='text-center'>
-                        <IonText className='text-center'>Welcome content goes here</IonText>
+                        <IonText className='text-center'>
+                            Volunteer organization to promote, support and enhance social
+                            responsibilities and charitable works.
+                        </IonText>
                     </IonCol>
                 </IonRow>
                 <StyledFirebaseAuth firebaseAuth={firebase.auth()} uiConfig={uiConfig} />

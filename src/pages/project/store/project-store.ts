@@ -75,4 +75,16 @@ export default class ProjectStore {
         )
         this.projectDao.archive(project.id)
     }
+
+    get paginatedList() {
+        // first sort the list
+        const paginationSize = 50
+        const sortedList = [...this.list].sort((a, b) => {
+            if (!a.updated && b.updated) return 1
+            if (a.updated && !b.updated) return -1
+            return a.updated.getTime() - b.updated.getTime()
+        })
+        const paginatedList = sortedList.slice(0, paginationSize)
+        return paginatedList
+    }
 }
