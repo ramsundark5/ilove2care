@@ -59,11 +59,11 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
     }
 
     const validationSchema = object().shape({
-        title: string().required(),
-        start: date().required(),
-        end: date().required(),
+        title: string().required('Title is required'),
+        start: date().required('Start date and time is required'),
+        end: date().required('End date and time is required'),
         note: string(),
-        projectId: string().required(),
+        projectId: string().required('Project selection is required'),
     })
     const { control, handleSubmit, errors } = useForm({
         resolver: yupResolver(validationSchema),

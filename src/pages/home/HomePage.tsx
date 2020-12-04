@@ -1,12 +1,20 @@
 import React from 'react'
 import { Redirect, Route } from 'react-router-dom'
 
-import { IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/react'
+import { IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/react'
+import {
+    calendarOutline,
+    informationCircleOutline,
+    personOutline,
+    readerOutline,
+} from 'ionicons/icons'
 import { observer } from 'mobx-react-lite'
 
 import About from '../about/About'
-import ChangePassword from '../profile/ChangePassword'
-import ProfilePage from '../profile/ProfilePage'
+import AccountPage from '../account/AccountPage'
+import ChangePassword from '../account/ChangePassword'
+import SaveProfile from '../account/SaveProfile'
+import Skills from '../account/Skills'
 import ProjectPage from '../project/ProjectPage'
 import SaveProject from '../project/SaveProject'
 import SaveTimeEntry from '../timesheet/SaveTimeEntry'
@@ -22,8 +30,10 @@ const HomePage = () => (
             due to route changes. Use the component prop when your component depends on the
             RouterComponentProps passed in automatically.
             */}
-            <Route exact path='/tabs/profile/changePassword' render={() => <ChangePassword />} />
-            <Route exact path='/tabs/profile' render={() => <ProfilePage />} />
+            <Route exact path='/tabs/account/changePassword' render={() => <ChangePassword />} />
+            <Route exact path='/tabs/account/profile' render={() => <SaveProfile />} />
+            <Route exact path='/tabs/account/skills' render={() => <Skills />} />
+            <Route exact path='/tabs/account' render={() => <AccountPage />} />
 
             <Route
                 exact
@@ -48,18 +58,22 @@ const HomePage = () => (
 
         <IonTabBar slot='bottom'>
             <IonTabButton href='/tabs/timesheet' tab='Home'>
+                <IonIcon icon={calendarOutline} />
                 <IonLabel>Timesheet</IonLabel>
             </IonTabButton>
 
             <IonTabButton href='/tabs/project' tab='Project'>
+                <IonIcon icon={readerOutline} />
                 <IonLabel>Project</IonLabel>
             </IonTabButton>
 
-            <IonTabButton href='/tabs/profile' tab='Profile'>
-                <IonLabel>Profile</IonLabel>
+            <IonTabButton href='/tabs/account' tab='Account'>
+                <IonIcon icon={personOutline} />
+                <IonLabel>Account</IonLabel>
             </IonTabButton>
 
             <IonTabButton href='/tabs/about' tab='About'>
+                <IonIcon icon={informationCircleOutline} />
                 <IonLabel>About</IonLabel>
             </IonTabButton>
         </IonTabBar>

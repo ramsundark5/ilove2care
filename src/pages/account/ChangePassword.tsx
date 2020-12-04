@@ -16,10 +16,10 @@ const ChangePassword: React.FC = () => {
     const history = useHistory()
 
     const validationSchema = object().shape({
-        'New Password': string().required().min(8),
-        'Confirm Password': string()
-            .required()
-            .oneOf([ref('New Password')], 'Passwords must match'),
+        newpassword: string().required('New Password is required').min(8),
+        confirmpassword: string()
+            .required('Confirm Password is required')
+            .oneOf([ref('newpassword')], 'Passwords must match'),
     })
     const { control, handleSubmit, errors } = useForm({
         resolver: yupResolver(validationSchema),
@@ -27,12 +27,12 @@ const ChangePassword: React.FC = () => {
 
     const formFields: TexFieldProps[] = [
         {
-            name: 'New Password',
+            name: 'newpassword',
             type: 'password',
             label: 'New Password',
         },
         {
-            name: 'Confirm Password',
+            name: 'confirmpassword',
             type: 'password',
             label: 'Confirm Password',
         },

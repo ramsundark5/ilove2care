@@ -15,7 +15,6 @@ import {
 } from '@ionic/react'
 import {
     calendarOutline,
-    chatboxOutline,
     informationCircleOutline,
     logOutOutline,
     personOutline,
@@ -54,8 +53,8 @@ const appPages = {
             mdIcon: readerOutline,
         },
         {
-            title: 'Profile',
-            path: '/tabs/profile',
+            title: 'Account',
+            path: '/tabs/account',
             iosIcon: personOutline,
             mdIcon: personOutline,
         },

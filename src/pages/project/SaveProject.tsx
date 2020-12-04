@@ -58,7 +58,7 @@ const SaveProject: React.FC<SaveProjectProps> = ({ history, match }) => {
     }
 
     const validationSchema = object().shape({
-        name: string().required(),
+        name: string().required('Project name is required'),
         start: date().nullable().default(undefined),
         end: date().nullable().default(undefined),
         description: string(),

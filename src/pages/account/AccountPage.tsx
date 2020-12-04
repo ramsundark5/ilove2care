@@ -1,22 +1,12 @@
 import React from 'react'
-import { useHistory, useParams } from 'react-router'
+import { useHistory } from 'react-router'
 
-import {
-    IonButton,
-    IonContent,
-    IonHeader,
-    IonItem,
-    IonList,
-    IonPage,
-    IonTitle,
-    IonToolbar,
-} from '@ionic/react'
+import { IonButton, IonContent, IonItem, IonList, IonPage } from '@ionic/react'
 
 import ToolBar from '../../components/ToolBar'
 import { useStore } from '../../hooks/use-store'
 
-const Profile: React.FC = () => {
-    const { name } = useParams<{ name: string }>()
+const AccountPage: React.FC = () => {
     const { authStore } = useStore()
     const currentUser: any = authStore.user
     const history = useHistory()
@@ -26,24 +16,21 @@ const Profile: React.FC = () => {
     }
 
     return (
-        <IonPage id='profile-page'>
-            <ToolBar showBackButton={false} title='Profile' />
-
+        <IonPage id='account-page'>
+            <ToolBar showBackButton={false} title='Account' />
             <IonContent>
-                <IonHeader collapse='condense'>
-                    <IonToolbar>
-                        <IonTitle size='large'>{name}</IonTitle>
-                    </IonToolbar>
-                </IonHeader>
                 <IonList inset>
+                    <IonItem detail routerLink='/tabs/account/profile'>
+                        Profile
+                    </IonItem>
+                    <IonItem detail routerLink='/tabs/account/skills'>
+                        Skills
+                    </IonItem>
                     {currentUser && currentUser.providerData[0].providerId === 'password' && (
-                        <IonItem detail routerLink='/tabs/profile/changePassword'>
+                        <IonItem detail routerLink='/tabs/account/changePassword'>
                             Change Password
                         </IonItem>
                     )}
-                    <IonItem detail routerLink='/support'>
-                        Support
-                    </IonItem>
                 </IonList>
                 <IonButton className='ion-padding' color='primary' expand='block' onClick={logout}>
                     Logout
@@ -53,4 +40,4 @@ const Profile: React.FC = () => {
     )
 }
 
-export default Profile
+export default AccountPage
