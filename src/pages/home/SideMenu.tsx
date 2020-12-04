@@ -39,12 +39,6 @@ const appPages = {
             iosIcon: informationCircleOutline,
             mdIcon: informationCircleOutline,
         },
-        {
-            title: 'Support',
-            path: '/tabs/support',
-            iosIcon: chatboxOutline,
-            mdIcon: chatboxOutline,
-        },
     ],
     loggedInPages: [
         {

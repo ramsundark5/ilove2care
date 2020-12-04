@@ -9,6 +9,7 @@ import { observer } from 'mobx-react-lite'
 
 import { useStore } from './hooks/use-store'
 import { ToastProvider } from './hooks/use-toast'
+import About from './pages/about/About'
 import Login from './pages/auth/Login'
 import RedirectToLogin from './pages/auth/RedirectToLogin'
 import HomePage from './pages/home/HomePage'
@@ -18,6 +19,7 @@ const PublicRoutes: React.FC = () => (
     <IonReactRouter>
         <IonRouterOutlet id='public'>
             <Route component={Login} exact path='/login' />
+            <Route component={About} exact path='/about' />
             <Redirect exact from='/' to='/login' />
         </IonRouterOutlet>
     </IonReactRouter>

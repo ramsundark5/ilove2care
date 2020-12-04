@@ -4,6 +4,7 @@ import { Redirect, Route } from 'react-router-dom'
 import { IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/react'
 import { observer } from 'mobx-react-lite'
 
+import About from '../about/About'
 import ChangePassword from '../profile/ChangePassword'
 import ProfilePage from '../profile/ProfilePage'
 import ProjectPage from '../project/ProjectPage'
@@ -15,6 +16,7 @@ const HomePage = () => (
     <IonTabs>
         <IonRouterOutlet>
             <Redirect exact path='/tabs' to='/tabs/timesheet' />
+            <Route component={About} exact path='/tabs/about' />
             {/*
             Using the render method prop cuts down the number of renders your components will have
             due to route changes. Use the component prop when your component depends on the
@@ -55,6 +57,10 @@ const HomePage = () => (
 
             <IonTabButton href='/tabs/profile' tab='Profile'>
                 <IonLabel>Profile</IonLabel>
+            </IonTabButton>
+
+            <IonTabButton href='/tabs/about' tab='About'>
+                <IonLabel>About</IonLabel>
             </IonTabButton>
         </IonTabBar>
     </IonTabs>
