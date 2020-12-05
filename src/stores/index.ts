@@ -2,6 +2,7 @@ import firebase from 'firebase/app'
 import { configure } from 'mobx'
 
 import UserStore from '../pages/account/store/user-store'
+import { IRole } from '../pages/admin/model/IRole'
 import AdminStore from '../pages/admin/store/admin-store'
 import AuthStore from '../pages/auth/auth-store'
 import ProjectStore from '../pages/project/store/project-store'
@@ -29,13 +30,17 @@ class RootStore {
     }
 
     init() {
-        firebase.auth().onAuthStateChanged((user) => {
+        firebase.auth().onAuthStateChanged(async (user) => {
             if (user) {
-                this.projectStore.loadData()
                 this.timesheetStore.loadData()
                 this.userStore.loadCurrentUser()
-                this.userStore.loadAllUsers()
-                this.adminStore.loadData()
+                await this.adminStore.getCurrentUserRoles()
+                const { isAdmin } = this.adminStore
+                if (isAdmin) {
+                    this.projectStore.loadData()
+                    this.userStore.loadAllUsers()
+                    this.adminStore.loadAllUserRoles()
+                }
             }
         })
     }

@@ -26,7 +26,7 @@ export const ProjectItem = ({ project }: ProjectItemProps) => {
 
     return (
         <IonItemSliding ref={ionItemSlidingRef}>
-            <IonItem routerLink={`/tabs/project/save/${project.id}`}>
+            <IonItem routerLink={`/tabs/admin/project/save/${project.id}`}>
                 <IonLabel>
                     <h3>{project.name}</h3>
                     <p>{project.description}</p>

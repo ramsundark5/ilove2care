@@ -43,10 +43,12 @@ const SaveUserRole: React.FC<SaveUserRoleProps> = ({ history, match }) => {
 
     const save = (updatedUserRole: IRole) => {
         try {
-            if (userRoleToUpdate) {
-                adminStore.saveUserRole(updatedUserRole, userRoleToUpdate?.id)
-                history.goBack()
+            if (userRoleToUpdate && userRoleToUpdate.id) {
+                adminStore.update(updatedUserRole, userRoleToUpdate.id)
+            } else {
+                adminStore.add(updatedUserRole)
             }
+            history.goBack()
         } catch (err) {
             log.error(err)
         }

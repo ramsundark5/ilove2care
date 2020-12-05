@@ -44,10 +44,25 @@ export default class AdminDao {
         }
     }
 
-    saveUserRole = async (role: IRole, id: string) => {
+    getUserRole = async (userId: string) => {
+        try {
+            const doc = await this.getCollectionRef().doc(userId).get()
+            const userRoleFromServer = {
+                id: doc.id,
+                ...convertTimestamps(doc.data()),
+            }
+            log.info('loaded user role into store')
+            return userRoleFromServer
+        } catch (error) {
+            log.error(`Error getting user role ${error}`)
+            return null
+        }
+    }
+
+    saveUserRole = async (role: IRole) => {
         await this.getCollectionRef()
-            .doc(id)
-            .set({ ...role })
+            .doc(role.id)
+            .set({ ...role }, { merge: true })
     }
 
     /* blacklist = async (blocked: boolean) => {

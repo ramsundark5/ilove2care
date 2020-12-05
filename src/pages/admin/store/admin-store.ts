@@ -10,9 +10,15 @@ export default class AdminStore {
 
     userRoleList: IRole[] = []
 
+    currentUserRole: IRole | undefined
+
     firebaseService: FirebaseService
 
-    initialized = false
+    initializedUserRole = false
+
+    initializedUserRoleList = false
+
+    isAdmin = false
 
     constructor() {
         makeAutoObservable(this)
@@ -20,19 +26,49 @@ export default class AdminStore {
         this.firebaseService = new FirebaseService()
     }
 
-    loadData = async () => {
+    loadAllUserRoles = async () => {
         const results = await this.adminDao.getAll()
         if (results.length < 1) {
             return false
         }
         runInAction(() => {
             this.userRoleList = results
-            this.initialized = true
+            this.initializedUserRoleList = true
         })
         return true
     }
 
-    saveUserRole = (userRole: IRole, id: string) => {
+    getCurrentUserRoles = async () => {
+        const currentUserId = this.firebaseService.getCurrentUserId()
+        if (!currentUserId) {
+            return null
+        }
+        const userRole: IRole = await this.adminDao.getUserRole(currentUserId)
+        const userRoles = userRole?.roles || []
+        runInAction(() => {
+            this.currentUserRole = userRole
+            this.initializedUserRole = true
+            if (userRoles.includes('admin')) {
+                this.isAdmin = true
+            }
+        })
+        return userRole
+    }
+
+    add = (userRole: IRole) => {
+        const currentUserId = this.firebaseService.getCurrentUserId()
+        if (!currentUserId) {
+            return
+        }
+        userRole.created = new Date()
+        userRole.updated = new Date()
+        userRole.id = currentUserId
+        userRole.updatedBy = this.firebaseService.getCurrentUserId() || ''
+        this.userRoleList.push(userRole)
+        this.adminDao.saveUserRole(userRole)
+    }
+
+    update = (userRole: IRole, id: string) => {
         const userRoleToUpdate = this.userRoleList.find((indexEntry) => indexEntry.id === id)
         if (userRoleToUpdate) {
             const userRoleToUpdateClone = { ...userRoleToUpdate }
@@ -44,7 +80,7 @@ export default class AdminStore {
                 (userRoleItem) => userRoleItem.id === id
             )
             this.userRoleList[updateEntryIndex] = userRoleToUpdateClone
-            this.adminDao.saveUserRole(userRoleToUpdate, id)
+            this.adminDao.saveUserRole(userRoleToUpdate)
         }
     }
 }
