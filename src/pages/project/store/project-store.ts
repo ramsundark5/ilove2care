@@ -17,6 +17,10 @@ export default class ProjectStore {
 
     initialized = false
 
+    userProjects: IProject[] = []
+
+    initializedUserProjects = false
+
     constructor() {
         makeAutoObservable(this)
         this.projectDao = new ProjectDao()
@@ -35,8 +39,20 @@ export default class ProjectStore {
         return true
     }
 
+    getUserProjects = async (userEmail: string | null) => {
+        if (!userEmail) {
+            return null
+        }
+        const results: IProject[] = await this.projectDao.getUserProjects(userEmail)
+        runInAction(() => {
+            this.userProjects = results
+            this.initializedUserProjects = true
+        })
+        return results
+    }
+
     findById = (id: string) => {
-        const matchedProject = this.list.find((indexTimeEntry) => indexTimeEntry.id === id)
+        const matchedProject = this.userProjects.find((indexTimeEntry) => indexTimeEntry.id === id)
         return matchedProject
     }
 

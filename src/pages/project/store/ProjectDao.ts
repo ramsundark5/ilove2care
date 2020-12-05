@@ -46,6 +46,28 @@ export default class ProjectDao {
         }
     }
 
+    getUserProjects = async (userEmail: string) => {
+        const results: IProject[] = []
+        try {
+            const querySnapshot = await this.getCollectionRef()
+                .where('users', 'array-contains', userEmail)
+                .where('status', '!=', 'archived')
+                .get()
+            querySnapshot.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                results.push({
+                    id: doc.id,
+                    ...convertTimestamps(doc.data()),
+                })
+            })
+            log.info('loaded user projects into store')
+            return results
+        } catch (error) {
+            log.error(`Error getting user projects ${error}`)
+            return []
+        }
+    }
+
     save = async (project: IProject) => {
         try {
             await this.getCollectionRef()

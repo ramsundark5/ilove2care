@@ -34,6 +34,7 @@ class RootStore {
             if (user) {
                 this.timesheetStore.loadData()
                 this.userStore.loadCurrentUser()
+                this.projectStore.getUserProjects(user.email)
                 await this.adminStore.getCurrentUserRoles()
                 const { isAdmin } = this.adminStore
                 if (isAdmin) {

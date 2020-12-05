@@ -30,7 +30,7 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
 
     useEffect(() => {
         if (!didLoad) {
-            const results: IProject[] = [...projectStore.list]
+            const results: IProject[] = [...projectStore.userProjects]
             const projectOptions: SelectFieldOptionProps[] = []
             for (const project of results) {
                 const projectOption = {} as SelectFieldOptionProps
