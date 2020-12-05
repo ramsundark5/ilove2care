@@ -2,7 +2,7 @@
 import { makeAutoObservable, runInAction } from 'mobx'
 
 import FirebaseService from '../../../services/FirebaseService'
-import { IUser } from '../models/IUser'
+import { IUser } from '../model/IUser'
 import UserDao from './UserDao'
 
 export default class UserStore {
@@ -37,7 +37,6 @@ export default class UserStore {
                         email: authUser.email || '',
                         description: '',
                         skills: [],
-                        roles: [],
                         created: new Date(),
                         updated: new Date(),
                     }

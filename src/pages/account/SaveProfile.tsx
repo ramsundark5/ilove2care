@@ -11,7 +11,7 @@ import TextField, { TexFieldProps } from '../../components/TextField'
 import ToolBar from '../../components/ToolBar'
 import { useStore } from '../../hooks/use-store'
 import log from '../../logger'
-import { IUser } from './models/IUser'
+import { IUser } from './model/IUser'
 
 const SaveProfile: React.FC = () => {
     const { userStore } = useStore()

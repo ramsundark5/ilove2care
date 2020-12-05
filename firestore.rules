@@ -6,15 +6,21 @@ service cloud.firestore {
     // document. The wildcard expression {userId} makes the userId variable
     // available in rules.
     match /users/{userId} {
-      allow read, update, delete: if request.auth.uid == userId;
+      //allow read, update: if request.auth.uid == userId;
       allow create: if request.auth.uid != null;
     }
     
+    match /users/{userId}/roles/{roleId} {
+      allow read: if request.auth.uid == userId;
+      //only admin can set roles
+      allow write: if request.auth.uid == userId;
+    }
+    
     match /users/{userId}/timesheets/{timesheetId} {
-      allow create, read, update, delete: if request.auth.uid == userId;
+      allow read, write: if request.auth.uid == userId;
     }
     match /projects/{projectId} {
-      allow read: if request.auth != null;
+      allow create, read, update: if request.auth != null;
     }
     // Make sure the uid of the requesting user matches name of the user
     // document.

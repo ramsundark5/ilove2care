@@ -1,10 +1,11 @@
 import React from 'react'
 
 import { IonContent, IonLoading, IonPage } from '@ionic/react'
+import { observer } from 'mobx-react-lite'
 
 import ToolBar from '../../components/ToolBar'
 import { useStore } from '../../hooks/use-store'
-import { IUser } from '../account/models/IUser'
+import { IUser } from '../account/model/IUser'
 import UserItem from './UserItem'
 
 const UserList: React.FC = () => {
@@ -24,4 +25,4 @@ const UserList: React.FC = () => {
     )
 }
 
-export default UserList
+export default observer(UserList)

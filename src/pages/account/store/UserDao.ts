@@ -5,7 +5,7 @@ import 'firebase/auth'
 import { convertTimestamps } from '../../../helpers/FirebaseHelper'
 import log from '../../../logger'
 import FirebaseService from '../../../services/FirebaseService'
-import { IUser } from '../models/IUser'
+import { IUser } from '../model/IUser'
 
 export default class UserDao {
     db: firebase.firestore.Firestore
@@ -68,18 +68,6 @@ export default class UserDao {
             await this.getCollectionRef().set({ ...user }, { merge: true })
         } catch (error) {
             log.error(`ERROR saving user ${error}`)
-        }
-    }
-
-    blacklist = async (blocked: boolean) => {
-        try {
-            await this.getCollectionRef().update({
-                blocked,
-            })
-            return true
-        } catch (error) {
-            log.error(`ERROR updating blacklist status ${error}`)
-            return error
         }
     }
 }

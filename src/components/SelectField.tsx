@@ -10,6 +10,7 @@ export interface SelectFieldProps {
     label?: string
     rules?: any
     options?: any
+    multiple?: boolean
     errors?: DeepMap<Record<string, any>, FieldError>
 }
 
@@ -18,7 +19,14 @@ export interface SelectFieldOptionProps {
     value: string
 }
 
-const SelectField: FC<SelectFieldProps> = ({ name, control, options, label, errors }) => (
+const SelectField: FC<SelectFieldProps> = ({
+    name,
+    control,
+    options,
+    multiple = false,
+    label,
+    errors,
+}) => (
     <>
         <IonItem>
             {label && <IonLabel position='floating'>{label}</IonLabel>}
@@ -27,7 +35,7 @@ const SelectField: FC<SelectFieldProps> = ({ name, control, options, label, erro
                 defaultValue=''
                 name={name}
                 render={({ onChange, value }) => (
-                    <IonSelect onIonChange={onChange} value={value}>
+                    <IonSelect multiple={multiple} onIonChange={onChange} value={value}>
                         {options.map((option: any) => (
                             <IonSelectOption key={option.value} value={option.value}>
                                 {option.label}

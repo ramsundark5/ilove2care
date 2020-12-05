@@ -22,27 +22,27 @@ interface SaveProjectProps
         id: string
     }> {}
 
+const statusOptions: SelectFieldOptionProps[] = [
+    {
+        label: 'Pending',
+        value: 'pending',
+    },
+    {
+        label: 'Active',
+        value: 'active',
+    },
+    {
+        label: 'Completed',
+        value: 'completed',
+    },
+    {
+        label: 'Hold',
+        value: 'hold',
+    },
+]
 const SaveProject: React.FC<SaveProjectProps> = ({ history, match }) => {
     const { projectStore } = useStore()
     const existingProject = projectStore.list.find((item) => item.id === match.params.id)
-    const statusOptions: SelectFieldOptionProps[] = [
-        {
-            label: 'Pending',
-            value: 'pending',
-        },
-        {
-            label: 'Active',
-            value: 'active',
-        },
-        {
-            label: 'Completed',
-            value: 'completed',
-        },
-        {
-            label: 'Hold',
-            value: 'hold',
-        },
-    ]
 
     const save = (project: IProject) => {
         try {

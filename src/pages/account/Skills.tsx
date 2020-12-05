@@ -8,7 +8,7 @@ import InputTagField from '../../components/InputTagField'
 import ToolBar from '../../components/ToolBar'
 import { useStore } from '../../hooks/use-store'
 import log from '../../logger'
-import { IUser } from './models/IUser'
+import { IUser } from './model/IUser'
 
 const Skills: React.FC = () => {
     const { userStore } = useStore()

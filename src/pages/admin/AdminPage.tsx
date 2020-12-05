@@ -4,8 +4,7 @@ import { IonContent, IonItem, IonList, IonPage } from '@ionic/react'
 
 import ToolBar from '../../components/ToolBar'
 
-const AdminPage: React.FC = () => {
-    return (
+const AdminPage: React.FC = () => (
         <IonPage id='admin-page'>
             <ToolBar showBackButton={false} title='Admin' />
             <IonContent>
@@ -20,6 +19,5 @@ const AdminPage: React.FC = () => {
             </IonContent>
         </IonPage>
     )
-}
 
 export default AdminPage

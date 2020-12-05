@@ -1,28 +1,20 @@
 import React from 'react'
 
-import { IonItem, IonLabel, IonText } from '@ionic/react'
+import { IonItem, IonLabel } from '@ionic/react'
 
-import { IUser } from '../account/models/IUser'
+import { IUser } from '../account/model/IUser'
 
 interface UserItemProps {
     user: IUser
 }
 
 const UserItem = ({ user }: UserItemProps) => (
-    <>
-        <IonItem>
-            <IonLabel>Name: </IonLabel>
-            <IonText>{user.name}</IonText>
-        </IonItem>
-        <IonItem>
-            <IonLabel>Email: </IonLabel>
-            <IonText>{user.email}</IonText>
-        </IonItem>
-        <IonItem>
-            <IonLabel>Skills: </IonLabel>
-            <IonText>{user.skills}</IonText>
-        </IonItem>
-    </>
+    <IonItem routerLink={`/tabs/admin/users/${user.id}`}>
+        <IonLabel>
+            <h3>{user.name}</h3>
+            <p>{user.email}</p>
+        </IonLabel>
+    </IonItem>
 )
 
 export default UserItem

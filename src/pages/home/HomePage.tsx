@@ -20,6 +20,7 @@ import ProjectPage from '../project/ProjectPage'
 import SaveProject from '../project/SaveProject'
 import SaveTimeEntry from '../timesheet/SaveTimeEntry'
 import TimeSheetPage from '../timesheet/TimeSheetPage'
+import SaveUserRole from '../users/SaveUserRole'
 import UserList from '../users/UserList'
 
 const HomePage = () => (
@@ -33,6 +34,11 @@ const HomePage = () => (
             <Route exact path='/tabs/account' render={() => <AccountPage />} />
 
             {/* Admin pages */}
+            <Route
+                exact
+                path='/tabs/admin/users/:id'
+                render={(props) => <SaveUserRole {...props} />}
+            />
             <Route exact path='/tabs/admin/users' render={() => <UserList />} />
             <Route exact path='/tabs/admin' render={() => <AdminPage />} />
 
