@@ -78,7 +78,7 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
 
     return (
         <IonPage id='save-timentry'>
-            <ToolBar title='Time Entry' />
+            <ToolBar backHref='/tabs/timesheet' title='Time Entry' />
             <IonContent>
                 <form onSubmit={handleSubmit(saveTimeEntry)}>
                     <TextField

@@ -4,6 +4,7 @@ export interface IUser {
     description: string
     email: string
     skills: string[]
+    roles: string[]
     created: Date
     updated: Date
 }

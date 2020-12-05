@@ -19,6 +19,7 @@ const InputTagField: FC<InputTagFieldProps> = ({ name, control, label, errors })
 
     const onAddTag = (event: any, tagList: any) => {
         if (event.key === 'Enter') {
+            event.preventDefault()
             const updatedTagList = tagList.concat(newTag)
             control?.setValue(name, updatedTagList)
             setTag('')

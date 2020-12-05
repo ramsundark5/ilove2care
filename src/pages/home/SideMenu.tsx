@@ -15,10 +15,10 @@ import {
 } from '@ionic/react'
 import {
     calendarOutline,
+    constructOutline,
     informationCircleOutline,
     logOutOutline,
     personOutline,
-    readerOutline,
 } from 'ionicons/icons'
 
 import { useStore } from '../../hooks/use-store'
@@ -47,10 +47,10 @@ const appPages = {
             mdIcon: calendarOutline,
         },
         {
-            title: 'Project',
-            path: '/tabs/project',
-            iosIcon: readerOutline,
-            mdIcon: readerOutline,
+            title: 'Admin',
+            path: '/tabs/admin',
+            iosIcon: constructOutline,
+            mdIcon: constructOutline,
         },
         {
             title: 'Account',

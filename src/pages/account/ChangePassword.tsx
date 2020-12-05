@@ -62,7 +62,7 @@ const ChangePassword: React.FC = () => {
 
     return (
         <IonPage id='change-password'>
-            <ToolBar title='Change Password' />
+            <ToolBar backHref='/tabs/account' title='Change Password' />
             <IonContent>
                 <form onSubmit={handleSubmit(onChangePassword)}>
                     {formFields.map((field) => (

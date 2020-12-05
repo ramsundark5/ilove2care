@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+import { setupConfig } from '@ionic/react'
+
 import App from './App'
 import { StoreProvider } from './hooks/store-provider'
 import './services/InitService'
@@ -10,6 +12,11 @@ import './firebaseui-styling.global.css'
 
 const rootStore = new RootStore()
 rootStore.init()
+
+setupConfig({
+    swipeBackEnabled: false,
+})
+
 ReactDOM.render(
     <StoreProvider value={rootStore}>
         <App />

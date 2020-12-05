@@ -32,7 +32,7 @@ const Skills: React.FC = () => {
 
     return (
         <IonPage id='skills-page'>
-            <ToolBar title='Skills' />
+            <ToolBar backHref='/tabs/account' title='Skills' />
             <IonContent>
                 <form onSubmit={handleSubmit(onUpdateSkills)}>
                     <InputTagField

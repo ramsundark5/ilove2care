@@ -79,7 +79,7 @@ const SaveProject: React.FC<SaveProjectProps> = ({ history, match }) => {
 
     return (
         <IonPage id='save-timentry'>
-            <ToolBar title='Project' />
+            <ToolBar backHref='/tabs/admin/project' title='Project' />
             <IonContent>
                 <form onSubmit={handleSubmit(save)}>
                     <TextField

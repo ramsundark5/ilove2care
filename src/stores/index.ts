@@ -29,7 +29,8 @@ class RootStore {
             if (user) {
                 this.projectStore.loadData()
                 this.timesheetStore.loadData()
-                this.userStore.load()
+                this.userStore.loadCurrentUser()
+                this.userStore.loadAllUsers()
             }
         })
     }

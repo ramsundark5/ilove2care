@@ -29,6 +29,25 @@ export default class UserDao {
         return collectionRef
     }
 
+    getAll = async () => {
+        const results: IUser[] = []
+        try {
+            const querySnapshot = await this.db.collection('users').get()
+            querySnapshot.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                results.push({
+                    id: doc.id,
+                    ...convertTimestamps(doc.data()),
+                })
+            })
+            log.info('loaded user list into store')
+            return results
+        } catch (error) {
+            log.error(`Error getting user list ${error}`)
+            return []
+        }
+    }
+
     get = async () => {
         try {
             const doc = await this.getCollectionRef().get()

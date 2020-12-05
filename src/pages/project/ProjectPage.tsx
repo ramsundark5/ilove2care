@@ -8,7 +8,7 @@ import './Project.scss'
 
 const ProjectPage: React.FC = () => (
     <IonPage id='project-page'>
-        <ToolBar showBackButton={false} title='Project' />
+        <ToolBar backHref='/tabs/admin' title='Project' />
         <IonContent>
             <ProjectList />
             <IonButton

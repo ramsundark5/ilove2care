@@ -10,9 +10,13 @@ export default class UserStore {
 
     user: IUser | undefined
 
+    userList: IUser[] = []
+
     firebaseService: FirebaseService
 
-    initialized = false
+    initializedCurrentUser = false
+
+    initializedAllUsers = false
 
     constructor() {
         makeAutoObservable(this)
@@ -20,7 +24,7 @@ export default class UserStore {
         this.firebaseService = new FirebaseService()
     }
 
-    load = async () => {
+    loadCurrentUser = async () => {
         let currentUser: IUser = await this.userDao.get()
         runInAction(() => {
             if (!currentUser || !currentUser?.email || !currentUser?.email) {
@@ -33,6 +37,7 @@ export default class UserStore {
                         email: authUser.email || '',
                         description: '',
                         skills: [],
+                        roles: [],
                         created: new Date(),
                         updated: new Date(),
                     }
@@ -40,9 +45,17 @@ export default class UserStore {
                 }
             }
             this.user = currentUser
-            this.initialized = true
+            this.initializedCurrentUser = true
         })
         return true
+    }
+
+    loadAllUsers = async () => {
+        const users: IUser[] = await this.userDao.getAll()
+        runInAction(() => {
+            this.userList = users
+            this.initializedAllUsers = true
+        })
     }
 
     saveProfile = (updatedUser: IUser) => {

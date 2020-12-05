@@ -60,7 +60,7 @@ const SaveProfile: React.FC = () => {
 
     return (
         <IonPage id='save-profile'>
-            <ToolBar title='Profile' />
+            <ToolBar backHref='/tabs/account' title='Profile' />
             <IonContent>
                 <form onSubmit={handleSubmit(onUpdateProfile)}>
                     {formFields.map((field) => (
