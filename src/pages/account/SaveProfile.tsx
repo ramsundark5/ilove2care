@@ -4,12 +4,19 @@ import { useHistory } from 'react-router'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import { IonButton, IonContent, IonPage } from '@ionic/react'
+import { observer } from 'mobx-react-lite'
 import { object, string } from 'yup'
 
 import TextField, { TexFieldProps } from '../../components/TextField'
 import ToolBar from '../../components/ToolBar'
+import { useStore } from '../../hooks/use-store'
+import log from '../../logger'
+import { IUser } from './models/IUser'
 
 const SaveProfile: React.FC = () => {
+    const { userStore } = useStore()
+    const currentUser = userStore.user
+    const history = useHistory()
     const validationSchema = object().shape({
         name: string().required('Name is required'),
         email: string().email(),
@@ -17,6 +24,11 @@ const SaveProfile: React.FC = () => {
     })
     const { control, handleSubmit, errors } = useForm({
         resolver: yupResolver(validationSchema),
+        defaultValues: {
+            name: currentUser?.name,
+            description: currentUser?.description,
+            email: currentUser?.email,
+        },
     })
 
     const formFields: TexFieldProps[] = [
@@ -37,7 +49,14 @@ const SaveProfile: React.FC = () => {
         },
     ]
 
-    const onUpdateProfile = () => {}
+    const onUpdateProfile = (updatedUser: IUser) => {
+        try {
+            userStore.saveProfile(updatedUser)
+            history.goBack()
+        } catch (err) {
+            log.error(err)
+        }
+    }
 
     return (
         <IonPage id='save-profile'>
@@ -56,4 +75,4 @@ const SaveProfile: React.FC = () => {
     )
 }
 
-export default SaveProfile
+export default observer(SaveProfile)

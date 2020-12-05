@@ -1,6 +1,7 @@
 import firebase from 'firebase/app'
 import { configure } from 'mobx'
 
+import UserStore from '../pages/account/store/user-store'
 import AuthStore from '../pages/auth/auth-store'
 import ProjectStore from '../pages/project/store/project-store'
 import TimesheetStore from '../pages/timesheet/store/timesheet-store'
@@ -14,10 +15,13 @@ class RootStore {
 
     projectStore: ProjectStore
 
+    userStore: UserStore
+
     constructor() {
         this.timesheetStore = new TimesheetStore()
         this.authStore = new AuthStore()
         this.projectStore = new ProjectStore()
+        this.userStore = new UserStore()
     }
 
     init() {
@@ -25,6 +29,7 @@ class RootStore {
             if (user) {
                 this.projectStore.loadData()
                 this.timesheetStore.loadData()
+                this.userStore.load()
             }
         })
     }

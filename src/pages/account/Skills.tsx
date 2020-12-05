@@ -1,15 +1,34 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useHistory } from 'react-router'
 
 import { IonButton, IonContent, IonPage } from '@ionic/react'
 
 import InputTagField from '../../components/InputTagField'
 import ToolBar from '../../components/ToolBar'
+import { useStore } from '../../hooks/use-store'
+import log from '../../logger'
+import { IUser } from './models/IUser'
 
-const SaveProfile: React.FC = () => {
-    const { control, handleSubmit, errors } = useForm()
+const Skills: React.FC = () => {
+    const { userStore } = useStore()
+    const existingSkills = userStore.skills
+    const history = useHistory()
 
-    const onUpdateSkills = () => {}
+    const { control, handleSubmit, errors } = useForm({
+        defaultValues: {
+            skills: existingSkills || [],
+        },
+    })
+
+    const onUpdateSkills = (updatedData: IUser) => {
+        try {
+            userStore.saveSkills(updatedData.skills)
+            history.goBack()
+        } catch (err) {
+            log.error(err)
+        }
+    }
 
     return (
         <IonPage id='skills-page'>
@@ -32,4 +51,4 @@ const SaveProfile: React.FC = () => {
     )
 }
 
-export default SaveProfile
+export default Skills
