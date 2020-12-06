@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-syntax */
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { RouteComponentProps } from 'react-router'
 
@@ -15,6 +15,7 @@ import TextField from '../../components/TextField'
 import ToolBar from '../../components/ToolBar'
 import { useStore } from '../../hooks/use-store'
 import log from '../../logger'
+import ArchiveProjectAlert from './ArchiveProjectAlert'
 import { IProject } from './models/IProject'
 
 interface SaveProjectProps
@@ -42,6 +43,7 @@ const statusOptions: SelectFieldOptionProps[] = [
 ]
 const SaveProject: React.FC<SaveProjectProps> = ({ history, match }) => {
     const { projectStore } = useStore()
+    const [showAlert, setShowAlert] = useState(false)
     const existingProject = projectStore.list.find((item) => item.id === match.params.id)
 
     const save = (project: IProject) => {
@@ -55,6 +57,15 @@ const SaveProject: React.FC<SaveProjectProps> = ({ history, match }) => {
         } catch (err) {
             log.error(err)
         }
+    }
+
+    const archiveProject = () => {
+        if (!existingProject) {
+            return
+        }
+        setShowAlert(false)
+        projectStore.archive(existingProject)
+        history.goBack()
     }
 
     const validationSchema = object().shape({
@@ -135,7 +146,22 @@ const SaveProject: React.FC<SaveProjectProps> = ({ history, match }) => {
                     <IonButton className='ion-padding' expand='block' type='submit'>
                         Save
                     </IonButton>
+                    {existingProject && existingProject.id && (
+                        <IonButton
+                            className='ion-padding'
+                            color='danger'
+                            expand='block'
+                            onClick={() => setShowAlert(true)}
+                        >
+                            Delete
+                        </IonButton>
+                    )}
                 </form>
+                <ArchiveProjectAlert
+                    cancelAction={() => setShowAlert(false)}
+                    confirmationAction={() => archiveProject()}
+                    showAlert={showAlert}
+                />
             </IonContent>
         </IonPage>
     )

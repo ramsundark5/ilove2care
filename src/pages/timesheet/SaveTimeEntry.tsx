@@ -15,6 +15,7 @@ import ToolBar from '../../components/ToolBar'
 import { useStore } from '../../hooks/use-store'
 import log from '../../logger'
 import { IProject } from '../project/models/IProject'
+import DeleteTimesheetAlert from './DeleteTimesheetAlert'
 import { ITimeEntry } from './models/ITimeEntry'
 
 interface SaveTimeEntryProps
@@ -26,6 +27,7 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
     const { projectStore, timesheetStore } = useStore()
     const existingTimeEntry = timesheetStore.list.find((item) => item.id === match.params.id)
     const [didLoad, setDidLoad] = useState<boolean>(false)
+    const [showAlert, setShowAlert] = useState(false)
     const [projects, setProjects] = useState<SelectFieldOptionProps[]>([])
 
     useEffect(() => {
@@ -56,6 +58,15 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
         } catch (err) {
             log.error(err)
         }
+    }
+
+    const removeTimeEntry = () => {
+        if (!existingTimeEntry) {
+            return
+        }
+        setShowAlert(false)
+        timesheetStore.removeTimeEntry(existingTimeEntry)
+        history.goBack()
     }
 
     const validationSchema = object().shape({
@@ -124,7 +135,22 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
                     <IonButton className='ion-padding' expand='block' type='submit'>
                         Save
                     </IonButton>
+                    {existingTimeEntry && existingTimeEntry.id && (
+                        <IonButton
+                            className='ion-padding'
+                            color='danger'
+                            expand='block'
+                            onClick={() => setShowAlert(true)}
+                        >
+                            Delete
+                        </IonButton>
+                    )}
                 </form>
+                <DeleteTimesheetAlert
+                    cancelAction={() => setShowAlert(false)}
+                    confirmationAction={() => removeTimeEntry()}
+                    showAlert={showAlert}
+                />
             </IonContent>
         </IonPage>
     )
