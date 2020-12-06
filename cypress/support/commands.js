@@ -11,36 +11,13 @@
 //
 // -- This is a parent command --
 Cypress.Commands.add('login', (emailInput, passwordInput) => {
-    const email = emailInput || 'cypresstest1@gmail.com'
+    const email = emailInput || 'membertest@gmail.com'
     const password = passwordInput || 'abcd1234'
-
-    const log = Cypress.Log.command({
-        name: 'login',
-        message: [email, password],
-        consoleProps: function () {
-            return {
-                email: email,
-                password: password,
-            }
-        },
-    })
-
-    cy.visit('/login', { log: false })
-        .contains('Log In', { log: false })
-        .get('#email', { log: false })
-        .type(email, { log: false })
-        .get('#password', { log: false })
-        .type(password, { log: false })
-        .get('button', { log: false })
-        .click({ log: false }) //this should submit the form
-
-    cy.get('h1', { log: false })
-        .contains('Dashboard', { log: false }) //we should be on the dashboard now
-        .url({ log: false })
-        .should('match', /dashboard/, { log: false })
-        .then(function () {
-            log.snapshot().end()
-        })
+    cy.get('.firebaseui-idp-password').click()
+    cy.get('#ui-sign-in-email-input').type('membertest@gmail.com')
+    cy.get('.firebaseui-id-submit').click()
+    cy.get('#ui-sign-in-password-input').type('abcd1234')
+    cy.get('.firebaseui-id-submit').click()
 })
 
 Cypress.Commands.add(

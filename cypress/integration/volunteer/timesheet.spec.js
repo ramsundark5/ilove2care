@@ -4,16 +4,10 @@ describe('Timesheet operations as volunteer', function () {
             cy.clearFirebaseAuth()
             cy.visit('/login')
             cy.waitForReact(1000, '#root')
+            cy.login('membertest@gmail.com', 'abcd1234')
         })
 
-        it('displays errors on login', function () {
-            //login
-            cy.get('.firebaseui-idp-password').click()
-            cy.get('#ui-sign-in-email-input').type('membertest@gmail.com')
-            cy.get('.firebaseui-id-submit').click()
-            cy.get('#ui-sign-in-password-input').type('abcd1234')
-            cy.get('.firebaseui-id-submit').click()
-
+        it('Add new time entry', function () {
             //fill form
             cy.get('ion-button').click()
             cy.react('TextField', { props: { name: 'title' } }).type('test timeentry 1')
