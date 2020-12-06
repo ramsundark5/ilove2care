@@ -153,7 +153,7 @@ const SaveProject: React.FC<SaveProjectProps> = ({ history, match }) => {
                             expand='block'
                             onClick={() => setShowAlert(true)}
                         >
-                            Delete
+                            Archive
                         </IonButton>
                     )}
                 </form>

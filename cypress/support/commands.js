@@ -11,12 +11,12 @@
 //
 // -- This is a parent command --
 Cypress.Commands.add('login', (emailInput, passwordInput) => {
-    const email = emailInput || 'membertest@gmail.com'
-    const password = passwordInput || 'abcd1234'
+    const email = emailInput || Cypress.env('member_username')
+    const password = passwordInput || Cypress.env('member_password')
     cy.get('.firebaseui-idp-password').click()
-    cy.get('#ui-sign-in-email-input').type('membertest@gmail.com')
+    cy.get('#ui-sign-in-email-input').type(email)
     cy.get('.firebaseui-id-submit').click()
-    cy.get('#ui-sign-in-password-input').type('abcd1234')
+    cy.get('#ui-sign-in-password-input').type(password)
     cy.get('.firebaseui-id-submit').click()
 })
 

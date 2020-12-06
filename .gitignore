@@ -34,3 +34,6 @@ hosting
 
 # firebase
 .firebase
+
+# cypress
+cypress.env.json
