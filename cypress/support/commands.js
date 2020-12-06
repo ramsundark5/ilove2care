@@ -43,6 +43,16 @@ Cypress.Commands.add('login', (emailInput, passwordInput) => {
         })
 })
 
+Cypress.Commands.add(
+    'clearFirebaseAuth',
+    () =>
+        new Cypress.Promise(async (resolve) => {
+            const req = indexedDB.deleteDatabase('firebaseLocalStorageDb')
+            req.onsuccess = function () {
+                resolve()
+            }
+        })
+)
 //
 //
 // -- This is a child command --

@@ -40,7 +40,7 @@ const ChangePassword: React.FC = () => {
 
     const onChangePassword = async (data: any) => {
         const user: any = firebase.auth().currentUser
-        const newPassword = data['New Password']
+        const newPassword = data.newpassword
         try {
             await user.updatePassword(newPassword)
             const successToast = Toast.create({
@@ -49,7 +49,7 @@ const ChangePassword: React.FC = () => {
                 duration: 2000,
             })
             successToast.present()
-            history.replace('/tabs/profile')
+            history.replace('/tabs/account')
         } catch (err) {
             const errorToast = Toast.create({
                 color: 'danger',

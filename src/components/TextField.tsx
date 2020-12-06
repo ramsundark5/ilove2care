@@ -22,7 +22,7 @@ const TextField: FC<TexFieldProps> = ({ name, control, type, label, errors }) =>
                 defaultValue=''
                 name={name}
                 render={({ onChange, value }) => (
-                    <IonInput onIonChange={onChange} type={type} value={value} />
+                    <IonInput id={name} onIonChange={onChange} type={type} value={value} />
                 )}
             />
         </IonItem>
