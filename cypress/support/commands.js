@@ -30,6 +30,18 @@ Cypress.Commands.add(
             }
         })
 )
+
+Cypress.Commands.add('swipeLeft', (ref) => {
+    ref.trigger('mousedown', { position: 'right' })
+        .trigger('mousemove', { clientX: 100, clientY: 275 })
+        .trigger('mouseup', { force: true })
+})
+
+Cypress.Commands.add('swipeRight', (ref) => {
+    ref.trigger('mousedown', { position: 'left' })
+        .trigger('mousemove', { clientX: 300, clientY: 275 })
+        .trigger('mouseup', { force: true })
+})
 //
 //
 // -- This is a child command --
