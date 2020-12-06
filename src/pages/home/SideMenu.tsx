@@ -91,7 +91,7 @@ const Menu: React.FC = () => {
     }
 
     return (
-        <IonMenu contentId='menu' type='overlay'>
+        <IonMenu contentId='private' menuId='sideMenu' type='overlay'>
             <IonContent forceOverscroll={false}>
                 <IonList lines='none'>
                     <IonListHeader>General</IonListHeader>

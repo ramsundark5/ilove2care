@@ -15,7 +15,7 @@ const ProjectPage: React.FC = () => (
                 className='ion-padding'
                 color='primary'
                 expand='block'
-                routerLink='/tabs/project/save'
+                routerLink='/tabs/admin/project/save'
             >
                 Add Project
             </IonButton>

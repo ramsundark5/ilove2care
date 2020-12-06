@@ -2,7 +2,7 @@
 import React, { FC, useState } from 'react'
 import { Control, Controller, DeepMap, FieldError } from 'react-hook-form'
 
-import { IonChip, IonIcon, IonInput, IonItem, IonLabel, IonText } from '@ionic/react'
+import { IonButton, IonChip, IonIcon, IonInput, IonItem, IonLabel, IonText } from '@ionic/react'
 import { closeCircleOutline } from 'ionicons/icons'
 
 export interface InputTagFieldProps {
@@ -17,12 +17,16 @@ export interface InputTagFieldProps {
 const InputTagField: FC<InputTagFieldProps> = ({ name, control, label, errors }) => {
     const [newTag, setTag] = useState('')
 
-    const onAddTag = (event: any, tagList: any) => {
+    const onAddTag = (tagList: any) => {
+        const updatedTagList = tagList.concat(newTag)
+        control?.setValue(name, updatedTagList)
+        setTag('')
+    }
+
+    const onAddTagEvent = (event: any, tagList: any) => {
         if (event.key === 'Enter') {
             event.preventDefault()
-            const updatedTagList = tagList.concat(newTag)
-            control?.setValue(name, updatedTagList)
-            setTag('')
+            onAddTag(tagList)
         }
     }
 
@@ -35,7 +39,7 @@ const InputTagField: FC<InputTagFieldProps> = ({ name, control, label, errors })
 
     return (
         <IonItem>
-            <div>
+            <div style={{ width: '100%' }}>
                 {label && <IonLabel position='floating'>{label}</IonLabel>}
                 <Controller
                     control={control}
@@ -43,12 +47,18 @@ const InputTagField: FC<InputTagFieldProps> = ({ name, control, label, errors })
                     name={name}
                     render={({ value }) => (
                         <>
-                            <IonInput
-                                onIonChange={(e) => setTag(e.detail.value ?? '')}
-                                onKeyDown={(e) => onAddTag(e, value)}
-                                type='text'
-                                value={newTag}
-                            />
+                            <br />
+                            <IonItem>
+                                <IonInput
+                                    onIonChange={(e) => setTag(e.detail.value ?? '')}
+                                    onKeyDown={(e) => onAddTagEvent(e, value)}
+                                    type='text'
+                                    value={newTag}
+                                />
+                                <IonButton onClick={() => onAddTag(value)} slot='end'>
+                                    Add
+                                </IonButton>
+                            </IonItem>
                             {value &&
                                 value.map &&
                                 value.map((tag: any) => (

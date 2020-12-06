@@ -119,6 +119,7 @@ const SaveProject: React.FC<SaveProjectProps> = ({ history, match }) => {
 
                     <DateField
                         control={control}
+                        displayFormat='MMM D, YYYY'
                         errors={errors}
                         key='endTime'
                         label='End Date'
