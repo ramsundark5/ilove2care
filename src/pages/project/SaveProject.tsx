@@ -1,10 +1,11 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable no-restricted-syntax */
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { RouteComponentProps } from 'react-router'
 
 import { yupResolver } from '@hookform/resolvers/yup'
-import { IonButton, IonContent, IonPage } from '@ionic/react'
+import { IonButton, IonContent, IonFooter, IonPage } from '@ionic/react'
 import { date, object, string } from 'yup'
 
 import DateField from '../../components/DateField'
@@ -45,6 +46,7 @@ const SaveProject: React.FC<SaveProjectProps> = ({ history, match }) => {
     const { projectStore } = useStore()
     const [showAlert, setShowAlert] = useState(false)
     const existingProject = projectStore.list.find((item) => item.id === match.params.id)
+    const hiddenSubmitBtnRef: any = useRef()
 
     const save = (project: IProject) => {
         try {
@@ -56,6 +58,12 @@ const SaveProject: React.FC<SaveProjectProps> = ({ history, match }) => {
             history.goBack()
         } catch (err) {
             log.error(err)
+        }
+    }
+
+    const onSaveClick = () => {
+        if (hiddenSubmitBtnRef.current) {
+            hiddenSubmitBtnRef.current.click()
         }
     }
 
@@ -92,7 +100,7 @@ const SaveProject: React.FC<SaveProjectProps> = ({ history, match }) => {
         <IonPage id='save-timentry'>
             <ToolBar backHref='/tabs/admin/project' title='Project' />
             <IonContent>
-                <form onSubmit={handleSubmit(save)}>
+                <form id='projectForm' onSubmit={handleSubmit(save)}>
                     <TextField
                         control={control}
                         errors={errors}
@@ -143,19 +151,6 @@ const SaveProject: React.FC<SaveProjectProps> = ({ history, match }) => {
                         label='Description'
                         name='description'
                     />
-                    <IonButton className='ion-padding' expand='block' type='submit'>
-                        Save
-                    </IonButton>
-                    {existingProject && existingProject.id && (
-                        <IonButton
-                            className='ion-padding'
-                            color='danger'
-                            expand='block'
-                            onClick={() => setShowAlert(true)}
-                        >
-                            Archive
-                        </IonButton>
-                    )}
                 </form>
                 <ArchiveProjectAlert
                     cancelAction={() => setShowAlert(false)}
@@ -163,6 +158,28 @@ const SaveProject: React.FC<SaveProjectProps> = ({ history, match }) => {
                     showAlert={showAlert}
                 />
             </IonContent>
+            <IonFooter className='ion-padding ion-margin-bottom ion-no-border'>
+                <IonButton className='ion-padding' expand='block' onClick={() => onSaveClick()}>
+                    Save
+                </IonButton>
+                <button
+                    form='projectForm'
+                    hidden
+                    id='submitBtn'
+                    ref={hiddenSubmitBtnRef}
+                    type='submit'
+                />
+                {existingProject && existingProject.id && (
+                    <IonButton
+                        className='ion-padding'
+                        color='danger'
+                        expand='block'
+                        onClick={() => setShowAlert(true)}
+                    >
+                        Archive
+                    </IonButton>
+                )}
+            </IonFooter>
         </IonPage>
     )
 }

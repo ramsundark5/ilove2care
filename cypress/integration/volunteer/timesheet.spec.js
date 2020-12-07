@@ -28,7 +28,7 @@ describe('Timesheet operations', function () {
             cy.get('form').submit()
         })
 
-        xit('Edit time entry', function () {
+        it('Edit time entry', function () {
             cy.contains('test timeentry 1').click()
             cy.react('TextField', { props: { name: 'title' } }).type('test timeentry 2')
             cy.get('ion-select').click()
@@ -46,7 +46,7 @@ describe('Timesheet operations', function () {
             cy.get('form').submit()
         })
 
-        xit('Delete time entry', function () {
+        it('Delete time entry', function () {
             cy.contains('test timeentry 1test timeentry 2').click()
             cy.contains('ion-button', 'Delete').should('be.visible')
             cy.contains('ion-button', 'Delete').click()

@@ -15,6 +15,7 @@ Cypress.Commands.add('login', (emailInput, passwordInput) => {
     const password = passwordInput || Cypress.env('member_password')
     cy.get('.firebaseui-idp-password').click()
     cy.get('#ui-sign-in-email-input').type(email)
+    cy.get('.firebaseui-id-submit').should('be.visible')
     cy.get('.firebaseui-id-submit').click()
     cy.get('#ui-sign-in-password-input').type(password)
     cy.get('.firebaseui-id-submit').click()

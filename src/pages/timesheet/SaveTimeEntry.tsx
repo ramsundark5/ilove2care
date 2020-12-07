@@ -1,10 +1,11 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable no-restricted-syntax */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { RouteComponentProps } from 'react-router'
 
 import { yupResolver } from '@hookform/resolvers/yup'
-import { IonButton, IonContent, IonPage } from '@ionic/react'
+import { IonButton, IonContent, IonFooter, IonPage } from '@ionic/react'
 import { date, object, string } from 'yup'
 
 import DateField from '../../components/DateField'
@@ -29,6 +30,7 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
     const [didLoad, setDidLoad] = useState<boolean>(false)
     const [showAlert, setShowAlert] = useState(false)
     const [projects, setProjects] = useState<SelectFieldOptionProps[]>([])
+    const hiddenSubmitBtnRef: any = useRef()
 
     useEffect(() => {
         if (!didLoad) {
@@ -69,6 +71,12 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
         history.goBack()
     }
 
+    const onSaveClick = () => {
+        if (hiddenSubmitBtnRef.current) {
+            hiddenSubmitBtnRef.current.click()
+        }
+    }
+
     const validationSchema = object().shape({
         title: string().required('Title is required'),
         start: date().required('Start date and time is required'),
@@ -91,7 +99,7 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
         <IonPage id='save-timentry'>
             <ToolBar backHref='/tabs/timesheet' title='Time Entry' />
             <IonContent>
-                <form onSubmit={handleSubmit(saveTimeEntry)}>
+                <form id='timeEntryForm' onSubmit={handleSubmit(saveTimeEntry)}>
                     <TextField
                         control={control}
                         errors={errors}
@@ -132,19 +140,6 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
                         label='Note'
                         name='note'
                     />
-                    <IonButton className='ion-padding' expand='block' type='submit'>
-                        Save
-                    </IonButton>
-                    {existingTimeEntry && existingTimeEntry.id && (
-                        <IonButton
-                            className='ion-padding'
-                            color='danger'
-                            expand='block'
-                            onClick={() => setShowAlert(true)}
-                        >
-                            Delete
-                        </IonButton>
-                    )}
                 </form>
                 <DeleteTimesheetAlert
                     cancelAction={() => setShowAlert(false)}
@@ -152,6 +147,28 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
                     showAlert={showAlert}
                 />
             </IonContent>
+            <IonFooter className='ion-padding ion-margin-bottom ion-no-border'>
+                <IonButton className='ion-padding' expand='block' onClick={() => onSaveClick()}>
+                    Save
+                </IonButton>
+                <button
+                    form='timeEntryForm'
+                    hidden
+                    id='submitBtn'
+                    ref={hiddenSubmitBtnRef}
+                    type='submit'
+                />
+                {existingTimeEntry && existingTimeEntry.id && (
+                    <IonButton
+                        className='ion-padding'
+                        color='danger'
+                        expand='block'
+                        onClick={() => setShowAlert(true)}
+                    >
+                        Delete
+                    </IonButton>
+                )}
+            </IonFooter>
         </IonPage>
     )
 }
