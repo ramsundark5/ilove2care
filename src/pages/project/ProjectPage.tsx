@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { IonButton, IonContent, IonPage } from '@ionic/react'
+import { IonButton, IonContent, IonFooter, IonPage } from '@ionic/react'
 
 import ToolBar from '../../components/ToolBar'
 import ProjectList from './ProjectList'
@@ -11,6 +11,8 @@ const ProjectPage: React.FC = () => (
         <ToolBar backHref='/tabs/admin' title='Project' />
         <IonContent>
             <ProjectList />
+        </IonContent>
+        <IonFooter>
             <IonButton
                 className='ion-padding'
                 color='primary'
@@ -19,7 +21,7 @@ const ProjectPage: React.FC = () => (
             >
                 Add Project
             </IonButton>
-        </IonContent>
+        </IonFooter>
     </IonPage>
 )
 

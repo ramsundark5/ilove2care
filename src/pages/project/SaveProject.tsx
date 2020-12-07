@@ -158,7 +158,7 @@ const SaveProject: React.FC<SaveProjectProps> = ({ history, match }) => {
                     showAlert={showAlert}
                 />
             </IonContent>
-            <IonFooter className='ion-padding ion-margin-bottom ion-no-border'>
+            <IonFooter className='ion-margin-bottom ion-no-border'>
                 <IonButton className='ion-padding' expand='block' onClick={() => onSaveClick()}>
                     Save
                 </IonButton>

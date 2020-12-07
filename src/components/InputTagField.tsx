@@ -48,6 +48,7 @@ const InputTagField: FC<InputTagFieldProps> = ({ name, control, label, errors })
                     render={({ value }) => (
                         <>
                             <br />
+                            <br />
                             <IonItem>
                                 <IonInput
                                     onIonChange={(e) => setTag(e.detail.value ?? '')}
@@ -55,7 +56,11 @@ const InputTagField: FC<InputTagFieldProps> = ({ name, control, label, errors })
                                     type='text'
                                     value={newTag}
                                 />
-                                <IonButton onClick={() => onAddTag(value)} slot='end'>
+                                <IonButton
+                                    onClick={() => onAddTag(value)}
+                                    size='default'
+                                    slot='end'
+                                >
                                     Add
                                 </IonButton>
                             </IonItem>

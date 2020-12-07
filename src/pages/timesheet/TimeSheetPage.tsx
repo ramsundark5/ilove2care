@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { IonButton, IonContent, IonPage } from '@ionic/react'
+import { IonButton, IonContent, IonFooter, IonPage } from '@ionic/react'
 
 import ToolBar from '../../components/ToolBar'
 import TimeEntryList from './TimeEntryList'
@@ -11,6 +11,8 @@ const TimeSheet: React.FC = () => (
         <ToolBar showBackButton={false} title='TimeSheet' />
         <IonContent>
             <TimeEntryList />
+        </IonContent>
+        <IonFooter>
             <IonButton
                 className='ion-padding'
                 color='primary'
@@ -19,7 +21,7 @@ const TimeSheet: React.FC = () => (
             >
                 Add Time
             </IonButton>
-        </IonContent>
+        </IonFooter>
     </IonPage>
 )
 
