@@ -12,14 +12,17 @@ describe('Project operations', function () {
             cy.contains('ion-tab-button', 'Admin').click()
             cy.contains('Projects').should('be.visible')
             cy.contains('Projects').click()
+            cy.contains('ion-button', 'Add Project').should('be.visible')
             cy.contains('ion-button', 'Add Project').click()
-            cy.react('TextField', { props: { name: 'name' } }).type('test cypress1')
+
+            cy.react('TextField', { props: { name: 'name' } }).type('cypress test1')
             cy.get('ion-select').click()
             cy.contains('button', 'Active').click()
             cy.contains('button', 'OK').click()
-            cy.react('InputTagField').click()
-            cy.react('InputTagField').type('abc@ab.com{enter}')
-            cy.react('InputTagField').type('1243@12.com{enter}')
+
+            cy.get('#users').click()
+            cy.get('#users').type('abc@ab.com{enter}')
+
             cy.react('DateField', { props: { name: 'start' } }).click()
             cy.contains('button', 'Done').should('be.visible')
             cy.contains('button', 'Done').click()
@@ -33,14 +36,15 @@ describe('Project operations', function () {
         })
 
         it('Edit project', function () {
-            cy.contains('test cypress1').click()
-            cy.react('TextField', { props: { name: 'name' } }).type('test cypress2')
+            cy.contains('cypress test1').click()
+            cy.react('TextField', { props: { name: 'name' } }).type('cypress test2')
             cy.get('ion-select').click()
             cy.contains('button', 'Pending').click()
             cy.contains('button', 'OK').click()
-            cy.react('InputTagField').click()
-            cy.react('InputTagField').type('abcchanged@ab.com{enter}')
-            cy.react('InputTagField').type('123changed@12.com{enter}')
+
+            cy.get('#users').type('abcchanged@ab.com{enter}')
+            cy.get('#users').type('1243changed@12.com{enter}')
+
             cy.react('DateField', { props: { name: 'start' } }).click()
             cy.contains('button', 'Done').should('be.visible')
             cy.contains('button', 'Done').click()
@@ -54,7 +58,7 @@ describe('Project operations', function () {
         })
 
         it('Archive project', function () {
-            cy.contains('test cypress1test cypress2').click()
+            cy.contains('cypress test1cypress test2').click()
             cy.contains('ion-button', 'Archive').should('be.visible')
             cy.contains('ion-button', 'Archive').click()
             cy.contains('button', 'Archive').should('be.visible')

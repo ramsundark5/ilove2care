@@ -29,14 +29,12 @@ export default class ProjectStore {
 
     loadData = async () => {
         const results = await this.projectDao.getAll()
-        if (results.length < 1) {
-            return false
-        }
         runInAction(() => {
-            this.list = results
+            if (results.length > 1) {
+                this.list = results
+            }
             this.initialized = true
         })
-        return true
     }
 
     getUserProjects = async (userEmail: string | null) => {

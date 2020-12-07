@@ -51,6 +51,8 @@ const InputTagField: FC<InputTagFieldProps> = ({ name, control, label, errors })
                             <br />
                             <IonItem>
                                 <IonInput
+                                    id={name}
+                                    name={name}
                                     onIonChange={(e) => setTag(e.detail.value ?? '')}
                                     onKeyDown={(e) => onAddTagEvent(e, value)}
                                     type='text'

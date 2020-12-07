@@ -28,11 +28,10 @@ export default class AdminStore {
 
     loadAllUserRoles = async () => {
         const results = await this.adminDao.getAll()
-        if (results.length < 1) {
-            return false
-        }
         runInAction(() => {
-            this.userRoleList = results
+            if (results.length > 0) {
+                this.userRoleList = results
+            }
             this.initializedUserRoleList = true
         })
         return true
