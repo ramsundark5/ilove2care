@@ -10,7 +10,13 @@ describe('Project operations', function () {
         it('Add new project', function () {
             //fill form
             cy.contains('ion-tab-button', 'Admin').click()
+            cy.contains('ion-tab-button', 'Admin').arrow({
+                text: 'Only Admin user can see this option',
+                textSize: '5vh',
+            })
+
             cy.contains('Projects').should('be.visible')
+
             cy.contains('Projects').click()
             cy.contains('ion-button', 'Add Project').should('be.visible')
             cy.contains('ion-button', 'Add Project').click()

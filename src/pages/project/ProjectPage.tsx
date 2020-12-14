@@ -12,7 +12,7 @@ const ProjectPage: React.FC = () => (
         <IonContent>
             <ProjectList />
         </IonContent>
-        <IonFooter>
+        <IonFooter className='ion-margin-bottom ion-no-border'>
             <IonButton
                 className='ion-padding'
                 color='primary'

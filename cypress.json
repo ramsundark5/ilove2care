@@ -1,6 +1,8 @@
 {
     "projectId": "ilove2care",
+    "nodeVersion": "system",
     "baseUrl": "http://localhost:3000",
+    "trashAssetsBeforeRuns": false,
     "env": {
         "host": "http://localhost:3000"
     }

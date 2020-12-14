@@ -12,7 +12,7 @@ const TimeSheet: React.FC = () => (
         <IonContent>
             <TimeEntryList />
         </IonContent>
-        <IonFooter>
+        <IonFooter className='ion-margin-bottom ion-no-border'>
             <IonButton
                 className='ion-padding'
                 color='primary'
