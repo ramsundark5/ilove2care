@@ -20,7 +20,10 @@ export const TimeEntryItem = ({ timeEntry }: TimeEntryItemProps) => {
         : { name: null }
     const projectName = project && project.name ? project.name : null
     return (
-        <IonItem routerLink={`/tabs/timesheet/save/${timeEntry.id}`}>
+        <IonItem
+            class={`status-${timeEntry.status}`}
+            routerLink={`/tabs/timesheet/save/${timeEntry.id}`}
+        >
             <IonLabel>
                 <h3>
                     {timeEntry.title} - {projectName}

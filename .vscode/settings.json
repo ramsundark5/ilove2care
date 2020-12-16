@@ -5,6 +5,7 @@
       "source.fixAll.eslint": true
     },
     "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false,
     "editor.tabSize": 4
   },
   "[typescriptreact]": {
@@ -25,7 +26,6 @@
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "editor.formatOnSave": true,
   "jest.autoEnable": false,
   "jest.runAllTestsFirst": false,
   "eslint.validate": [
@@ -34,4 +34,10 @@
     "typescript",
     "typescriptreact"
   ],
+  "prettier.disableLanguages": [
+    "js",
+    "ts",
+    "jsx",
+    "tsx"
+  ]
 }

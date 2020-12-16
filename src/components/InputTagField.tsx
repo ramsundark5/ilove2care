@@ -1,4 +1,3 @@
-/* eslint-disable operator-linebreak */
 import React, { FC, useState } from 'react'
 import { Control, Controller, DeepMap, FieldError } from 'react-hook-form'
 

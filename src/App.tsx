@@ -12,8 +12,8 @@ import { ToastProvider } from './hooks/use-toast'
 import About from './pages/about/About'
 import Login from './pages/auth/Login'
 import RedirectToLogin from './pages/auth/RedirectToLogin'
-import HomePage from './pages/home/HomePage'
-import SideMenu from './pages/home/SideMenu'
+import SideMenu from './pages/navigation/SideMenu'
+import TabMenu from './pages/navigation/TabMenu'
 
 const PublicRoutes: React.FC = () => (
     <IonReactRouter>
@@ -30,7 +30,7 @@ const PrivateRoutes: React.FC = () => (
         <IonSplitPane contentId='private'>
             <SideMenu />
             <IonRouterOutlet id='private'>
-                <Route path='/tabs' render={() => <HomePage />} />
+                <Route path='/tabs' render={() => <TabMenu />} />
                 <Route path='/logout' render={() => <RedirectToLogin />} />
                 <Redirect exact from='/' to='/tabs' />
             </IonRouterOutlet>

@@ -24,7 +24,7 @@ import TimeSheetPage from '../timesheet/TimeSheetPage'
 import SaveUserRole from '../users/SaveUserRole'
 import UserList from '../users/UserList'
 
-const HomePage = () => {
+const TabMenu = () => {
     const { adminStore } = useStore()
     const { isAdmin } = adminStore
     return (
@@ -107,4 +107,4 @@ const HomePage = () => {
     )
 }
 
-export default observer(HomePage)
+export default observer(TabMenu)

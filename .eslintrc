@@ -4,6 +4,7 @@
       "airbnb/hooks",
       "plugin:@typescript-eslint/eslint-recommended",
       "plugin:@typescript-eslint/recommended",
+      "prettier",
       "prettier/react",
       "prettier/@typescript-eslint"
     ],
@@ -17,7 +18,8 @@
       "sourceType": "module"
     },
     "plugins": [
-      "eslint-plugin-import-helpers"
+      "eslint-plugin-import-helpers",
+      "prettier"
     ],
     "rules": {
       "jsx-quotes": [0],
@@ -49,6 +51,7 @@
       "no-multiple-empty-lines": ["error", {
         "max": 1
       }],
+      "no-restricted-syntax":"off",
       "operator-linebreak": "off",
       "react/destructuring-assignment": ["warn", "always", {
         "ignoreClassFields": true
@@ -67,7 +70,18 @@
       "sort-imports": ["error", {
         "ignoreCase": true,
         "ignoreDeclarationSort": true
-      }]
+      }],
+      "prettier/prettier": ["error",{
+          "printWidth": 100,
+          "semi": false,
+          "singleQuote": true,
+          "quoteProps": "consistent",
+          "jsxSingleQuote": true,
+          "endOfLine": "lf",
+          "tabWidth": 4,
+          "trailingComma": "es5"
+        }
+      ]
     },
     "settings": {
       "react": {

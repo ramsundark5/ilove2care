@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/control-has-associated-label */
-/* eslint-disable no-restricted-syntax */
 import React, { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { RouteComponentProps } from 'react-router'
@@ -163,6 +161,7 @@ const SaveProject: React.FC<SaveProjectProps> = ({ history, match }) => {
                     Save
                 </IonButton>
                 <button
+                    aria-label='Hidden submit'
                     form='projectForm'
                     hidden
                     id='submitBtn'

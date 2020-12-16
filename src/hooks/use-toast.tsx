@@ -1,4 +1,12 @@
-import React, { createContext, FC, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import React, {
+    createContext,
+    FC,
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useState,
+} from 'react'
 
 import { IonToast, ToastOptions } from '@ionic/react'
 import { ReactControllerProps } from '@ionic/react/dist/types/components/createControllerComponent'
@@ -40,8 +48,9 @@ export const ToastProvider: FC<Props> = ({ value, children }) => {
             // eslint-disable-next-line @typescript-eslint/no-shadow
             const present = (options: ReactToastOptions) => () => {
                 // don't display another toast if a matching message is already displayed
-                // eslint-disable-next-line max-len
-                if (toasts.filter((toast) => toast.options.message === options.message).length > 0) {
+                if (
+                    toasts.filter((toast) => toast.options.message === options.message).length > 0
+                ) {
                     return
                 }
 
@@ -81,7 +90,9 @@ export const ToastProvider: FC<Props> = ({ value, children }) => {
     }, [toasts])
 
     const contextValue = useMemo(() => {
-        const translateToOptions = (color: 'success' | 'warning' | 'danger') => (message: string) => {
+        const translateToOptions = (color: 'success' | 'warning' | 'danger') => (
+            message: string
+        ) => {
             const toast = create({ message, color })
             toast.present()
             return toast
@@ -97,7 +108,9 @@ export const ToastProvider: FC<Props> = ({ value, children }) => {
 
     const hideToast = (index: number) => {
         // eslint-disable-next-line max-len
-        setToasts([...toasts.map((toast, i) => (i === index ? { ...toast, isOpen: false } : toast))])
+        setToasts([
+            ...toasts.map((toast, i) => (i === index ? { ...toast, isOpen: false } : toast)),
+        ])
     }
 
     return (

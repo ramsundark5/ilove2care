@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { makeAutoObservable, runInAction } from 'mobx'
 
 import FirebaseService from '../../../services/FirebaseService'

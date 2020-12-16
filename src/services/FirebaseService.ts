@@ -1,5 +1,3 @@
-/* eslint-disable consistent-return */
-/* eslint-disable implicit-arrow-linebreak */
 import firebase from 'firebase/app'
 
 import 'firebase/firestore'

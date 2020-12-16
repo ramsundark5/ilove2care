@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/control-has-associated-label */
-/* eslint-disable no-restricted-syntax */
 import React, { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { RouteComponentProps } from 'react-router'
@@ -152,6 +150,7 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
                     Save
                 </IonButton>
                 <button
+                    aria-label='Hidden submit'
                     form='timeEntryForm'
                     hidden
                     id='submitBtn'
