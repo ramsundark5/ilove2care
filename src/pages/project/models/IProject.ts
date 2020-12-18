@@ -8,4 +8,5 @@ export interface IProject {
     users: string[]
     created: Date
     updated: Date
+    updatedBy: string
 }

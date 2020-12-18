@@ -61,6 +61,7 @@ export default class ProjectStore {
         }
         project.created = new Date()
         project.updated = new Date()
+        project.updatedBy = this.firebaseService.getCurrentUser()?.email || ''
         project.id = uuidv4()
         this.list.push(project)
         this.projectDao.save(project)
@@ -75,6 +76,7 @@ export default class ProjectStore {
             projectToUpdateClone.status = updatedProject.status
             projectToUpdateClone.users = [...updatedProject.users]
             projectToUpdateClone.updated = new Date()
+            projectToUpdateClone.updatedBy = this.firebaseService.getCurrentUser()?.email || ''
 
             const updateEntryIndex = this.list.findIndex((project) => project.id === id)
             this.list[updateEntryIndex] = projectToUpdateClone
