@@ -9,14 +9,14 @@ import './Credit.scss'
 
 interface CreditPageProps
     extends RouteComponentProps<{
-        id: string
+        projectId: string
     }> {}
 
 const CreditPage: React.FC<CreditPageProps> = ({ history, match }) => {
-    const projectId = match.params.id
+    const { projectId } = match.params
     return (
         <IonPage id='credit-page'>
-            <ToolBar showBackButton={false} title='Credit' />
+            <ToolBar backHref='/tabs/admin/project' title='Credit' />
             <IonContent>
                 <CreditList />
             </IonContent>

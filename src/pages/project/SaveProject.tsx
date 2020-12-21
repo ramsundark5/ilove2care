@@ -80,7 +80,6 @@ const SaveProject: React.FC<SaveProjectProps> = ({ history, match }) => {
         end: date().nullable().default(undefined),
         description: string(),
         status: string(),
-        user: string().email(),
     })
     const { control, handleSubmit, errors } = useForm({
         resolver: yupResolver(validationSchema),

@@ -66,6 +66,6 @@ export default class CreditStore {
             this.list.findIndex((indexCredit) => indexCredit.id === credit.id),
             1
         )
-        this.creditDao.remove(credit.id)
+        this.creditDao.remove(credit.projectId, credit.id)
     }
 }

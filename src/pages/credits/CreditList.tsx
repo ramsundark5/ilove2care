@@ -15,7 +15,6 @@ const CreditList: React.FC = () => {
             {creditEntries.map((creditEntry) => (
                 <CreditItem credit={creditEntry} key={creditEntry.id} />
             ))}
-            <IonLoading isOpen={!creditStore.initialized} />
         </>
     )
 }

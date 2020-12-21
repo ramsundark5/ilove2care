@@ -17,6 +17,8 @@ import ChangePassword from '../account/ChangePassword'
 import SaveProfile from '../account/SaveProfile'
 import Skills from '../account/Skills'
 import AdminPage from '../admin/AdminPage'
+import CreditPage from '../credits/CreditPage'
+import SaveCredit from '../credits/SaveCredit'
 import ProjectPage from '../project/ProjectPage'
 import SaveProject from '../project/SaveProject'
 import SaveTimeEntry from '../timesheet/SaveTimeEntry'
@@ -63,6 +65,23 @@ const TabMenu = () => {
                 />
                 <Route exact path='/tabs/admin/project' render={() => <ProjectPage />} />
 
+                {/* Project credit pages */}
+                <Route
+                    exact
+                    path='/tabs/admin/projects/:projectId/credits/:creditId/save'
+                    render={(props) => <SaveCredit {...props} />}
+                />
+                <Route
+                    exact
+                    path='/tabs/admin/projects/:projectId/credits/save'
+                    render={(props) => <SaveCredit {...props} />}
+                />
+                <Route
+                    exact
+                    path='/tabs/admin/projects/:projectId/credits'
+                    render={(props) => <CreditPage {...props} />}
+                />
+
                 {/* Timesheet pages */}
                 <Route
                     exact
@@ -77,13 +96,13 @@ const TabMenu = () => {
                 <Route exact path='/tabs/timesheet' render={() => <TimeSheetPage />} />
 
                 {/* Default tab */}
-                <Redirect exact path='/tabs' to='/tabs/timesheet' />
+                <Redirect exact path='/tabs' to='/tabs/dashboard' />
             </IonRouterOutlet>
 
             <IonTabBar slot='bottom'>
-                <IonTabButton href='/tabs/timesheet' tab='Home'>
+                <IonTabButton href='/tabs/dashboard' tab='Home'>
                     <IonIcon icon={calendarOutline} />
-                    <IonLabel>Timesheet</IonLabel>
+                    <IonLabel>Dashboard</IonLabel>
                 </IonTabButton>
 
                 {isAdmin && (

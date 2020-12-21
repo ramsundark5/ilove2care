@@ -77,8 +77,8 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
 
     const validationSchema = object().shape({
         title: string().required('Title is required'),
-        start: date().required('Start date and time is required'),
-        end: date().required('End date and time is required'),
+        start: date().required('Start date and time is required').nullable().default(undefined),
+        end: date().required('End date and time is required').nullable().default(undefined),
         note: string(),
         projectId: string().required('Project selection is required'),
     })

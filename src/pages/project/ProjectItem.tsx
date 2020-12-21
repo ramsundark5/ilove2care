@@ -9,16 +9,21 @@ interface ProjectItemProps {
 }
 
 export const ProjectItem = ({ project }: ProjectItemProps) => (
-    <IonItem routerLink={`/tabs/admin/project/save/${project.id}`}>
-        <IonLabel>
-            <h3>{project.name}</h3>
-            <p>{project.description}</p>
-            <p>
-                Team:{' '}
-                {project.users &&
-                    project.users.map &&
-                    project.users.map((user) => <IonChip key={user}>{user}</IonChip>)}
-            </p>
-        </IonLabel>
-    </IonItem>
+    <>
+        <IonItem routerLink={`/tabs/admin/project/save/${project.id}`}>
+            <IonLabel>
+                <h3>{project.name}</h3>
+                <p>{project.description}</p>
+                <p>
+                    Team:{' '}
+                    {project.users &&
+                        project.users.map &&
+                        project.users.map((user) => <IonChip key={user}>{user}</IonChip>)}
+                </p>
+            </IonLabel>
+        </IonItem>
+        <IonItem detail routerLink={`/tabs/admin/projects/${project.id}/credits`}>
+            Credits
+        </IonItem>
+    </>
 )

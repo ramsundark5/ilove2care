@@ -4,7 +4,7 @@ import { RouteComponentProps } from 'react-router'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import { IonButton, IonContent, IonFooter, IonPage } from '@ionic/react'
-import { date, object, string } from 'yup'
+import { date, number, object, string } from 'yup'
 
 import DateField from '../../components/DateField'
 import InputTagField from '../../components/InputTagField'
@@ -20,12 +20,12 @@ import { ICredit } from './models/ICredit'
 
 interface SaveCreditProps
     extends RouteComponentProps<{
-        id: string
+        creditId: string
     }> {}
 
 const SaveCredit: React.FC<SaveCreditProps> = ({ history, match }) => {
     const { projectStore, creditStore } = useStore()
-    const existingCredit = creditStore.list.find((item) => item.id === match.params.id)
+    const existingCredit = creditStore.list.find((item) => item.id === match.params.creditId)
     const [didLoad, setDidLoad] = useState<boolean>(false)
     const [showAlert, setShowAlert] = useState(false)
     const [projects, setProjects] = useState<SelectFieldOptionProps[]>([])
@@ -78,10 +78,11 @@ const SaveCredit: React.FC<SaveCreditProps> = ({ history, match }) => {
 
     const validationSchema = object().shape({
         title: string().required('Title is required'),
-        start: date().required('Start date and time is required'),
-        end: date().required('End date and time is required'),
+        start: date().nullable().default(undefined),
+        end: date().nullable().default(undefined),
         note: string(),
         projectId: string().required('Project selection is required'),
+        credit: number().required(),
     })
     const { control, handleSubmit, errors } = useForm({
         resolver: yupResolver(validationSchema),
@@ -91,6 +92,8 @@ const SaveCredit: React.FC<SaveCreditProps> = ({ history, match }) => {
             end: existingCredit?.end?.toISOString() || null,
             note: existingCredit?.note,
             projectId: existingCredit?.projectId,
+            users: existingCredit?.users || [],
+            credit: existingCredit?.credit || null,
         },
     })
 
