@@ -4,6 +4,7 @@ import { IonContent, IonLoading, IonPage } from '@ionic/react'
 import { observer } from 'mobx-react-lite'
 
 import ToolBar from '../../components/ToolBar'
+import { RouteEnum } from '../../constants/RouteEnum'
 import { useStore } from '../../hooks/use-store'
 import { IUser } from '../account/model/IUser'
 import UserItem from './UserItem'
@@ -14,7 +15,7 @@ const UserList: React.FC = () => {
 
     return (
         <IonPage id='view-users'>
-            <ToolBar backHref='/tabs/admin' title='Users' />
+            <ToolBar backHref={RouteEnum.ADMIN} title='Users' />
             <IonContent>
                 {users.map((user) => (
                     <UserItem key={user.id} user={user} />

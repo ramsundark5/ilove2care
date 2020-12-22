@@ -11,6 +11,7 @@ import SelectField, { SelectFieldOptionProps } from '../../components/SelectFiel
 import TextArea from '../../components/TextArea'
 import TextField from '../../components/TextField'
 import ToolBar from '../../components/ToolBar'
+import { RouteEnum } from '../../constants/RouteEnum'
 import { useStore } from '../../hooks/use-store'
 import log from '../../logger'
 import { IProject } from '../project/models/IProject'
@@ -95,7 +96,7 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
 
     return (
         <IonPage id='save-timentry'>
-            <ToolBar backHref='/tabs/timesheet' title='Time Entry' />
+            <ToolBar backHref={RouteEnum.TIMESHEET} title='Time Entry' />
             <IonContent>
                 <form id='timeEntryForm' onSubmit={handleSubmit(saveTimeEntry)}>
                     <TextField

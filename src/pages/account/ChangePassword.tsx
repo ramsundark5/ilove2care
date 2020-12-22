@@ -9,6 +9,7 @@ import { object, ref, string } from 'yup'
 
 import TextField, { TexFieldProps } from '../../components/TextField'
 import ToolBar from '../../components/ToolBar'
+import { RouteEnum } from '../../constants/RouteEnum'
 import { useToast } from '../../hooks/use-toast'
 
 const ChangePassword: React.FC = () => {
@@ -49,7 +50,7 @@ const ChangePassword: React.FC = () => {
                 duration: 2000,
             })
             successToast.present()
-            history.replace('/tabs/account')
+            history.replace(RouteEnum.ACCOUNT)
         } catch (err) {
             const errorToast = Toast.create({
                 color: 'danger',
@@ -62,7 +63,7 @@ const ChangePassword: React.FC = () => {
 
     return (
         <IonPage id='change-password'>
-            <ToolBar backHref='/tabs/account' title='Change Password' />
+            <ToolBar backHref={RouteEnum.ACCOUNT} title='Change Password' />
             <IonContent>
                 <form onSubmit={handleSubmit(onChangePassword)}>
                     {formFields.map((field) => (

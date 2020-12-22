@@ -21,6 +21,7 @@ import {
     personOutline,
 } from 'ionicons/icons'
 
+import { RouteEnum } from '../../constants/RouteEnum'
 import { useStore } from '../../hooks/use-store'
 
 interface AppPage {
@@ -34,33 +35,33 @@ const appPages = {
     publicPages: [
         {
             title: 'About',
-            path: '/tabs/about',
+            path: RouteEnum.ABOUT,
             iosIcon: informationCircleOutline,
             mdIcon: informationCircleOutline,
         },
     ],
     loggedInPages: [
         {
-            title: 'Timesheet',
-            path: '/tabs/timesheet',
+            title: 'Dashboard',
+            path: RouteEnum.DASHBOARD,
             iosIcon: calendarOutline,
             mdIcon: calendarOutline,
         },
         {
             title: 'Admin',
-            path: '/tabs/admin',
+            path: RouteEnum.ADMIN,
             iosIcon: constructOutline,
             mdIcon: constructOutline,
         },
         {
             title: 'Account',
-            path: '/tabs/account',
+            path: RouteEnum.ACCOUNT,
             iosIcon: personOutline,
             mdIcon: personOutline,
         },
         {
             title: 'Logout',
-            path: '/logout',
+            path: RouteEnum.LOGOUT,
             iosIcon: logOutOutline,
             mdIcon: logOutOutline,
         },

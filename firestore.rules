@@ -15,7 +15,11 @@ service cloud.firestore {
     }
     
     function isProjectAdmin(projectId) {
-    	return isSignedIn() && get(/databases/$(database)/documents/projects/$(projectId)).data.users.hasAny(request.auth.token.email)
+    	return isSignedIn() && get(/databases/$(database)/documents/projects/$(projectId)).data.admins.hasAny([request.auth.token.email])
+  	}
+    
+    function isProjectMember(projectId) {
+    	return isSignedIn() && get(/databases/$(database)/documents/projects/$(projectId)).data.users.hasAny([request.auth.token.email])
   	}
     
     // user collection permissions
@@ -37,13 +41,13 @@ service cloud.firestore {
     // project collection permissions
     match /projects/{projectId} {
       allow create, update: if hasRole(['admin']);
-      allow read: if isSignedIn();
+      allow read: if isProjectMember(projectId) || hasRole(['admin']);
     }
     
     // credits collection permissions
     match /projects/{projectId}/credits/{creditId} {
-      allow create, update: if hasRole(['admin']);
-      allow read: if isProjectAdmin(projectId) || hasRole(['admin']);
+      allow create, update: if isProjectAdmin(projectId) || hasRole(['admin']);
+      allow read: if isProjectMember(projectId) || hasRole(['admin']);
     }
   }
 }

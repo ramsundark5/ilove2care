@@ -6,6 +6,7 @@ import { IonButton, IonContent, IonPage } from '@ionic/react'
 
 import InputTagField from '../../components/InputTagField'
 import ToolBar from '../../components/ToolBar'
+import { RouteEnum } from '../../constants/RouteEnum'
 import { useStore } from '../../hooks/use-store'
 import log from '../../logger'
 import { IUser } from './model/IUser'
@@ -32,7 +33,7 @@ const Skills: React.FC = () => {
 
     return (
         <IonPage id='skills-page'>
-            <ToolBar backHref='/tabs/account' title='Skills' />
+            <ToolBar backHref={RouteEnum.ACCOUNT} title='Skills' />
             <IonContent>
                 <form onSubmit={handleSubmit(onUpdateSkills)}>
                     <InputTagField

@@ -7,6 +7,7 @@ import { IonApp, IonLoading, IonRouterOutlet, IonSplitPane } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
 import { observer } from 'mobx-react-lite'
 
+import { RouteEnum } from './constants/RouteEnum'
 import { useStore } from './hooks/use-store'
 import { ToastProvider } from './hooks/use-toast'
 import About from './pages/about/About'
@@ -18,9 +19,9 @@ import TabMenu from './pages/navigation/TabMenu'
 const PublicRoutes: React.FC = () => (
     <IonReactRouter>
         <IonRouterOutlet id='public'>
-            <Route component={Login} exact path='/login' />
-            <Route component={About} exact path='/about' />
-            <Redirect exact from='/' to='/login' />
+            <Route component={Login} exact path={RouteEnum.LOGIN} />
+            <Route component={About} exact path={RouteEnum.ABOUT} />
+            <Redirect exact from='/' to={RouteEnum.LOGIN} />
         </IonRouterOutlet>
     </IonReactRouter>
 )
@@ -30,9 +31,9 @@ const PrivateRoutes: React.FC = () => (
         <IonSplitPane contentId='private'>
             <SideMenu />
             <IonRouterOutlet id='private'>
-                <Route path='/tabs' render={() => <TabMenu />} />
-                <Route path='/logout' render={() => <RedirectToLogin />} />
-                <Redirect exact from='/' to='/tabs' />
+                <Route path={RouteEnum.TABS} render={() => <TabMenu />} />
+                <Route path={RouteEnum.LOGOUT} render={() => <RedirectToLogin />} />
+                <Redirect exact from='/' to={RouteEnum.TABS} />
             </IonRouterOutlet>
         </IonSplitPane>
     </IonReactRouter>

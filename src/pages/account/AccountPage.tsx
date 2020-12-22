@@ -4,6 +4,7 @@ import { useHistory } from 'react-router'
 import { IonButton, IonContent, IonItem, IonList, IonPage } from '@ionic/react'
 
 import ToolBar from '../../components/ToolBar'
+import { RouteEnum } from '../../constants/RouteEnum'
 import { useStore } from '../../hooks/use-store'
 
 const AccountPage: React.FC = () => {
@@ -20,14 +21,14 @@ const AccountPage: React.FC = () => {
             <ToolBar showBackButton={false} title='Account' />
             <IonContent>
                 <IonList inset>
-                    <IonItem detail routerLink='/tabs/account/profile'>
+                    <IonItem detail routerLink={RouteEnum.PROFILE}>
                         Profile
                     </IonItem>
-                    <IonItem detail routerLink='/tabs/account/skills'>
+                    <IonItem detail routerLink={RouteEnum.SKILLS}>
                         Skills
                     </IonItem>
                     {currentUser && currentUser.providerData[0].providerId === 'password' && (
-                        <IonItem detail routerLink='/tabs/account/changePassword'>
+                        <IonItem detail routerLink={RouteEnum.CHANGE_PASSWORD}>
                             Change Password
                         </IonItem>
                     )}

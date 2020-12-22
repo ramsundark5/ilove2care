@@ -3,12 +3,13 @@ import React from 'react'
 import { IonButton, IonContent, IonFooter, IonPage } from '@ionic/react'
 
 import ToolBar from '../../components/ToolBar'
+import { RouteEnum } from '../../constants/RouteEnum'
 import ProjectList from './ProjectList'
 import './Project.scss'
 
 const ProjectPage: React.FC = () => (
     <IonPage id='project-page'>
-        <ToolBar backHref='/tabs/admin' title='Project' />
+        <ToolBar backHref={RouteEnum.ADMIN} title='Project' />
         <IonContent>
             <ProjectList />
         </IonContent>
@@ -17,7 +18,7 @@ const ProjectPage: React.FC = () => (
                 className='ion-padding'
                 color='primary'
                 expand='block'
-                routerLink='/tabs/admin/project/save'
+                routerLink={RouteEnum.PROJECT_ADD}
             >
                 Add Project
             </IonButton>

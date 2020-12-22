@@ -75,6 +75,7 @@ export default class ProjectStore {
             projectToUpdateClone.description = updatedProject.description
             projectToUpdateClone.status = updatedProject.status
             projectToUpdateClone.users = [...updatedProject.users]
+            projectToUpdateClone.admins = [...updatedProject.admins]
             projectToUpdateClone.updated = new Date()
             projectToUpdateClone.updatedBy = this.firebaseService.getCurrentUser()?.email || ''
 

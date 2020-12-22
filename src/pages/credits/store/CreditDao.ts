@@ -44,10 +44,33 @@ export default class CreditDao {
                     ...convertTimestamps(doc.data()),
                 })
             })
-            log.info('loaded credits list into store')
+            log.info('loaded user credits list into store')
             return results
         } catch (error) {
-            log.error(`Error getting credits list ${error}`)
+            log.error(`Error getting user credits list ${error}`)
+            return []
+        }
+    }
+
+    /**
+     *
+     * @param {*} param0
+     */
+    getProjectCredits = async (projectId: string) => {
+        const results: ICredit[] = []
+        try {
+            const querySnapshot = await this.getCollectionRef(projectId).get()
+            querySnapshot.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                results.push({
+                    id: doc.id,
+                    ...convertTimestamps(doc.data()),
+                })
+            })
+            log.info('loaded project credits list into store')
+            return results
+        } catch (error) {
+            log.error(`Error getting project credits list ${error}`)
             return []
         }
     }

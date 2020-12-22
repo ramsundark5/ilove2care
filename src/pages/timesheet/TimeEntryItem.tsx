@@ -3,6 +3,8 @@ import React from 'react'
 import { IonItem, IonLabel } from '@ionic/react'
 import dayjs from 'dayjs'
 
+import { RouteEnum } from '../../constants/RouteEnum'
+import { getPath } from '../../helpers/URLHelper'
 import { useStore } from '../../hooks/use-store'
 import { ITimeEntry } from './models/ITimeEntry'
 
@@ -22,7 +24,7 @@ export const TimeEntryItem = ({ timeEntry }: TimeEntryItemProps) => {
     return (
         <IonItem
             class={`status-${timeEntry.status}`}
-            routerLink={`/tabs/timesheet/save/${timeEntry.id}`}
+            routerLink={getPath(RouteEnum.TIMESHEET_SAVE, { id: timeEntry.id })}
         >
             <IonLabel>
                 <h3>

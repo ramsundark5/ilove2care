@@ -47,7 +47,6 @@ const InputTagField: FC<InputTagFieldProps> = ({ name, control, label, errors })
                     render={({ value }) => (
                         <>
                             <br />
-                            <br />
                             <IonItem>
                                 <IonInput
                                     id={name}

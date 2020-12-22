@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-import dayjs from 'dayjs'
 import { makeAutoObservable, runInAction } from 'mobx'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -8,7 +7,9 @@ import { ICredit } from '../models/ICredit'
 import CreditDao from './CreditDao'
 
 export default class CreditStore {
-    list: ICredit[] = []
+    projectCredits: ICredit[] = []
+
+    userCredits: ICredit[] = []
 
     query = ''
 
@@ -16,7 +17,9 @@ export default class CreditStore {
 
     firebaseService: FirebaseService
 
-    initialized = false
+    userCreditsInitialized = false
+
+    projectCreditsInitialized = false
 
     constructor() {
         makeAutoObservable(this)
@@ -27,9 +30,18 @@ export default class CreditStore {
     getUserCredits = async () => {
         const results = await this.creditDao.getUserCredits()
         runInAction(() => {
-            this.list = results
-            this.initialized = true
+            this.userCredits = results
+            this.userCreditsInitialized = true
         })
+    }
+
+    getProjectCredits = async (projectId: string) => {
+        const results = await this.creditDao.getProjectCredits(projectId)
+        runInAction(() => {
+            this.projectCredits = results
+            this.projectCreditsInitialized = true
+        })
+        return results
     }
 
     addCredit = (credit: ICredit) => {
@@ -43,12 +55,12 @@ export default class CreditStore {
         credit.updated = new Date()
         credit.updatedBy = this.firebaseService.getCurrentUser()?.email || ''
         credit.id = uuidv4()
-        this.list.push(credit)
+        this.projectCredits.push(credit)
         this.creditDao.save(credit)
     }
 
     updateCredit = (updatedCredit: ICredit, id: string) => {
-        const creditToUpdate = this.list.find((indexCredit) => indexCredit.id === id)
+        const creditToUpdate = this.projectCredits.find((indexCredit) => indexCredit.id === id)
         if (creditToUpdate) {
             creditToUpdate.title = updatedCredit.title
             creditToUpdate.start = updatedCredit.start
@@ -62,8 +74,8 @@ export default class CreditStore {
     }
 
     removeCredit = (credit: ICredit): void => {
-        this.list.splice(
-            this.list.findIndex((indexCredit) => indexCredit.id === credit.id),
+        this.projectCredits.splice(
+            this.projectCredits.findIndex((indexCredit) => indexCredit.id === credit.id),
             1
         )
         this.creditDao.remove(credit.projectId, credit.id)

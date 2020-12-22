@@ -6,6 +6,7 @@ export interface IProject {
     end: Date
     status: string
     users: string[]
+    admins: string[]
     created: Date
     updated: Date
     updatedBy: string

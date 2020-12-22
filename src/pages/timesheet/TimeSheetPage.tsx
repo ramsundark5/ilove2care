@@ -3,6 +3,7 @@ import React from 'react'
 import { IonButton, IonContent, IonFooter, IonPage } from '@ionic/react'
 
 import ToolBar from '../../components/ToolBar'
+import { RouteEnum } from '../../constants/RouteEnum'
 import TimeEntryList from './TimeEntryList'
 import './Timesheet.scss'
 
@@ -17,7 +18,7 @@ const TimeSheet: React.FC = () => (
                 className='ion-padding'
                 color='primary'
                 expand='block'
-                routerLink='/tabs/timesheet/save'
+                routerLink={RouteEnum.TIMESHEET_ADD}
             >
                 Add Time
             </IonButton>

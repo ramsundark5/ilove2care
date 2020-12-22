@@ -12,6 +12,7 @@ import SelectField, { SelectFieldOptionProps } from '../../components/SelectFiel
 import TextArea from '../../components/TextArea'
 import TextField from '../../components/TextField'
 import ToolBar from '../../components/ToolBar'
+import { RouteEnum } from '../../constants/RouteEnum'
 import { useStore } from '../../hooks/use-store'
 import log from '../../logger'
 import { IProject } from '../project/models/IProject'
@@ -25,7 +26,9 @@ interface SaveCreditProps
 
 const SaveCredit: React.FC<SaveCreditProps> = ({ history, match }) => {
     const { projectStore, creditStore } = useStore()
-    const existingCredit = creditStore.list.find((item) => item.id === match.params.creditId)
+    const existingCredit = creditStore.projectCredits.find(
+        (item) => item.id === match.params.creditId
+    )
     const [didLoad, setDidLoad] = useState<boolean>(false)
     const [showAlert, setShowAlert] = useState(false)
     const [projects, setProjects] = useState<SelectFieldOptionProps[]>([])
@@ -99,7 +102,7 @@ const SaveCredit: React.FC<SaveCreditProps> = ({ history, match }) => {
 
     return (
         <IonPage id='save-credit'>
-            <ToolBar backHref='/tabs/timesheet' title='Credit' />
+            <ToolBar backHref={RouteEnum.CREDITS} title='Credit' />
             <IonContent>
                 <form id='creditForm' onSubmit={handleSubmit(saveCredit)}>
                     <TextField

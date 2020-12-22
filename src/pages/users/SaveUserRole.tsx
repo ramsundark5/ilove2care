@@ -6,6 +6,7 @@ import { IonButton, IonChip, IonContent, IonItem, IonLabel, IonPage } from '@ion
 
 import SelectField, { SelectFieldOptionProps } from '../../components/SelectField'
 import ToolBar from '../../components/ToolBar'
+import { RouteEnum } from '../../constants/RouteEnum'
 import { useStore } from '../../hooks/use-store'
 import log from '../../logger'
 import { IRole } from '../admin/model/IRole'
@@ -56,7 +57,7 @@ const SaveUserRole: React.FC<SaveUserRoleProps> = ({ history, match }) => {
 
     return (
         <IonPage id='save-role'>
-            <ToolBar backHref='/tabs/admin/users' title='User' />
+            <ToolBar backHref={RouteEnum.ADMIN_USERS} title='User' />
             {userInView && (
                 <IonContent>
                     <IonItem>

@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { RouteComponentProps } from 'react-router'
 
 import { yupResolver } from '@hookform/resolvers/yup'
-import { IonButton, IonContent, IonFooter, IonPage } from '@ionic/react'
+import { IonButton, IonContent, IonFooter, IonItem, IonPage } from '@ionic/react'
 import { date, object, string } from 'yup'
 
 import DateField from '../../components/DateField'
@@ -12,6 +12,8 @@ import SelectField, { SelectFieldOptionProps } from '../../components/SelectFiel
 import TextArea from '../../components/TextArea'
 import TextField from '../../components/TextField'
 import ToolBar from '../../components/ToolBar'
+import { RouteEnum } from '../../constants/RouteEnum'
+import { getPath } from '../../helpers/URLHelper'
 import { useStore } from '../../hooks/use-store'
 import log from '../../logger'
 import ArchiveProjectAlert from './ArchiveProjectAlert'
@@ -90,12 +92,13 @@ const SaveProject: React.FC<SaveProjectProps> = ({ history, match }) => {
             end: existingProject?.end?.toISOString() || null,
             status: existingProject?.status,
             users: existingProject?.users || [],
+            admins: existingProject?.admins || [],
         },
     })
 
     return (
         <IonPage id='save-timentry'>
-            <ToolBar backHref='/tabs/admin/project' title='Project' />
+            <ToolBar backHref={RouteEnum.PROJECT} title='Project' />
             <IonContent>
                 <form id='projectForm' onSubmit={handleSubmit(save)}>
                     <TextField
@@ -124,6 +127,14 @@ const SaveProject: React.FC<SaveProjectProps> = ({ history, match }) => {
                         name='users'
                     />
 
+                    <InputTagField
+                        control={control}
+                        errors={errors}
+                        key='admins'
+                        label='Admins'
+                        name='admins'
+                    />
+
                     <DateField
                         control={control}
                         displayFormat='MMM D, YYYY'
@@ -149,6 +160,14 @@ const SaveProject: React.FC<SaveProjectProps> = ({ history, match }) => {
                         name='description'
                     />
                 </form>
+                {existingProject && existingProject.id && (
+                    <IonItem
+                        detail
+                        routerLink={getPath(RouteEnum.CREDITS, { projectId: existingProject?.id })}
+                    >
+                        Credits
+                    </IonItem>
+                )}
                 <ArchiveProjectAlert
                     cancelAction={() => setShowAlert(false)}
                     confirmationAction={() => archiveProject()}
