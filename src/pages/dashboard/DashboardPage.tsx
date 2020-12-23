@@ -30,7 +30,7 @@ const DashboardPage: React.FC = () => {
         <IonPage id='credit-page'>
             <ToolBar showBackButton={false} title='Dashboard' />
             <IonContent>
-                <CreditList creditEntries={userCreditList} />
+                <CreditList creditEntries={userCreditList} fromAdmin={false} />
             </IonContent>
             <IonLoading isOpen={!didLoad} />
         </IonPage>

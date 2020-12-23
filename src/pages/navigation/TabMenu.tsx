@@ -36,6 +36,11 @@ const TabMenu = () => {
             <IonRouterOutlet>
                 <Route component={About} exact path={RouteEnum.ABOUT_TAB} />
                 <Route exact path={RouteEnum.DASHBOARD} render={() => <DashboardPage />} />
+                <Route
+                    exact
+                    path={RouteEnum.DASHBOARD_CREDIT_VIEW}
+                    render={(props) => <SaveCredit {...props} />}
+                />
                 {/* Account page */}
                 <Route exact path={RouteEnum.CHANGE_PASSWORD} render={() => <ChangePassword />} />
                 <Route exact path={RouteEnum.PROFILE} render={() => <SaveProfile />} />

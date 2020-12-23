@@ -40,7 +40,7 @@ const CreditPage: React.FC<CreditPageProps> = ({ match }) => {
         <IonPage id='credit-page'>
             <ToolBar backHref={RouteEnum.PROJECT} title='Credit' />
             <IonContent>
-                <CreditList creditEntries={projectCreditList} />
+                <CreditList creditEntries={projectCreditList} fromAdmin />
             </IonContent>
             <IonFooter className='ion-margin-bottom ion-no-border'>
                 <IonButton

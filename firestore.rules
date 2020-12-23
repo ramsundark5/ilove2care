@@ -14,12 +14,16 @@ service cloud.firestore {
     	return isSignedIn() && request.auth.uid == resourceId
     }
     
-    function isProjectAdmin(projectId) {
-    	return isSignedIn() && get(/databases/$(database)/documents/projects/$(projectId)).data.admins.hasAny([request.auth.token.email])
+    function isProjectAdmin(projectRecord) {
+    	return isSignedIn() && projectRecord.admins.hasAny([request.auth.token.email])
   	}
     
-    function isProjectMember(projectId) {
-    	return isSignedIn() && get(/databases/$(database)/documents/projects/$(projectId)).data.users.hasAny([request.auth.token.email])
+    function isProjectMember(projectRecord) {
+    	return isSignedIn() && projectRecord.users.hasAny([request.auth.token.email])
+  	}
+    
+    function isCreditReceiver(creditRecord) {
+    	return isSignedIn() && creditRecord.users.hasAny([request.auth.token.email])
   	}
     
     // user collection permissions
@@ -41,13 +45,13 @@ service cloud.firestore {
     // project collection permissions
     match /projects/{projectId} {
       allow create, update: if hasRole(['admin']);
-      allow read: if isProjectMember(projectId) || hasRole(['admin']);
+      allow read: if isProjectMember(resource.data) || hasRole(['admin']);
     }
     
     // credits collection permissions
     match /projects/{projectId}/credits/{creditId} {
-      allow create, update: if isProjectAdmin(projectId) || hasRole(['admin']);
-      allow read: if isProjectMember(projectId) || hasRole(['admin']);
+      allow create, update: if isProjectAdmin(resource.data) || hasRole(['admin']);
+      allow read: if isCreditReceiver(resource.data) || hasRole(['admin']);
     }
   }
 }

@@ -1,5 +1,7 @@
 export enum RouteEnum {
     DASHBOARD = '/tabs/dashboard',
+    DASHBOARD_CREDIT_VIEW = '/tabs/dashboard/credits/:creditId',
+
     ABOUT = '/about',
     ABOUT_TAB = '/tabs/about',
     TABS = '/tabs',

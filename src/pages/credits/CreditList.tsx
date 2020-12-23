@@ -5,13 +5,14 @@ import { ICredit } from './models/ICredit'
 
 interface CreditListProps {
     creditEntries: ICredit[]
+    fromAdmin: boolean
 }
 
-const CreditList: React.FC<CreditListProps> = ({ creditEntries }: CreditListProps) => {
+const CreditList: React.FC<CreditListProps> = ({ creditEntries, fromAdmin }: CreditListProps) => {
     return (
         <>
             {creditEntries.map((creditEntry) => (
-                <CreditItem credit={creditEntry} key={creditEntry.id} />
+                <CreditItem credit={creditEntry} fromAdmin={fromAdmin} key={creditEntry.id} />
             ))}
         </>
     )

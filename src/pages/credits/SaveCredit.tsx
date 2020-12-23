@@ -21,14 +21,15 @@ import { ICredit } from './models/ICredit'
 
 interface SaveCreditProps
     extends RouteComponentProps<{
+        projectId: string
         creditId: string
     }> {}
 
 const SaveCredit: React.FC<SaveCreditProps> = ({ history, match }) => {
-    const { projectStore, creditStore } = useStore()
-    const existingCredit = creditStore.projectCredits.find(
-        (item) => item.id === match.params.creditId
-    )
+    const { creditStore, projectStore } = useStore()
+    const isFromAdmin = !!match.params.projectId
+    const creditStoreToSearch = isFromAdmin ? creditStore.projectCredits : creditStore.userCredits
+    const existingCredit = creditStoreToSearch.find((item) => item.id === match.params.creditId)
     const [didLoad, setDidLoad] = useState<boolean>(false)
     const [showAlert, setShowAlert] = useState(false)
     const [projects, setProjects] = useState<SelectFieldOptionProps[]>([])
@@ -87,6 +88,7 @@ const SaveCredit: React.FC<SaveCreditProps> = ({ history, match }) => {
         projectId: string().required('Project selection is required'),
         credit: number().required(),
     })
+
     const { control, handleSubmit, errors } = useForm({
         resolver: yupResolver(validationSchema),
         defaultValues: {
