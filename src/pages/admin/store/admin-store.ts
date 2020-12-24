@@ -54,14 +54,14 @@ export default class AdminStore {
         return userRole
     }
 
-    add = (userRole: IRole) => {
+    add = (userRole: IRole, userId: string) => {
         const currentUserId = this.firebaseService.getCurrentUserId()
         if (!currentUserId) {
             return
         }
         userRole.created = new Date()
         userRole.updated = new Date()
-        userRole.id = currentUserId
+        userRole.id = userId
         userRole.updatedBy = this.firebaseService.getCurrentUserId() || ''
         this.userRoleList.push(userRole)
         this.adminDao.saveUserRole(userRole)

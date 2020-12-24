@@ -45,16 +45,10 @@ export default class CreditStore {
     }
 
     addCredit = (credit: ICredit) => {
-        const currentUserId = this.firebaseService.getCurrentUserId()
-        if (!currentUserId) {
-            return
-        }
         credit.id = uuidv4()
-        credit.userId = currentUserId
         credit.created = new Date()
         credit.updated = new Date()
         credit.updatedBy = this.firebaseService.getCurrentUser()?.email || ''
-        credit.id = uuidv4()
         this.projectCredits.push(credit)
         this.creditDao.save(credit)
     }

@@ -35,7 +35,7 @@ const appPages = {
     publicPages: [
         {
             title: 'About',
-            path: RouteEnum.ABOUT,
+            path: RouteEnum.ABOUT_TAB,
             iosIcon: informationCircleOutline,
             mdIcon: informationCircleOutline,
         },

@@ -21,7 +21,7 @@ interface CreditPageProps
 const CreditPage: React.FC<CreditPageProps> = ({ match }) => {
     const { projectId } = match.params
     const { creditStore } = useStore()
-    const projectCreditList: ICredit[] = creditStore.projectCredits
+    const projectCreditList: ICredit[] = [...creditStore.projectCredits]
     const [didLoad, setDidLoad] = useState<boolean>(false)
 
     useEffect(() => {

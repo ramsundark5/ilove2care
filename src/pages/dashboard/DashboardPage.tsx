@@ -8,10 +8,11 @@ import { useStore } from '../../hooks/use-store'
 import log from '../../logger'
 import CreditList from '../credits/CreditList'
 import { ICredit } from '../credits/models/ICredit'
+import TotalCredits from './TotalCredits'
 
 const DashboardPage: React.FC = () => {
     const { creditStore } = useStore()
-    const userCreditList: ICredit[] = creditStore.userCredits
+    const userCreditList: ICredit[] = [...creditStore.userCredits]
     const [didLoad, setDidLoad] = useState<boolean>(false)
 
     useEffect(() => {
@@ -30,6 +31,7 @@ const DashboardPage: React.FC = () => {
         <IonPage id='credit-page'>
             <ToolBar showBackButton={false} title='Dashboard' />
             <IonContent>
+                <TotalCredits creditEntries={userCreditList} />
                 <CreditList creditEntries={userCreditList} fromAdmin={false} />
             </IonContent>
             <IonLoading isOpen={!didLoad} />

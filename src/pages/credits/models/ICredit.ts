@@ -1,9 +1,8 @@
 export interface ICredit {
     id: string
-    userId: string
     title: string
     projectId: string
-    credit?: number
+    credit: number
     users: string[]
     note?: string
     start: Date

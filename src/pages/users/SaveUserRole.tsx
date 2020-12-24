@@ -33,8 +33,9 @@ const roleOptions: SelectFieldOptionProps[] = [
 
 const SaveUserRole: React.FC<SaveUserRoleProps> = ({ history, match }) => {
     const { adminStore, userStore } = useStore()
-    const userRoleToUpdate = adminStore.userRoleList.find((item) => item.id === match.params.id)
-    const userInView = userStore.userList.find((item) => item.id === match.params.id)
+    const userIdInView = match.params.id
+    const userRoleToUpdate = [...adminStore.userRoleList].find((item) => item.id === userIdInView)
+    const userInView = userStore.userList.find((item) => item.id === userIdInView)
 
     const { control, handleSubmit, errors } = useForm({
         defaultValues: {
@@ -47,7 +48,7 @@ const SaveUserRole: React.FC<SaveUserRoleProps> = ({ history, match }) => {
             if (userRoleToUpdate && userRoleToUpdate.id) {
                 adminStore.update(updatedUserRole, userRoleToUpdate.id)
             } else {
-                adminStore.add(updatedUserRole)
+                adminStore.add(updatedUserRole, userIdInView)
             }
             history.goBack()
         } catch (err) {

@@ -22,9 +22,9 @@ export enum RouteEnum {
     PROJECT_ADD = '/tabs/admin/project/save',
     PROJECT_SAVE = '/tabs/admin/project/save/:id',
 
-    CREDITS = '/tabs/projects/:projectId/credits',
-    CREDIT_ADD = '/tabs/projects/:projectId/credits/save',
-    CREDIT_SAVE = '/tabs/projects/:projectId/credits/save/:creditId',
+    CREDITS = '/tabs/admin/projects/:projectId/credits',
+    CREDIT_ADD = '/tabs/admin/projects/:projectId/credits/save',
+    CREDIT_SAVE = '/tabs/admin/projects/:projectId/credits/save/:creditId',
 
     TIMESHEET = '/tabs/timesheet',
     TIMESHEET_ADD = '/tabs/timesheet/save',
