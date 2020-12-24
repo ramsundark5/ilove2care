@@ -9,6 +9,7 @@ import { object, string } from 'yup'
 
 import TextField, { TexFieldProps } from '../../components/TextField'
 import ToolBar from '../../components/ToolBar'
+import { RouteEnum } from '../../constants/RouteEnum'
 import { useStore } from '../../hooks/use-store'
 import log from '../../logger'
 import { IUser } from './model/IUser'
@@ -60,7 +61,7 @@ const SaveProfile: React.FC = () => {
 
     return (
         <IonPage id='save-profile'>
-            <ToolBar backHref='/tabs/account' title='Profile' />
+            <ToolBar backHref={RouteEnum.ACCOUNT} title='Profile' />
             <IonContent>
                 <form onSubmit={handleSubmit(onUpdateProfile)}>
                     {formFields.map((field) => (

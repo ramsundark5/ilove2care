@@ -6,6 +6,7 @@ import { IonButton, IonChip, IonContent, IonItem, IonLabel, IonPage } from '@ion
 
 import SelectField, { SelectFieldOptionProps } from '../../components/SelectField'
 import ToolBar from '../../components/ToolBar'
+import { RouteEnum } from '../../constants/RouteEnum'
 import { useStore } from '../../hooks/use-store'
 import log from '../../logger'
 import { IRole } from '../admin/model/IRole'
@@ -32,8 +33,9 @@ const roleOptions: SelectFieldOptionProps[] = [
 
 const SaveUserRole: React.FC<SaveUserRoleProps> = ({ history, match }) => {
     const { adminStore, userStore } = useStore()
-    const userRoleToUpdate = adminStore.userRoleList.find((item) => item.id === match.params.id)
-    const userInView = userStore.userList.find((item) => item.id === match.params.id)
+    const userIdInView = match.params.id
+    const userRoleToUpdate = [...adminStore.userRoleList].find((item) => item.id === userIdInView)
+    const userInView = userStore.userList.find((item) => item.id === userIdInView)
 
     const { control, handleSubmit, errors } = useForm({
         defaultValues: {
@@ -46,7 +48,7 @@ const SaveUserRole: React.FC<SaveUserRoleProps> = ({ history, match }) => {
             if (userRoleToUpdate && userRoleToUpdate.id) {
                 adminStore.update(updatedUserRole, userRoleToUpdate.id)
             } else {
-                adminStore.add(updatedUserRole)
+                adminStore.add(updatedUserRole, userIdInView)
             }
             history.goBack()
         } catch (err) {
@@ -56,7 +58,7 @@ const SaveUserRole: React.FC<SaveUserRoleProps> = ({ history, match }) => {
 
     return (
         <IonPage id='save-role'>
-            <ToolBar backHref='/tabs/admin/users' title='User' />
+            <ToolBar backHref={RouteEnum.ADMIN_USERS} title='User' />
             {userInView && (
                 <IonContent>
                     <IonItem>

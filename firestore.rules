@@ -14,24 +14,44 @@ service cloud.firestore {
     	return isSignedIn() && request.auth.uid == resourceId
     }
     
-    // Make sure the uid of the requesting user matches name of the user
-    // document. The wildcard expression {userId} makes the userId variable
-    // available in rules.
+    function isProjectAdmin(projectRecord) {
+    	return isSignedIn() && projectRecord.admins.hasAny([request.auth.token.email])
+  	}
+    
+    function isProjectMember(projectRecord) {
+    	return isSignedIn() && projectRecord.users.hasAny([request.auth.token.email])
+  	}
+    
+    function isCreditReceiver(creditRecord) {
+    	return isSignedIn() && creditRecord.users.hasAny([request.auth.token.email])
+  	}
+    
+    // user collection permissions
     match /users/{userId} {
       allow read, update: if isOwner(userId) || hasRole(['admin']);
       allow create: if isSignedIn();
     }
     
+    // timesheet collection permissions
     match /users/{userId}/timesheets/{timesheetId} {
       allow read, write: if isOwner(userId);
     }
     
-    match /projects/{projectId} {
-      allow create, read, update: if hasRole(['admin']);
-    }
-    
+    // roles collection permissions
     match /roles/{userId} {
       allow read, write: if isOwner(userId) || hasRole(['admin']);
+    }
+    
+    // project collection permissions
+    match /projects/{projectId} {
+      allow create, update: if hasRole(['admin']);
+      allow read: if isProjectMember(resource.data) || hasRole(['admin']);
+    }
+    
+    // credits collection permissions
+    match /projects/{projectId}/credits/{creditId} {
+      allow create, update: if isProjectAdmin(resource.data) || hasRole(['admin']);
+      allow read: if isCreditReceiver(resource.data) || hasRole(['admin']);
     }
   }
 }

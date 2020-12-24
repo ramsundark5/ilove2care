@@ -15,7 +15,9 @@ import {
 } from '@ionic/react'
 import firebase from 'firebase/app'
 import * as firebaseui from 'firebaseui'
+
 import './Login.scss'
+import { RouteEnum } from '../../constants/RouteEnum'
 
 const Login: React.FC = () => {
     const history = useHistory()
@@ -31,7 +33,7 @@ const Login: React.FC = () => {
         credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO,
         callbacks: {
             signInSuccessWithAuthResult: () => {
-                history.push('/tabs/timesheet')
+                history.push(RouteEnum.DASHBOARD)
                 return true
             },
         },

@@ -80,12 +80,16 @@ export default class ProjectDao {
 
     archive = async (projectId: string) => {
         try {
-            await this.getCollectionRef().doc(projectId).update({
-                status: 'archived',
-            })
+            await this.getCollectionRef()
+                .doc(projectId)
+                .update({
+                    status: 'archived',
+                    updated: new Date(),
+                    updatedBy: this.firebaseService.getCurrentUser()?.email || '',
+                })
             return true
         } catch (error) {
-            log.error(`ERROR deleting project ${error}`)
+            log.error(`ERROR archiving project ${error}`)
             return error
         }
     }

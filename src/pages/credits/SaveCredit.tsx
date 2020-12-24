@@ -4,9 +4,10 @@ import { RouteComponentProps } from 'react-router'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import { IonButton, IonContent, IonFooter, IonPage } from '@ionic/react'
-import { date, object, string } from 'yup'
+import { date, number, object, string } from 'yup'
 
 import DateField from '../../components/DateField'
+import InputTagField from '../../components/InputTagField'
 import SelectField, { SelectFieldOptionProps } from '../../components/SelectField'
 import TextArea from '../../components/TextArea'
 import TextField from '../../components/TextField'
@@ -15,17 +16,20 @@ import { RouteEnum } from '../../constants/RouteEnum'
 import { useStore } from '../../hooks/use-store'
 import log from '../../logger'
 import { IProject } from '../project/models/IProject'
-import DeleteTimesheetAlert from './DeleteTimesheetAlert'
-import { ITimeEntry } from './models/ITimeEntry'
+import DeleteTimesheetAlert from './DeleteCreditAlert'
+import { ICredit } from './models/ICredit'
 
-interface SaveTimeEntryProps
+interface SaveCreditProps
     extends RouteComponentProps<{
-        id: string
+        projectId: string
+        creditId: string
     }> {}
 
-const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
-    const { projectStore, timesheetStore } = useStore()
-    const existingTimeEntry = timesheetStore.list.find((item) => item.id === match.params.id)
+const SaveCredit: React.FC<SaveCreditProps> = ({ history, match }) => {
+    const { creditStore, projectStore } = useStore()
+    const isFromAdmin = !!match.params.projectId
+    const creditStoreToSearch = isFromAdmin ? creditStore.projectCredits : creditStore.userCredits
+    const existingCredit = creditStoreToSearch.find((item) => item.id === match.params.creditId)
     const [didLoad, setDidLoad] = useState<boolean>(false)
     const [showAlert, setShowAlert] = useState(false)
     const [projects, setProjects] = useState<SelectFieldOptionProps[]>([])
@@ -43,17 +47,17 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
             }
             setProjects(projectOptions)
             setDidLoad(true)
-            log.info('loaded project list in SaveTimeEntry')
+            log.info('loaded user credit list in SaveCredit')
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [didLoad])
 
-    const saveTimeEntry = (timeEntry: ITimeEntry) => {
+    const saveCredit = (credit: ICredit) => {
         try {
-            if (existingTimeEntry && existingTimeEntry.id) {
-                timesheetStore.updateTimeEntry(timeEntry, existingTimeEntry.id)
+            if (existingCredit && existingCredit.id) {
+                creditStore.updateCredit(credit, existingCredit.id)
             } else {
-                timesheetStore.addTimeEntry(timeEntry)
+                creditStore.addCredit(credit)
             }
             history.goBack()
         } catch (err) {
@@ -61,12 +65,12 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
         }
     }
 
-    const removeTimeEntry = () => {
-        if (!existingTimeEntry) {
+    const removeCredit = () => {
+        if (!existingCredit) {
             return
         }
         setShowAlert(false)
-        timesheetStore.removeTimeEntry(existingTimeEntry)
+        creditStore.removeCredit(existingCredit)
         history.goBack()
     }
 
@@ -78,27 +82,31 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
 
     const validationSchema = object().shape({
         title: string().required('Title is required'),
-        start: date().required('Start date and time is required').nullable().default(undefined),
-        end: date().required('End date and time is required').nullable().default(undefined),
+        start: date().nullable().default(undefined),
+        end: date().nullable().default(undefined),
         note: string(),
         projectId: string().required('Project selection is required'),
+        credit: number().required(),
     })
+
     const { control, handleSubmit, errors } = useForm({
         resolver: yupResolver(validationSchema),
         defaultValues: {
-            title: existingTimeEntry?.title,
-            start: existingTimeEntry?.start?.toISOString() || null,
-            end: existingTimeEntry?.end?.toISOString() || null,
-            note: existingTimeEntry?.note,
-            projectId: existingTimeEntry?.projectId,
+            title: existingCredit?.title,
+            start: existingCredit?.start?.toISOString() || null,
+            end: existingCredit?.end?.toISOString() || null,
+            note: existingCredit?.note,
+            projectId: existingCredit?.projectId,
+            users: existingCredit?.users || [],
+            credit: existingCredit?.credit || null,
         },
     })
 
     return (
-        <IonPage id='save-timentry'>
-            <ToolBar backHref={RouteEnum.TIMESHEET} title='Time Entry' />
+        <IonPage id='save-credit'>
+            <ToolBar backHref={RouteEnum.CREDITS} title='Credit' />
             <IonContent>
-                <form id='timeEntryForm' onSubmit={handleSubmit(saveTimeEntry)}>
+                <form id='creditForm' onSubmit={handleSubmit(saveCredit)}>
                     <TextField
                         control={control}
                         errors={errors}
@@ -115,6 +123,23 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
                         label='Project'
                         name='projectId'
                         options={projects}
+                    />
+
+                    <TextField
+                        control={control}
+                        errors={errors}
+                        key='credit'
+                        label='Credits'
+                        name='credit'
+                        type='text'
+                    />
+
+                    <InputTagField
+                        control={control}
+                        errors={errors}
+                        key='users'
+                        label='Members'
+                        name='users'
                     />
 
                     <DateField
@@ -142,7 +167,7 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
                 </form>
                 <DeleteTimesheetAlert
                     cancelAction={() => setShowAlert(false)}
-                    confirmationAction={() => removeTimeEntry()}
+                    confirmationAction={() => removeCredit()}
                     showAlert={showAlert}
                 />
             </IonContent>
@@ -152,13 +177,13 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
                 </IonButton>
                 <button
                     aria-label='Hidden submit'
-                    form='timeEntryForm'
+                    form='creditForm'
                     hidden
                     id='submitBtn'
                     ref={hiddenSubmitBtnRef}
                     type='submit'
                 />
-                {existingTimeEntry && existingTimeEntry.id && (
+                {existingCredit && existingCredit.id && (
                     <IonButton
                         className='ion-padding'
                         color='danger'
@@ -173,4 +198,4 @@ const SaveTimeEntry: React.FC<SaveTimeEntryProps> = ({ history, match }) => {
     )
 }
 
-export default SaveTimeEntry
+export default SaveCredit
