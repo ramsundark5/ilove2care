@@ -10,10 +10,11 @@ export interface InputTagFieldProps {
     control?: Control
     label?: string
     rules?: any
+    readonly?: boolean
     errors?: DeepMap<Record<string, any>, FieldError>
 }
 
-const InputTagField: FC<InputTagFieldProps> = ({ name, control, label, errors }) => {
+const InputTagField: FC<InputTagFieldProps> = ({ name, control, label, readonly, errors }) => {
     const [newTag, setTag] = useState('')
 
     const onAddTag = (tagList: any) => {
@@ -47,32 +48,36 @@ const InputTagField: FC<InputTagFieldProps> = ({ name, control, label, errors })
                     render={({ value }) => (
                         <>
                             <br />
-                            <IonItem>
-                                <IonInput
-                                    id={name}
-                                    name={name}
-                                    onIonChange={(e) => setTag(e.detail.value ?? '')}
-                                    onKeyDown={(e) => onAddTagEvent(e, value)}
-                                    type='text'
-                                    value={newTag}
-                                />
-                                <IonButton
-                                    onClick={() => onAddTag(value)}
-                                    size='default'
-                                    slot='end'
-                                >
-                                    Add
-                                </IonButton>
-                            </IonItem>
+                            {!readonly && (
+                                <IonItem>
+                                    <IonInput
+                                        id={name}
+                                        name={name}
+                                        onIonChange={(e) => setTag(e.detail.value ?? '')}
+                                        onKeyDown={(e) => onAddTagEvent(e, value)}
+                                        type='text'
+                                        value={newTag}
+                                    />
+                                    <IonButton
+                                        onClick={() => onAddTag(value)}
+                                        size='default'
+                                        slot='end'
+                                    >
+                                        Add
+                                    </IonButton>
+                                </IonItem>
+                            )}
                             {value &&
                                 value.map &&
                                 value.map((tag: any) => (
                                     <IonChip key={tag}>
                                         <IonLabel>{tag}</IonLabel>
-                                        <IonIcon
-                                            icon={closeCircleOutline}
-                                            onClick={() => onDeleteTag(tag, value)}
-                                        />
+                                        {!readonly && (
+                                            <IonIcon
+                                                icon={closeCircleOutline}
+                                                onClick={() => onDeleteTag(tag, value)}
+                                            />
+                                        )}
                                     </IonChip>
                                 ))}
                         </>

@@ -9,10 +9,11 @@ export interface TextAreaProps {
     control?: Control
     label?: string
     rules?: any
+    readonly?: boolean
     errors?: DeepMap<Record<string, any>, FieldError>
 }
 
-const TextArea: FC<TextAreaProps> = ({ name, control, label, errors }) => (
+const TextArea: FC<TextAreaProps> = ({ name, control, label, readonly, errors }) => (
     <>
         <IonItem>
             {label && <IonLabel position='floating'>{label}</IonLabel>}
@@ -21,7 +22,7 @@ const TextArea: FC<TextAreaProps> = ({ name, control, label, errors }) => (
                 defaultValue=''
                 name={name}
                 render={({ onChange, value }) => (
-                    <IonTextarea onIonChange={onChange} value={value} />
+                    <IonTextarea onIonChange={onChange} readonly={readonly} value={value} />
                 )}
             />
         </IonItem>
