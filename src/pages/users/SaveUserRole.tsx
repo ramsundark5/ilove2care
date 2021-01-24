@@ -26,8 +26,8 @@ const roleOptions: SelectFieldOptionProps[] = [
         value: 'volunteer',
     },
     {
-        label: 'Member',
-        value: 'member',
+        label: 'Verified Member',
+        value: 'verified_member',
     },
 ]
 

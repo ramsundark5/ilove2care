@@ -7,6 +7,7 @@ import { IonButton, IonContent, IonPage } from '@ionic/react'
 import { observer } from 'mobx-react-lite'
 import { object, string } from 'yup'
 
+import InputTagField from '../../components/InputTagField'
 import TextField, { TexFieldProps } from '../../components/TextField'
 import ToolBar from '../../components/ToolBar'
 import { RouteEnum } from '../../constants/RouteEnum'
@@ -22,6 +23,7 @@ const SaveProfile: React.FC = () => {
         name: string().required('Name is required'),
         email: string().email(),
         phone: string(),
+        location: string(),
     })
     const { control, handleSubmit, errors } = useForm({
         resolver: yupResolver(validationSchema),
@@ -29,6 +31,9 @@ const SaveProfile: React.FC = () => {
             name: currentUser?.name,
             description: currentUser?.description,
             email: currentUser?.email,
+            interests: currentUser?.interests || [],
+            profession: currentUser?.profession,
+            location: currentUser?.location,
         },
     })
 
@@ -47,6 +52,16 @@ const SaveProfile: React.FC = () => {
             name: 'phone',
             type: 'tel',
             label: 'Phone',
+        },
+        {
+            name: 'profession',
+            type: 'text',
+            label: 'Profession',
+        },
+        {
+            name: 'location',
+            type: 'text',
+            label: 'City',
         },
     ]
 
@@ -67,6 +82,13 @@ const SaveProfile: React.FC = () => {
                     {formFields.map((field) => (
                         <TextField {...field} control={control} errors={errors} key={field.name} />
                     ))}
+                    <InputTagField
+                        control={control}
+                        errors={errors}
+                        key='interests'
+                        label='Areas of Interest'
+                        name='interests'
+                    />
                     <IonButton className='ion-padding' expand='block' type='submit'>
                         Save
                     </IonButton>
