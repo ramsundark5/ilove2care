@@ -8,12 +8,14 @@ import { observer } from 'mobx-react-lite'
 import { object, string } from 'yup'
 
 import InputTagField from '../../components/InputTagField'
+import SelectField from '../../components/SelectField'
 import TextField, { TexFieldProps } from '../../components/TextField'
 import ToolBar from '../../components/ToolBar'
 import { RouteEnum } from '../../constants/RouteEnum'
 import { useStore } from '../../hooks/use-store'
 import log from '../../logger'
 import { IUser } from './model/IUser'
+import { occupations } from './Occupation'
 
 const SaveProfile: React.FC = () => {
     const { userStore } = useStore()
@@ -54,11 +56,6 @@ const SaveProfile: React.FC = () => {
             label: 'Phone',
         },
         {
-            name: 'profession',
-            type: 'text',
-            label: 'Profession',
-        },
-        {
             name: 'location',
             type: 'text',
             label: 'City',
@@ -82,6 +79,15 @@ const SaveProfile: React.FC = () => {
                     {formFields.map((field) => (
                         <TextField {...field} control={control} errors={errors} key={field.name} />
                     ))}
+                    <SelectField
+                        control={control}
+                        displayType='popover'
+                        errors={errors}
+                        key='profession'
+                        label='Profession'
+                        name='profession'
+                        options={occupations}
+                    />
                     <InputTagField
                         control={control}
                         errors={errors}

@@ -5,6 +5,7 @@ import { IonItem, IonLabel, IonSelect, IonSelectOption, IonText } from '@ionic/r
 
 export interface SelectFieldProps {
     name: string
+    displayType?: 'alert' | 'popover' | 'action-sheet'
     classname?: string
     control?: Control
     label?: string
@@ -17,10 +18,12 @@ export interface SelectFieldProps {
 export interface SelectFieldOptionProps {
     label: string
     value: string
+    header?: boolean
 }
 
 const SelectField: FC<SelectFieldProps> = ({
     name,
+    displayType = 'alert',
     control,
     options,
     multiple = false,
@@ -35,9 +38,18 @@ const SelectField: FC<SelectFieldProps> = ({
                 defaultValue=''
                 name={name}
                 render={({ onChange, value }) => (
-                    <IonSelect multiple={multiple} onIonChange={onChange} value={value}>
+                    <IonSelect
+                        interface={displayType}
+                        multiple={multiple}
+                        onIonChange={onChange}
+                        value={value}
+                    >
                         {options.map((option: any) => (
-                            <IonSelectOption key={option.value} value={option.value}>
+                            <IonSelectOption
+                                disabled={option?.header || false}
+                                key={option.value}
+                                value={option.value}
+                            >
                                 {option.label}
                             </IonSelectOption>
                         ))}

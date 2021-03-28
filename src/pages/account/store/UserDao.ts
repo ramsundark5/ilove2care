@@ -32,7 +32,7 @@ export default class UserDao {
     getAll = async () => {
         const results: IUser[] = []
         try {
-            const querySnapshot = await this.db.collection('users').get()
+            const querySnapshot = await this.db.collection('users').orderBy('created', 'desc').get()
             querySnapshot.forEach((doc) => {
                 // doc.data() is never undefined for query doc snapshots
                 results.push({

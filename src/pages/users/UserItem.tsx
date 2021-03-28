@@ -14,9 +14,9 @@ interface UserItemProps {
 }
 
 const getUserStatus = (userRole: IRole | undefined) => {
-    let isVerified = 'false'
+    let isVerified = false
     if (userRole && userRole.roles && userRole.roles.length > 0) {
-        isVerified = 'true'
+        isVerified = true
     }
     if (isVerified) {
         return <IonIcon color='success' icon={checkmarkCircleOutline} slot='end' />
