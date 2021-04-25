@@ -113,17 +113,30 @@ const SaveCredit: React.FC<SaveCreditProps> = ({ history, match }) => {
                         key='title'
                         label='Title'
                         name='title'
+                        readonly={!isFromAdmin}
                         type='text'
                     />
 
-                    <SelectField
-                        control={control}
-                        errors={errors}
-                        key='projectId'
-                        label='Project'
-                        name='projectId'
-                        options={projects}
-                    />
+                    {isFromAdmin && (
+                        <SelectField
+                            control={control}
+                            errors={errors}
+                            key='projectId'
+                            label='Project'
+                            name='projectId'
+                            options={projects}
+                        />
+                    )}
+
+                    {!isFromAdmin && (
+                        <TextField
+                            control={control}
+                            errors={errors}
+                            key='projectId'
+                            label='Project'
+                            name='projectId'
+                        />
+                    )}
 
                     <TextField
                         control={control}
@@ -131,6 +144,7 @@ const SaveCredit: React.FC<SaveCreditProps> = ({ history, match }) => {
                         key='credit'
                         label='Credits'
                         name='credit'
+                        readonly={!isFromAdmin}
                         type='text'
                     />
 
@@ -140,6 +154,7 @@ const SaveCredit: React.FC<SaveCreditProps> = ({ history, match }) => {
                         key='users'
                         label='Members'
                         name='users'
+                        readonly={!isFromAdmin}
                     />
 
                     <DateField
@@ -148,6 +163,7 @@ const SaveCredit: React.FC<SaveCreditProps> = ({ history, match }) => {
                         key='startTime'
                         label='Start Time'
                         name='start'
+                        readonly={!isFromAdmin}
                     />
 
                     <DateField
@@ -156,6 +172,7 @@ const SaveCredit: React.FC<SaveCreditProps> = ({ history, match }) => {
                         key='endTime'
                         label='End Time'
                         name='end'
+                        readonly={!isFromAdmin}
                     />
                     <TextArea
                         control={control}
@@ -163,6 +180,7 @@ const SaveCredit: React.FC<SaveCreditProps> = ({ history, match }) => {
                         key='note'
                         label='Note'
                         name='note'
+                        readonly={!isFromAdmin}
                     />
                 </form>
                 <DeleteTimesheetAlert

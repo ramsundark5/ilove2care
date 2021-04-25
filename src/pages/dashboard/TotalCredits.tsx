@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { IonBadge, IonCard, IonCardContent, IonCardHeader, IonCardTitle } from '@ionic/react'
+import { IonCard, IonCardContent, IonCardHeader, IonCardTitle } from '@ionic/react'
 
 import './Dashboard.scss'
 import log from '../../logger'

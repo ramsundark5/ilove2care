@@ -36,6 +36,9 @@ export default class UserStore {
                         email: authUser.email || '',
                         description: '',
                         skills: [],
+                        interests: [],
+                        profession: '',
+                        location: '',
                         created: new Date(),
                         updated: new Date(),
                     }
@@ -60,6 +63,9 @@ export default class UserStore {
         if (this.user) {
             this.user.name = updatedUser.name
             this.user.email = updatedUser.email
+            this.user.interests = updatedUser.interests
+            this.user.location = updatedUser.location
+            this.user.profession = updatedUser.profession
             this.userDao.save({ ...this.user })
         }
     }

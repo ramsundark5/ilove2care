@@ -10,6 +10,7 @@ export interface DateFieldProps {
     displayFormat?: string
     label?: string
     rules?: any
+    readonly?: boolean
     errors?: DeepMap<Record<string, any>, FieldError>
 }
 
@@ -18,6 +19,7 @@ const DateField: FC<DateFieldProps> = ({
     control,
     displayFormat = 'MMM D, YYYY h:mm A',
     label,
+    readonly,
     errors,
 }) => (
     <>
@@ -30,6 +32,7 @@ const DateField: FC<DateFieldProps> = ({
                     <IonDatetime
                         displayFormat={displayFormat}
                         onIonChange={onChange}
+                        readonly={readonly}
                         value={value}
                     />
                 )}

@@ -20,6 +20,7 @@ import {
     logOutOutline,
     personOutline,
 } from 'ionicons/icons'
+import { observer } from 'mobx-react-lite'
 
 import { RouteEnum } from '../../constants/RouteEnum'
 import { useStore } from '../../hooks/use-store'
@@ -70,8 +71,12 @@ const appPages = {
 
 const Menu: React.FC = () => {
     const location = useLocation()
-    const { authStore } = useStore()
+    const { adminStore, authStore } = useStore()
     const { loggedIn } = authStore
+    const { initializedUserRole, isAdmin } = adminStore
+    if (initializedUserRole && !isAdmin) {
+        appPages.loggedInPages = appPages.loggedInPages.filter((route) => route.title !== 'Admin')
+    }
     function renderlistItems(list: AppPage[]) {
         return list
             .filter((route) => !!route.path)
@@ -109,4 +114,4 @@ const Menu: React.FC = () => {
     )
 }
 
-export default Menu
+export default observer(Menu)

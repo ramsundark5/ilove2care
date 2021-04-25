@@ -1,19 +1,26 @@
 import React, { FC } from 'react'
+import Geosuggest from 'react-geosuggest'
 import { Control, Controller, DeepMap, FieldError } from 'react-hook-form'
 
-import { IonItem, IonLabel, IonText, IonTextarea } from '@ionic/react'
+import { IonItem, IonLabel, IonText } from '@ionic/react'
 
-export interface TextAreaProps {
+export interface PlacesAutoCompleteFieldProps {
     name: string
     classname?: string
     control?: Control
     label?: string
     rules?: any
+    type?: 'password' | 'text' | 'email' | 'tel'
     readonly?: boolean
     errors?: DeepMap<Record<string, any>, FieldError>
 }
 
-const TextArea: FC<TextAreaProps> = ({ name, control, label, readonly, errors }) => (
+const PlacesAutoCompleteField: FC<PlacesAutoCompleteFieldProps> = ({
+    name,
+    control,
+    label,
+    errors,
+}) => (
     <>
         <IonItem>
             {label && <IonLabel position='floating'>{label}</IonLabel>}
@@ -21,9 +28,7 @@ const TextArea: FC<TextAreaProps> = ({ name, control, label, readonly, errors })
                 control={control}
                 defaultValue=''
                 name={name}
-                render={({ onChange, value }) => (
-                    <IonTextarea onIonChange={onChange} readonly={readonly} value={value} />
-                )}
+                render={({ onChange, value }) => <Geosuggest id={name} value={value} />}
             />
         </IonItem>
         {errors && errors[name] && (
@@ -38,4 +43,4 @@ const TextArea: FC<TextAreaProps> = ({ name, control, label, readonly, errors })
     </>
 )
 
-export default TextArea
+export default PlacesAutoCompleteField

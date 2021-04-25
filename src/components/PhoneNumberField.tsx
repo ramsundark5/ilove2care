@@ -1,9 +1,11 @@
 import React, { FC } from 'react'
 import { Control, Controller, DeepMap, FieldError } from 'react-hook-form'
+import PhoneInput from 'react-phone-input-2'
 
-import { IonItem, IonLabel, IonText, IonTextarea } from '@ionic/react'
+import { IonItem, IonLabel, IonText } from '@ionic/react'
+import 'react-phone-input-2/lib/style.css'
 
-export interface TextAreaProps {
+export interface PhoneNumberFieldProps {
     name: string
     classname?: string
     control?: Control
@@ -13,7 +15,7 @@ export interface TextAreaProps {
     errors?: DeepMap<Record<string, any>, FieldError>
 }
 
-const TextArea: FC<TextAreaProps> = ({ name, control, label, readonly, errors }) => (
+const PhoneNumberField: FC<PhoneNumberFieldProps> = ({ name, control, label, errors }) => (
     <>
         <IonItem>
             {label && <IonLabel position='floating'>{label}</IonLabel>}
@@ -21,9 +23,7 @@ const TextArea: FC<TextAreaProps> = ({ name, control, label, readonly, errors })
                 control={control}
                 defaultValue=''
                 name={name}
-                render={({ onChange, value }) => (
-                    <IonTextarea onIonChange={onChange} readonly={readonly} value={value} />
-                )}
+                render={({ onChange, value }) => <PhoneInput country='IN' value={value} />}
             />
         </IonItem>
         {errors && errors[name] && (
@@ -38,4 +38,4 @@ const TextArea: FC<TextAreaProps> = ({ name, control, label, readonly, errors })
     </>
 )
 
-export default TextArea
+export default PhoneNumberField
