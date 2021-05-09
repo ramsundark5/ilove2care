@@ -23,7 +23,7 @@ const PhoneNumberField: FC<PhoneNumberFieldProps> = ({ name, control, label, err
                 control={control}
                 defaultValue=''
                 name={name}
-                render={({ onChange, value }) => <PhoneInput country='IN' value={value} />}
+                render={({ value }) => <PhoneInput country='IN' value={value} />}
             />
         </IonItem>
         {errors && errors[name] && (
