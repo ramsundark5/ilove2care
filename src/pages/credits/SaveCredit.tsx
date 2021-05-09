@@ -26,38 +26,22 @@ interface SaveCreditProps
     }> {}
 
 const SaveCredit: React.FC<SaveCreditProps> = ({ history, match }) => {
-    const { creditStore, projectStore } = useStore()
-    const isFromAdmin = !!match.params.projectId
+    const { creditStore } = useStore()
+    const { projectId } = match.params
+    const isFromAdmin = !!projectId
     const creditStoreToSearch = isFromAdmin ? creditStore.projectCredits : creditStore.userCredits
     const existingCredit = creditStoreToSearch.find((item) => item.id === match.params.creditId)
-    const [didLoad, setDidLoad] = useState<boolean>(false)
     const [showAlert, setShowAlert] = useState(false)
-    const [projects, setProjects] = useState<SelectFieldOptionProps[]>([])
     const hiddenSubmitBtnRef: any = useRef()
-
-    useEffect(() => {
-        if (!didLoad) {
-            const results: IProject[] = [...projectStore.userProjects]
-            const projectOptions: SelectFieldOptionProps[] = []
-            for (const project of results) {
-                const projectOption = {} as SelectFieldOptionProps
-                projectOption.label = project.name
-                projectOption.value = project.id
-                projectOptions.push(projectOption)
-            }
-            setProjects(projectOptions)
-            setDidLoad(true)
-            log.info('loaded user credit list in SaveCredit')
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [didLoad])
 
     const saveCredit = (credit: ICredit) => {
         try {
+            const updatedCredit: ICredit = { ...credit }
+            updatedCredit.projectId = projectId
             if (existingCredit && existingCredit.id) {
-                creditStore.updateCredit(credit, existingCredit.id)
+                creditStore.updateCredit(updatedCredit, existingCredit.id)
             } else {
-                creditStore.addCredit(credit)
+                creditStore.addCredit(updatedCredit)
             }
             history.goBack()
         } catch (err) {
@@ -85,7 +69,6 @@ const SaveCredit: React.FC<SaveCreditProps> = ({ history, match }) => {
         start: date().nullable().default(undefined),
         end: date().nullable().default(undefined),
         note: string(),
-        projectId: string().required('Project selection is required'),
         credit: number().required(),
     })
 
@@ -96,7 +79,6 @@ const SaveCredit: React.FC<SaveCreditProps> = ({ history, match }) => {
             start: existingCredit?.start?.toISOString() || null,
             end: existingCredit?.end?.toISOString() || null,
             note: existingCredit?.note,
-            projectId: existingCredit?.projectId,
             users: existingCredit?.users || [],
             credit: existingCredit?.credit || null,
         },
@@ -116,27 +98,6 @@ const SaveCredit: React.FC<SaveCreditProps> = ({ history, match }) => {
                         readonly={!isFromAdmin}
                         type='text'
                     />
-
-                    {isFromAdmin && (
-                        <SelectField
-                            control={control}
-                            errors={errors}
-                            key='projectId'
-                            label='Project'
-                            name='projectId'
-                            options={projects}
-                        />
-                    )}
-
-                    {!isFromAdmin && (
-                        <TextField
-                            control={control}
-                            errors={errors}
-                            key='projectId'
-                            label='Project'
-                            name='projectId'
-                        />
-                    )}
 
                     <TextField
                         control={control}
