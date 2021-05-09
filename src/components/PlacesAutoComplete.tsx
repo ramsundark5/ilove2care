@@ -28,7 +28,7 @@ const PlacesAutoCompleteField: FC<PlacesAutoCompleteFieldProps> = ({
                 control={control}
                 defaultValue=''
                 name={name}
-                render={({ onChange, value }) => <Geosuggest id={name} value={value} />}
+                render={({ value }) => <Geosuggest id={name} value={value} />}
             />
         </IonItem>
         {errors && errors[name] && (

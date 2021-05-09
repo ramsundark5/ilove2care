@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { RouteComponentProps } from 'react-router'
 
@@ -8,14 +8,12 @@ import { date, number, object, string } from 'yup'
 
 import DateField from '../../components/DateField'
 import InputTagField from '../../components/InputTagField'
-import SelectField, { SelectFieldOptionProps } from '../../components/SelectField'
 import TextArea from '../../components/TextArea'
 import TextField from '../../components/TextField'
 import ToolBar from '../../components/ToolBar'
 import { RouteEnum } from '../../constants/RouteEnum'
 import { useStore } from '../../hooks/use-store'
 import log from '../../logger'
-import { IProject } from '../project/models/IProject'
 import DeleteTimesheetAlert from './DeleteCreditAlert'
 import { ICredit } from './models/ICredit'
 
