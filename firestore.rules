@@ -49,8 +49,8 @@ service cloud.firestore {
     }
     
     // credits collection permissions
-    match /projects/{projectId}/credits/{creditId} {
-      allow create, update: if isProjectAdmin(resource.data) || hasRole(['admin']);
+    match /{path=**}/credits/{creditId} {
+      allow create, update, delete: if isProjectAdmin(resource.data) || hasRole(['admin']);
       allow read: if isCreditReceiver(resource.data) || hasRole(['admin']);
     }
   }

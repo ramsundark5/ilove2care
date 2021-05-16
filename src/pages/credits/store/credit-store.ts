@@ -61,6 +61,7 @@ export default class CreditStore {
             creditToUpdate.end = updatedCredit.end
             creditToUpdate.note = updatedCredit.note || ''
             creditToUpdate.credit = updatedCredit.credit
+            creditToUpdate.users = updatedCredit.users
             creditToUpdate.updated = new Date()
             creditToUpdate.updatedBy = this.firebaseService.getCurrentUser()?.email || ''
             this.creditDao.save(creditToUpdate)
