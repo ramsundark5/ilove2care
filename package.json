@@ -14,6 +14,7 @@
         "open:and": "npx cap open android",
         "open:ios": "npx cap open ios",
         "build": "react-scripts build",
+        "prod": "npx cap copy android && cordova-res android --skip-config --copy --icon-background-source '#FFFFFF' && ionic capacitor build android",
         "format": "prettier --write 'src/**/*.{ts,tsx,scss,css,json}'",
         "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
         "lint:fix": "npm run lint -- --fix",

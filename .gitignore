@@ -43,3 +43,4 @@ cypress/screenshots/
 # keystore
 *.pepk
 *.keystore
+android copy
