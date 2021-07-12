@@ -1,14 +1,43 @@
+/* eslint-disable no-alert */
 import React from 'react'
 import ReactDOM from 'react-dom'
 
 import { setupConfig } from '@ionic/react'
+import { codePush, InstallMode } from 'capacitor-codepush'
 
 import App from './App'
 import { StoreProvider } from './hooks/store-provider'
 import './services/InitService'
 import * as serviceWorker from './serviceWorker'
 import RootStore from './stores'
+
 import './firebaseui-styling.global.css'
+
+// run codepush sync at start
+codePush
+    .sync({
+        updateDialog: true,
+        installMode: InstallMode.IMMEDIATE,
+        deploymentKey: '',
+    })
+    .then((status) => {
+        switch (status) {
+            case 0:
+                alert('codepush package upto date')
+                break
+            case 5:
+                alert('checking codepush package update')
+                break
+            case 3:
+                alert('Error downloading codepush package')
+                break
+            default:
+                break
+        }
+    })
+    .catch((err) => {
+        alert(`error connecting to codepush ${err}`)
+    })
 
 const rootStore = new RootStore()
 rootStore.init()

@@ -36,7 +36,7 @@
       "@typescript-eslint/explicit-module-boundary-types": "off",
       "comma-dangle": "off",
       "global-require": "off",
-      "import-helpers/order-imports": ["error", {
+      "import-helpers/order-imports": ["warn", {
         "alphabetize": {
           "ignoreCase": true,
           "order": "asc"
@@ -48,7 +48,7 @@
         ],
         "newlinesBetween": "always"
       }],
-      "no-multiple-empty-lines": ["error", {
+      "no-multiple-empty-lines": ["warn", {
         "max": 1
       }],
       "no-restricted-syntax":"off",
@@ -56,22 +56,22 @@
       "react/destructuring-assignment": ["warn", "always", {
         "ignoreClassFields": true
       }],
-      "react/jsx-max-props-per-line": ["error", {
+      "react/jsx-max-props-per-line": ["warn", {
         "maximum": 5
       }],
-      "react/jsx-props-no-spreading": ["error", {
+      "react/jsx-props-no-spreading": ["warn", {
         "custom": "ignore"
       }],
-      "react/jsx-sort-props": ["error", {
+      "react/jsx-sort-props": ["warn", {
         "ignoreCase": true
       }],
       "react/prop-types": "off",
-      "react/state-in-constructor": ["error", "never"],
-      "sort-imports": ["error", {
+      "react/state-in-constructor": ["warn", "never"],
+      "sort-imports": ["warn", {
         "ignoreCase": true,
         "ignoreDeclarationSort": true
       }],
-      "prettier/prettier": ["error",{
+      "prettier/prettier": ["warn",{
           "printWidth": 100,
           "semi": false,
           "singleQuote": true,

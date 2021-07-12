@@ -1,6 +1,6 @@
 {
     "name": "ilove2caremobile",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "private": true,
     "description": "I love to care mobile app",
     "scripts": {
@@ -20,10 +20,15 @@
         "lint:fix": "npm run lint -- --fix",
         "typecheck": "tsc --noEmit --incremental false",
         "cypress:open": "cypress open",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "codepush": "npm run build && appcenter codepush release -a ilove2caremobile-gmail.com/llovetocare -c android/app/src/main/assets/public/ --target-binary-version \"*\" -d Production"
     },
     "devDependencies": {
-        "@capacitor/cli": "2.4.2",
+        "@capacitor-community/http": "^1.0.0",
+        "@capacitor/cli": "^3.0.0",
+        "@capacitor/device": "^1.0.2",
+        "@capacitor/dialog": "^1.0.2",
+        "@capacitor/filesystem": "^1.0.2",
         "@types/jest": "^26.0.15",
         "@types/mobx-task": "^2.0.1",
         "@types/react": "^16.14.2",
@@ -33,6 +38,7 @@
         "@types/react-router-dom": "^5.1.6",
         "@typescript-eslint/eslint-plugin": "^4.10.0",
         "@typescript-eslint/parser": "^4.10.0",
+        "capacitor-codepush": "git+https://github.com/mapiacompany/capacitor-codepush.git",
         "cypress": "^6.0.0",
         "cypress-movie": "^3.0.5",
         "cypress-react-selector": "^2.2.1",
@@ -51,9 +57,9 @@
         "prettier": "^2.2.0"
     },
     "dependencies": {
-        "@capacitor/android": "2.4.2",
-        "@capacitor/core": "2.4.2",
-        "@capacitor/ios": "2.4.2",
+        "@capacitor/android": "^3.0.0",
+        "@capacitor/core": "^3.0.0",
+        "@capacitor/ios": "^3.0.0",
         "@fullcalendar/interaction": "^5.4.0",
         "@fullcalendar/list": "^5.4.0",
         "@fullcalendar/react": "^5.4.0",
@@ -66,8 +72,6 @@
         "@types/uuid": "^8.3.0",
         "@types/yup": "^0.29.9",
         "axios": "^0.21.0",
-        "cordova-plugin-ionic": "5.4.7",
-        "cordova-plugin-whitelist": "^1.3.4",
         "dayjs": "^1.9.6",
         "firebase": "^8.1.1",
         "firebaseui": "^4.7.1",
