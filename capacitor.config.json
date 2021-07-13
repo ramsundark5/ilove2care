@@ -1,8 +1,13 @@
 {
     "appId": "org.ilove2care",
     "appName": "ilovetocare",
+    "appVersion": "1.0",
     "bundledWebRuntime": false,
     "npmClient": "npm",
     "webDir": "build",
-    "cordova": {}
+    "Plugins": {
+        "CodePush": {
+          "SERVER_URL": "https://codepush.appcenter.ms/"
+        }
+    }
 }

@@ -54,6 +54,12 @@ jobs:
                   java-version: 1.8
             - name: build and publish apk
               run: npm run build:android
+            - name: publish to codepush
+              uses: NishanthShankar/codepush-action@master
+              with:
+                args: release -a ilove2caremobile-gmail.com/llovetocare -c android/app/src/main/assets/public/ --target-binary-version "1.0" -d Production
+              env:
+                APPCENTER_ACCESS_TOKEN: ${{ secrets.APPCENTER_ACCESS_TOKEN }}
             - name: Upload apk
               uses: actions/upload-artifact@master
               with:

@@ -25,10 +25,7 @@ const Login: React.FC = () => {
         queryParameterForSignInSuccessUrl: 'signInSuccessUrl',
         signInFlow: 'popup',
         signInSuccessUrl: '', // Specifying sign in success url can cause double redirect since we are also managing redirect in react-router with local state.
-        signInOptions: [
-            firebase.auth.EmailAuthProvider.PROVIDER_ID,
-            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        ],
+        signInOptions: [firebase.auth.EmailAuthProvider.PROVIDER_ID],
         // Enable one-tap sign-in.
         credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO,
         callbacks: {
