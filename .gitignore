@@ -28,7 +28,9 @@ yarn-error.log*
 
 # generated files
 ios/
-android/
+/android/
+resources/android/icon/
+resources/android/splash/
 .gradle/
 hosting
 

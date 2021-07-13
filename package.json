@@ -14,14 +14,14 @@
         "open:and": "npx cap open android",
         "open:ios": "npx cap open ios",
         "build": "react-scripts build",
-        "prod": "npx cap copy android && cordova-res android --skip-config --copy --icon-background-source '#FFFFFF' && ionic capacitor build android",
+        "prod": "npx cap copy android && cordova-res android --skip-config --copy && ionic capacitor build android",
         "format": "prettier --write 'src/**/*.{ts,tsx,scss,css,json}'",
         "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
         "lint:fix": "npm run lint -- --fix",
         "typecheck": "tsc --noEmit --incremental false",
         "cypress:open": "cypress open",
         "eject": "react-scripts eject",
-        "codepush": "npm run build && appcenter codepush release -a ilove2caremobile-gmail.com/llovetocare -c android/app/src/main/assets/public/ --target-binary-version \"*\" -d Production"
+        "codepush": "npm run build && appcenter codepush release -a ilove2caremobile-gmail.com/llovetocare -c android/app/src/main/assets/public/ --target-binary-version \"1.0\" -d Production"
     },
     "devDependencies": {
         "@capacitor-community/http": "^1.0.0",

@@ -8,6 +8,7 @@ import { codePush, InstallMode } from 'capacitor-codepush'
 import App from './App'
 import { StoreProvider } from './hooks/store-provider'
 import './services/InitService'
+import log from './logger'
 import * as serviceWorker from './serviceWorker'
 import RootStore from './stores'
 
@@ -18,25 +19,26 @@ codePush
     .sync({
         updateDialog: true,
         installMode: InstallMode.IMMEDIATE,
-        deploymentKey: '',
+        deploymentKey: process.env.REACT_APP_ANDROID_DEPLOYMENT_KEY,
     })
     .then((status) => {
         switch (status) {
             case 0:
-                alert('codepush package upto date')
+                log.info('codepush package upto date')
                 break
             case 5:
-                alert('checking codepush package update')
+                log.info('checking codepush package update')
                 break
             case 3:
-                alert('Error downloading codepush package')
+                log.error('Error downloading codepush package')
                 break
             default:
+                log.info('codepush check complete')
                 break
         }
     })
     .catch((err) => {
-        alert(`error connecting to codepush ${err}`)
+        log.error(`error connecting to codepush ${err}`)
     })
 
 const rootStore = new RootStore()
