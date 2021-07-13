@@ -28,7 +28,9 @@ yarn-error.log*
 
 # generated files
 ios/
-android/
+/android/
+resources/android/icon/
+resources/android/splash/
 .gradle/
 hosting
 
@@ -39,3 +41,9 @@ hosting
 cypress.env.json
 cypress/videos/
 cypress/screenshots/
+
+# keystore
+*.pepk
+*.keystore
+android copy
+android jully2021
