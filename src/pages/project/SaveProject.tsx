@@ -8,6 +8,7 @@ import { date, object, string } from 'yup'
 
 import DateField from '../../components/DateField'
 import InputTagField from '../../components/InputTagField'
+import MultiSelectTag from '../../components/MultiSelectTag'
 import SelectField, { SelectFieldOptionProps } from '../../components/SelectField'
 import TextArea from '../../components/TextArea'
 import TextField from '../../components/TextField'
@@ -16,6 +17,7 @@ import { RouteEnum } from '../../constants/RouteEnum'
 import { getPath } from '../../helpers/URLHelper'
 import { useStore } from '../../hooks/use-store'
 import log from '../../logger'
+import { IUser } from '../account/model/IUser'
 import ArchiveProjectAlert from './ArchiveProjectAlert'
 import { IProject } from './models/IProject'
 
@@ -43,10 +45,16 @@ const statusOptions: SelectFieldOptionProps[] = [
     },
 ]
 const SaveProject: React.FC<SaveProjectProps> = ({ history, match }) => {
-    const { projectStore } = useStore()
+    const { projectStore, userStore } = useStore()
+    const users: IUser[] = userStore.userList
     const [showAlert, setShowAlert] = useState(false)
     const existingProject = projectStore.list.find((item) => item.id === match.params.id)
     const hiddenSubmitBtnRef: any = useRef()
+
+    const userOptions: SelectFieldOptionProps[] = []
+    for (const user of users) {
+        userOptions.push({ label: user.name, value: user.email })
+    }
 
     const save = (project: IProject) => {
         try {
@@ -119,12 +127,13 @@ const SaveProject: React.FC<SaveProjectProps> = ({ history, match }) => {
                         options={statusOptions}
                     />
 
-                    <InputTagField
+                    <MultiSelectTag
                         control={control}
                         errors={errors}
                         key='users'
                         label='Members'
                         name='users'
+                        options={userOptions}
                     />
 
                     <InputTagField
