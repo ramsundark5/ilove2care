@@ -64,10 +64,10 @@ const MultiSelectTag: FC<MultiSelectTagProps> = ({
         setTag(input)
     }
 
-    const onSelectSearchOption = (option: any) => {
+    const onSelectSearchOption = (option: any, tagList: any) => {
         console.log('inside onselectsearch')
-        // const updatedTagList = tagList.concat(option.value)
-        // control?.setValue(name, updatedTagList)
+        const updatedTagList = tagList.concat(option.value)
+        control?.setValue(name, updatedTagList)
         setTag('')
     }
 
@@ -126,14 +126,22 @@ const MultiSelectTag: FC<MultiSelectTagProps> = ({
                             {showOptions && (
                                 <IonList>
                                     {filteredOptions.map((filteredOption: any, index) => (
-                                        <IonItem
-                                            button
+                                        <IonButton
+                                            expand='full'
+                                            fill='clear'
                                             // eslint-disable-next-line react/no-array-index-key
-                                            key={filteredOption.value + index}
-                                            onClick={() => onSelectSearchOption(filteredOption)}
+                                            key={`option_item ${index}`}
+                                            onClick={() =>
+                                                onSelectSearchOption(filteredOption, value)
+                                            }
                                         >
-                                            {filteredOption.label}
-                                        </IonItem>
+                                            <IonLabel
+                                                // eslint-disable-next-line react/no-array-index-key
+                                                key={filteredOption.value + index}
+                                            >
+                                                {filteredOption.label}
+                                            </IonLabel>
+                                        </IonButton>
                                     ))}
                                 </IonList>
                             )}
