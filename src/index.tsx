@@ -3,6 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import { isPlatform, setupConfig } from '@ionic/react'
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { codePush, InstallMode } from 'capacitor-codepush'
 import LogRocket from 'logrocket'
 
