@@ -26,7 +26,7 @@ const getUserStatus = (userRole: IRole | undefined) => {
 
 const UserItem: React.FC<UserItemProps> = ({ user }) => {
     const { adminStore } = useStore()
-    const userRole = [...adminStore.userRoleList].find((item) => item.id === user.id)
+    const userRole = adminStore.userRoleList.find((item) => item.id === user.id)
     return (
         <IonItem detail routerLink={getPath(RouteEnum.ADMIN_USER_SAVE, { id: user.id })}>
             <IonLabel>
