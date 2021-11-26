@@ -99,7 +99,7 @@ export default class ProjectStore {
         const sortedList = [...this.list].sort((a, b) => {
             if (!a.updated && b.updated) return 1
             if (a.updated && !b.updated) return -1
-            return a.updated.getTime() - b.updated.getTime()
+            return b.updated.getTime() - a.updated.getTime()
         })
         const paginatedList = sortedList.slice(0, paginationSize)
         return paginatedList

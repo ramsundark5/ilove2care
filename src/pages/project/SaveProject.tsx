@@ -136,12 +136,13 @@ const SaveProject: React.FC<SaveProjectProps> = ({ history, match }) => {
                         options={userOptions}
                     />
 
-                    <InputTagField
+                    <MultiSelectTag
                         control={control}
                         errors={errors}
                         key='admins'
                         label='Admins'
                         name='admins'
+                        options={userOptions}
                     />
 
                     <DateField

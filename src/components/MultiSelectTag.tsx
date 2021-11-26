@@ -49,23 +49,28 @@ const MultiSelectTag: FC<MultiSelectTagProps> = ({
         }
     }
 
-    const onSearchChange = (input: string) => {
+    const onSearchChange = (input: string, existingUserList: any) => {
+        const maxResults = 10
         if (!input || input === '') {
-            setFilteredOptions(options)
+            setFilteredOptions([])
         }
-        const matchedFilteredOptions = options.filter((option: any) => {
-            let matchedOption = null
+        const matchedFilteredOptions: any = []
+
+        for (const option of options) {
             if (option?.label?.toLowerCase().indexOf(input.toLowerCase()) >= 0) {
-                matchedOption = option
+                if (!existingUserList.find((existingUser: any) => existingUser === option?.value)) {
+                    matchedFilteredOptions.push(option)
+                }
             }
-            return matchedOption
-        })
+            if (matchedFilteredOptions.length >= maxResults) {
+                break
+            }
+        }
         setFilteredOptions(matchedFilteredOptions)
         setTag(input)
     }
 
     const onSelectSearchOption = (option: any, tagList: any) => {
-        console.log('inside onselectsearch')
         const updatedTagList = tagList.concat(option.value)
         control?.setValue(name, updatedTagList)
         setTag('')
@@ -96,7 +101,9 @@ const MultiSelectTag: FC<MultiSelectTagProps> = ({
                                         name={name}
                                         onFocus={() => setShowOptions(true)}
                                         onIonBlur={() => setShowOptions(false)}
-                                        onIonChange={(e) => onSearchChange(e.detail.value ?? '')}
+                                        onIonChange={(e) =>
+                                            onSearchChange(e.detail.value ?? '', value)
+                                        }
                                         onKeyDown={(e) => onAddTagEvent(e, value)}
                                         type='text'
                                         value={newTag}
