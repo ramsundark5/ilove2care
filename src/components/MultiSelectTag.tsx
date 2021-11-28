@@ -12,6 +12,7 @@ import {
     IonText,
 } from '@ionic/react'
 import { closeCircleOutline } from 'ionicons/icons'
+import './Component.scss'
 
 export interface MultiSelectTagProps {
     name: string
@@ -49,9 +50,14 @@ const MultiSelectTag: FC<MultiSelectTagProps> = ({
         }
     }
 
+    const onHideOptions = () => {
+        setShowOptions(false)
+        setFilteredOptions([])
+    }
+
     const onSearchChange = (input: string, existingUserList: any) => {
         const maxResults = 10
-        if (!input || input === '') {
+        if (!input || input.length < 1) {
             setFilteredOptions([])
         }
         const matchedFilteredOptions: any = []
@@ -99,11 +105,11 @@ const MultiSelectTag: FC<MultiSelectTagProps> = ({
                                     <IonInput
                                         id={name}
                                         name={name}
-                                        onFocus={() => setShowOptions(true)}
-                                        onIonBlur={() => setShowOptions(false)}
+                                        onIonBlur={() => onHideOptions()}
                                         onIonChange={(e) =>
                                             onSearchChange(e.detail.value ?? '', value)
                                         }
+                                        onIonFocus={() => setShowOptions(true)}
                                         onKeyDown={(e) => onAddTagEvent(e, value)}
                                         type='text'
                                         value={newTag}
@@ -131,7 +137,7 @@ const MultiSelectTag: FC<MultiSelectTagProps> = ({
                                     </IonChip>
                                 ))}
                             {showOptions && (
-                                <IonList>
+                                <IonList class='elevated-custom-component'>
                                     {filteredOptions.map((filteredOption: any, index) => (
                                         <>
                                             <IonButton
