@@ -35,7 +35,6 @@ const MultiSelectTag: FC<MultiSelectTagProps> = ({
 }) => {
     const [newTag, setTag] = useState('')
     const [filteredOptions, setFilteredOptions] = useState([])
-    const [showOptions, setShowOptions] = useState(false)
 
     const onAddTag = (tagList: any) => {
         const updatedTagList = tagList.concat(newTag)
@@ -48,11 +47,6 @@ const MultiSelectTag: FC<MultiSelectTagProps> = ({
             event.preventDefault()
             onAddTag(tagList)
         }
-    }
-
-    const onHideOptions = () => {
-        setShowOptions(false)
-        setFilteredOptions([])
     }
 
     const onSearchChange = (input: string, existingUserList: any) => {
@@ -80,6 +74,7 @@ const MultiSelectTag: FC<MultiSelectTagProps> = ({
         const updatedTagList = tagList.concat(option.value)
         control?.setValue(name, updatedTagList)
         setTag('')
+        setFilteredOptions([])
     }
 
     const onDeleteTag = (tag: any, tagList: any) => {
@@ -105,11 +100,9 @@ const MultiSelectTag: FC<MultiSelectTagProps> = ({
                                     <IonInput
                                         id={name}
                                         name={name}
-                                        onIonBlur={() => onHideOptions()}
                                         onIonChange={(e) =>
                                             onSearchChange(e.detail.value ?? '', value)
                                         }
-                                        onIonFocus={() => setShowOptions(true)}
                                         onKeyDown={(e) => onAddTagEvent(e, value)}
                                         type='text'
                                         value={newTag}
@@ -136,30 +129,29 @@ const MultiSelectTag: FC<MultiSelectTagProps> = ({
                                         )}
                                     </IonChip>
                                 ))}
-                            {showOptions && (
-                                <IonList class='elevated-custom-component'>
-                                    {filteredOptions.map((filteredOption: any, index) => (
-                                        <>
-                                            <IonButton
-                                                fill='clear'
+                            <IonList>
+                                {filteredOptions.map((filteredOption: any, index) => (
+                                    <>
+                                        <IonButton
+                                            class='elevated-custom-component'
+                                            fill='clear'
+                                            // eslint-disable-next-line react/no-array-index-key
+                                            key={`option_item ${index}`}
+                                            onClick={() =>
+                                                onSelectSearchOption(filteredOption, value)
+                                            }
+                                        >
+                                            <IonLabel
                                                 // eslint-disable-next-line react/no-array-index-key
-                                                key={`option_item ${index}`}
-                                                onClick={() =>
-                                                    onSelectSearchOption(filteredOption, value)
-                                                }
+                                                key={filteredOption.value + index}
                                             >
-                                                <IonLabel
-                                                    // eslint-disable-next-line react/no-array-index-key
-                                                    key={filteredOption.value + index}
-                                                >
-                                                    {filteredOption.label}
-                                                </IonLabel>
-                                            </IonButton>
-                                            <br />
-                                        </>
-                                    ))}
-                                </IonList>
-                            )}
+                                                {filteredOption.label}
+                                            </IonLabel>
+                                        </IonButton>
+                                        <br />
+                                    </>
+                                ))}
+                            </IonList>
                         </>
                     )}
                 />

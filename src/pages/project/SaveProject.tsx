@@ -7,7 +7,6 @@ import { IonButton, IonContent, IonFooter, IonItem, IonPage } from '@ionic/react
 import { date, object, string } from 'yup'
 
 import DateField from '../../components/DateField'
-import InputTagField from '../../components/InputTagField'
 import MultiSelectTag from '../../components/MultiSelectTag'
 import SelectField, { SelectFieldOptionProps } from '../../components/SelectField'
 import TextArea from '../../components/TextArea'
