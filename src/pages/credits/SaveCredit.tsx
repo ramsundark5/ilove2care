@@ -7,13 +7,15 @@ import { IonButton, IonContent, IonFooter, IonPage } from '@ionic/react'
 import { date, number, object, string } from 'yup'
 
 import DateField from '../../components/DateField'
-import InputTagField from '../../components/InputTagField'
+import MultiSelectTag from '../../components/MultiSelectTag'
+import { SelectFieldOptionProps } from '../../components/SelectField'
 import TextArea from '../../components/TextArea'
 import TextField from '../../components/TextField'
 import ToolBar from '../../components/ToolBar'
 import { RouteEnum } from '../../constants/RouteEnum'
 import { useStore } from '../../hooks/use-store'
 import log from '../../logger'
+import { IUser } from '../account/model/IUser'
 import DeleteTimesheetAlert from './DeleteCreditAlert'
 import { ICredit } from './models/ICredit'
 
@@ -24,14 +26,19 @@ interface SaveCreditProps
     }> {}
 
 const SaveCredit: React.FC<SaveCreditProps> = ({ history, match }) => {
-    const { creditStore } = useStore()
+    const { creditStore, userStore } = useStore()
     const { projectId } = match.params
     const isFromAdmin = !!projectId
+    const users: IUser[] = userStore.userList
     const creditStoreToSearch = isFromAdmin ? creditStore.projectCredits : creditStore.userCredits
     const existingCredit = creditStoreToSearch.find((item) => item.id === match.params.creditId)
     const [showAlert, setShowAlert] = useState(false)
     const hiddenSubmitBtnRef: any = useRef()
 
+    const userOptions: SelectFieldOptionProps[] = []
+    for (const user of users) {
+        userOptions.push({ label: user.name, value: user.email })
+    }
     const saveCredit = (credit: ICredit) => {
         try {
             const updatedCredit: ICredit = { ...credit }
@@ -107,12 +114,13 @@ const SaveCredit: React.FC<SaveCreditProps> = ({ history, match }) => {
                         type='text'
                     />
 
-                    <InputTagField
+                    <MultiSelectTag
                         control={control}
                         errors={errors}
                         key='users'
                         label='Members'
                         name='users'
+                        options={userOptions}
                         readonly={!isFromAdmin}
                     />
 

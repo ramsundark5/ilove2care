@@ -3,7 +3,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import { isPlatform, setupConfig } from '@ionic/react'
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { codePush, InstallMode } from 'capacitor-codepush'
+import LogRocket from 'logrocket'
 
 import App from './App'
 import { StoreProvider } from './hooks/store-provider'
@@ -45,6 +47,9 @@ if (isPlatform('android')) {
 
 const rootStore = new RootStore()
 rootStore.init()
+
+// initialize logrocket
+LogRocket.init(process.env.REACT_APP_LOGROCKET_KEY || '')
 
 setupConfig({
     swipeBackEnabled: false,
