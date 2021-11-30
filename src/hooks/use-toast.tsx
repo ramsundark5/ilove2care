@@ -35,6 +35,7 @@ const ToastContext = createContext<ToastProviderOptions | null>(null)
 const { Provider } = ToastContext
 
 interface Props {
+    // eslint-disable-next-line react/require-default-props
     value?: ToastOptions
 }
 
@@ -90,13 +91,12 @@ export const ToastProvider: FC<Props> = ({ value, children }) => {
     }, [toasts])
 
     const contextValue = useMemo(() => {
-        const translateToOptions = (color: 'success' | 'warning' | 'danger') => (
-            message: string
-        ) => {
-            const toast = create({ message, color })
-            toast.present()
-            return toast
-        }
+        const translateToOptions =
+            (color: 'success' | 'warning' | 'danger') => (message: string) => {
+                const toast = create({ message, color })
+                toast.present()
+                return toast
+            }
 
         return {
             create,
